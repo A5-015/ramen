@@ -19,14 +19,14 @@ def _link_star(num_nodes):
         temp_out = {}
         temp_out['start'] = i+1
         temp_out['end'] = (num_nodes)
-        temp_out['id'] = i+1
+        temp_out['id'] = 2*i+1
         temp_out['direction'] = "uni"
         links.append(temp_out)
 
         temp_in = {}
         temp_in['start'] = (num_nodes)
         temp_in['end'] = i+1
-        temp_in['id'] = i+2
+        temp_in['id'] = 2*i+2
         temp_in["direction"] = "uni"
         links.append(temp_in)
     
@@ -85,13 +85,13 @@ def initialize_network_nominal(system_dict, args):
         temp = {}
         temp['id'] = i+1
         temp['type'] = 's'
-        temp['active'] = "true"
+        temp['active'] = True
         links.append(temp)
 
     for i in range(0, args.nodes):
         temp = {}
         temp['id'] = i+1
-        temp['active'] = "true"
+        temp['active'] = True
         nodes.append(temp)
 
     init_time['links'] = links
@@ -103,7 +103,7 @@ def initialize_network_nominal(system_dict, args):
 
 def write_json(output_arg, system_dict):
 
-    json_object = json.dumps(system_dict, indent = 2)
+    json_object = json.dumps(system_dict, indent = 4)
 
     output_arg.write(json_object)
 
