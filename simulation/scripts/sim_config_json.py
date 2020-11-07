@@ -9,9 +9,10 @@ import os
 import sys
 import argparse
 import json
+from mesh_network_generator import MeshNetwork
 
 def _link_star(num_nodes):
-    
+
     links = list()
 
     for i in range(0, num_nodes-1):
@@ -29,13 +30,27 @@ def _link_star(num_nodes):
         temp_in['id'] = 2*i+2
         temp_in["direction"] = "uni"
         links.append(temp_in)
-    
+
     return links
+
+def _link_mesh(num_nodes):
+    net = MeshNetwork(x=5000, y=5000, z=100)
+    net.add_nodes(n=num_nodes, max_range=350, min_range=300, max_link_budget=8, min_link_budget=4)
+
+    net.find_neighbors()
+    net.create_links()
+
+    net.remove_disconnected_nodes()
+
+    net.mst_edges
+    net.mst_node_count
+
+    #net.draw()
 
 def create_system_dict(system_dict, args):
 
     system_dict['termination'] = args.termination
-    
+
     # consensus configurations
     consensus = {}
     consensus['protocol'] = args.protocol
@@ -67,9 +82,9 @@ def configure_network_parameters(system_dict, args):
         network['links'] = _link_star(args.nodes)
     else:
         exit()
-    
+
     system_dict['network'] = network
-    return 
+    return
 
 def initialize_network_nominal(system_dict, args):
 
@@ -77,7 +92,7 @@ def initialize_network_nominal(system_dict, args):
 
     init_time = {}
     init_time['time'] = 0
-    
+
     links = list()
     nodes = list()
 
@@ -131,7 +146,7 @@ def main(arguments):
     system_dict = {}
     create_system_dict(system_dict, args)
 
-    # configure network 
+    # configure network
     configure_network_parameters(system_dict, args)
 
     # initialize network
@@ -139,6 +154,6 @@ def main(arguments):
 
     # write to JSON
     write_json(args.outfile, system_dict)
-    
+
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
