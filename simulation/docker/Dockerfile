@@ -20,7 +20,7 @@ RUN add-apt-repository -y ppa:deadsnakes/ppa && \
 # Install pip for python3.7 and required python3.7 packages
 RUN wget https://bootstrap.pypa.io/get-pip.py && \
     python3.7 get-pip.py && \
-    pip3 install scipy matplotlib networkx
+    pip3 install scipy matplotlib networkx pandas sklearn
 
 # Create a symlink for python3.7
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
@@ -32,7 +32,8 @@ RUN export OPAMYES=1 && \
     opam depext conf-pkg-config.1.1
 
 # Install required ocaml packages
-RUN opam install cstruct ipaddr lwt.2.4.8 cstruct.3.0.2 sexplib cmdliner.0.9.7 yojson.1.3.0 core.113.00.00 cstruct-lwt.3.0.2
+RUN opam install cstruct ipaddr lwt.2.4.8 cstruct.3.0.2 sexplib cmdliner.0.9.7 \
+    yojson.1.3.0 core.113.00.00 cstruct-lwt.3.0.2
 
 # cd into home
 WORKDIR /home
