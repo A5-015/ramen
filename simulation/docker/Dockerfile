@@ -9,7 +9,21 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     apt install tzdata
 
 # Install required linux packages
-RUN apt install -y ocaml ocaml-native-compilers camlp4-extra opam make m4 git nodejs npm pkg-config
+RUN apt install -y ocaml ocaml-native-compilers camlp4-extra opam make m4 \
+    git nodejs npm pkg-config software-properties-common
+
+# Install python3.7
+RUN add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt update && \
+    apt install -y python3.7
+
+# Install pip for python3.7 and required python3.7 packages
+RUN wget https://bootstrap.pypa.io/get-pip.py && \
+    python3.7 get-pip.py && \
+    pip3 install scipy matplotlib networkx
+
+# Create a symlink for python3.7
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
 
 # Initialize opam and install required ocaml packages
 RUN export OPAMYES=1 && \
