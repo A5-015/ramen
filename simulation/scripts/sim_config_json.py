@@ -9,7 +9,7 @@ import os
 import sys
 import argparse
 import json
-from mesh_network_generator import MeshNetwork
+from network_generator import Mesh, Star
 
 def _link_star(num_nodes):
 
@@ -34,18 +34,37 @@ def _link_star(num_nodes):
     return links
 
 def _link_mesh(num_nodes):
-    net = MeshNetwork(x=5000, y=5000, z=100)
-    net.add_nodes(n=num_nodes, max_range=350, min_range=300, max_link_budget=8, min_link_budget=4)
 
-    net.find_neighbors()
-    net.create_links()
+    mesh = Mesh(x=5000, y=5000)
+    mesh.add_nodes(n=500, max_range=350, min_range=300, max_link_budget=8, min_link_budget=4)
 
-    net.remove_disconnected_nodes()
+    mesh.find_neighbors()
+    mesh.create_links()
+    mesh.remove_disconnected_nodes()
 
-    net.mst_edges
-    net.mst_node_count
+    mesh.network_edges
+    mesh.network_node_count
 
-    #net.draw()
+    #mesh.draw()
+
+def _link_star_new(num_nodes):
+
+    star = Star(x=5000, y=5000)
+    # Nodes have to have a link budget of 1 in the star network
+    star.add_nodes(n=500, max_range=350, min_range=300, max_link_budget=1, min_link_budget=1)
+    star.set_hub_constraints(n=500, max_range=250, min_range=200,
+                             max_link_budget=250, min_link_budget=200)
+
+    star.find_neighbors(percent_network_coverage=95, draw=False)
+    star.place_hubs()
+    star.create_links()
+    star.remove_disconnected_nodes()
+
+    star.network_edges
+    star.network_node_count
+    star.network_hubs
+
+    #star.draw()
 
 def create_system_dict(system_dict, args):
 
