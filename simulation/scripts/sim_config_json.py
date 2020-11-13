@@ -11,7 +11,7 @@ import argparse
 import json
 from network_generator import Mesh, Star
 
-def _link_star(num_nodes):
+def _link_star_simple(num_nodes):
 
     links = list()
 
@@ -33,26 +33,55 @@ def _link_star(num_nodes):
 
     return links
 
-def _link_mesh(num_nodes):
+def _build_mesh(network, num_nodes, width, length, height):
 
-    mesh = Mesh(x=5000, y=5000)
-    mesh.add_nodes(n=500, max_range=350, min_range=300, max_link_budget=8, min_link_budget=4)
+    nodes = list()
+    links = list()
+
+    # use network generator API to obtain mesh network
+    mesh = Mesh(x=width, y=length, z=height)
+    mesh.add_nodes(n=num_nodes, max_range=350, min_range=300, max_link_budget=8, min_link_budget=4)
 
     mesh.find_neighbors()
     mesh.create_links()
     mesh.remove_disconnected_nodes()
 
+    # @Barkin: these seem to be need to called, not sure why
     mesh.network_edges
     mesh.network_node_count
 
-    #mesh.draw()
+    # mesh.draw()
 
-def _link_star_new(num_nodes):
+    # store each node as server and append to node list
+    for i in range(0, mesh.network_node_count):
+        temp = {}
+        temp['type'] = "server"
+        temp['id'] = i+1
+        nodes.append(temp)
 
-    star = Star(x=5000, y=5000)
+    # store each link as a bidirectional link and append to link list
+    i = 1
+    for key in mesh.network_edges:
+        temp = {}
+        temp['start'] = key[0]
+        temp['end'] = key[1]
+        temp['id'] = i
+        temp['direction'] = "bi"
+
+        i+=1
+        links.append(temp)
+
+    #  add node list and link list to network dictionary
+    network['nodes'] = nodes
+    network['links'] = links
+
+
+def _link_star(num_nodes, width, length, height):
+
+    star = Star(x=width, y=length, z=height)
     # Nodes have to have a link budget of 1 in the star network
-    star.add_nodes(n=500, max_range=350, min_range=300, max_link_budget=1, min_link_budget=1)
-    star.set_hub_constraints(n=500, max_range=250, min_range=200,
+    star.add_nodes(n=num_nodes, max_range=350, min_range=300, max_link_budget=1, min_link_budget=1)
+    star.set_hub_constraints(n=num_nodes, max_range=250, min_range=200,
                              max_link_budget=250, min_link_budget=200)
 
     star.find_neighbors(percent_network_coverage=95, draw=False)
@@ -64,7 +93,7 @@ def _link_star_new(num_nodes):
     star.network_node_count
     star.network_hubs
 
-    #star.draw()
+    # star.draw()
 
 def create_system_dict(system_dict, args):
 
@@ -85,20 +114,8 @@ def configure_network_parameters(system_dict, args):
 
     network = {}
 
-    # instantiate the nodes
-    nodes = list()
-
-    for i in range(0,args.nodes):
-        temp = {}
-        temp['type'] = "server"
-        temp['id'] = i+1
-        nodes.append(temp)
-
-    network['nodes'] = nodes
-
-    # link the nodes
-    if (args.topology) == "star":
-        network['links'] = _link_star(args.nodes)
+    if (args.topology) == "mesh":
+        _build_mesh(network, args.nodes, args.width, args.length, args.height)
     else:
         exit()
 
@@ -136,6 +153,13 @@ def initialize_network_nominal(system_dict, args):
     # configure everything to start at time 0
 
 def write_json(output_arg, system_dict):
+    """
+    Writes json file given a dictionary
+
+    :param file output_arg: The output file to write to
+    :param dict system_dict: The python dictionary to convert to JSON
+    :return: None
+    """
 
     json_object = json.dumps(system_dict, indent = 4)
 
@@ -149,7 +173,7 @@ def main(arguments):
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('nodes', help="Number of nodes", type=int)
+    parser.add_argument('nodes', help="The approximate number of nodes you desire to have in the network", type=int)
     parser.add_argument('--infile', help="Input file", type=argparse.FileType('r'))
     parser.add_argument('-o', '--outfile', help="Output file",
                         default=sys.stdout, type=argparse.FileType('w'))
@@ -158,7 +182,11 @@ def main(arguments):
     parser.add_argument('--election_min', help="The minimum time for the election timeout", default=60)
     parser.add_argument('--election_max', help="The minimum time for the election timeout", default=300)
     parser.add_argument('--heartbeat', help="The heartbeat interval", default=30)
-    parser.add_argument('--topology', help="The network topology", default="star")
+    parser.add_argument('-t', '--topology', help="The network topology", default="mesh")
+    parser.add_argument('--width', help="The x dimension (width) of the virtual simulation space. Default is 5000m", default=1000)
+    parser.add_argument('--length', help="The y dimension (length) of the virtual simulation space. Default is 5000m", default=1000)
+    parser.add_argument('--height', help="The z dimension (height) of the virtual simulation space. Default is 0m", default=0)
+
     args = parser.parse_args(arguments)
 
     # create base simulation level dictionary

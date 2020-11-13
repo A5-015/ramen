@@ -398,7 +398,7 @@ class Star(Network):
         hub_budget = self.hub_budget
 
         # There has to be nodes to find neighborhoods
-        if hub_budget is 0:
+        if hub_budget == 0:
             raise Exception("HubBudgetIsNotSet")
 
         # Fill the required data
