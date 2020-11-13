@@ -76,7 +76,10 @@ def _build_mesh(network, num_nodes, width, length, height):
     network['links'] = links
 
 
-def _link_star(num_nodes, width, length, height):
+def _link_star(network, num_nodes, width, length, height):
+
+    nodes = list()
+    links = list()
 
     star = Star(x=width, y=length, z=height)
     # Nodes have to have a link budget of 1 in the star network
@@ -89,11 +92,15 @@ def _link_star(num_nodes, width, length, height):
     star.create_links()
     star.remove_disconnected_nodes()
 
-    star.network_edges
-    star.network_node_count
-    star.network_hubs
+    # print(star.network_edges)
+    # print(star.network_node_count)
+    # print(star.network_hubs)
 
     # star.draw()
+
+    #  add node list and link list to network dictionary
+    network['nodes'] = nodes
+    network['links'] = links
 
 def create_system_dict(system_dict, args):
 
@@ -116,6 +123,8 @@ def configure_network_parameters(system_dict, args):
 
     if (args.topology) == "mesh":
         _build_mesh(network, args.nodes, args.width, args.length, args.height)
+    elif(args.topology) == "star":
+        _link_star(network, args.nodes, args.width, args.length, args.height)
     else:
         exit()
 
@@ -139,7 +148,7 @@ def initialize_network_nominal(system_dict, args):
         temp['active'] = True
         links.append(temp)
 
-    for i in range(0, args.nodes):
+    for i in range(0, len(system_dict['network']['nodes'])):
         temp = {}
         temp['id'] = i+1
         temp['active'] = True
@@ -182,7 +191,7 @@ def main(arguments):
     parser.add_argument('--election_min', help="The minimum time for the election timeout", default=60)
     parser.add_argument('--election_max', help="The minimum time for the election timeout", default=300)
     parser.add_argument('--heartbeat', help="The heartbeat interval", default=30)
-    parser.add_argument('-t', '--topology', help="The network topology", default="mesh")
+    parser.add_argument('-t', '--topology', help="The network topology", default="star")
     parser.add_argument('--width', help="The x dimension (width) of the virtual simulation space. Default is 5000m", default=1000)
     parser.add_argument('--length', help="The y dimension (length) of the virtual simulation space. Default is 5000m", default=1000)
     parser.add_argument('--height', help="The z dimension (height) of the virtual simulation space. Default is 0m", default=0)
