@@ -191,7 +191,7 @@ def main(arguments):
     parser.add_argument('--election_min', help="The minimum time for the election timeout", default=60)
     parser.add_argument('--election_max', help="The minimum time for the election timeout", default=300)
     parser.add_argument('--heartbeat', help="The heartbeat interval", default=30)
-    parser.add_argument('-t', '--topology', help="The network topology", default="star")
+    parser.add_argument('-t', '--topology', help="The network topology", default="mesh")
     parser.add_argument('--width', help="The x dimension (width) of the virtual simulation space. Default is 5000m", default=1000)
     parser.add_argument('--length', help="The y dimension (length) of the virtual simulation space. Default is 5000m", default=1000)
     parser.add_argument('--height', help="The z dimension (height) of the virtual simulation space. Default is 0m", default=0)
