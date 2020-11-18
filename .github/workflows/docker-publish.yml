@@ -15,7 +15,7 @@ on:
 
 env:
   IMAGE_NAME: ramen-sim
-  TARGET_FILE: ramen/simulation/docker/Dockerfile  
+  TARGET_FILE: ./ramen/simulation/docker/Dockerfile  
 
 jobs:
   # Push image to GitHub Packages.
