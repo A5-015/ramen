@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from pprint import pprint as print
 import random
@@ -313,6 +313,16 @@ class Mesh(Network):
         mst = list(mst)[0]
 
         self.mst = mst
+    
+    @property
+    def node_list(self):
+        """
+        Returns the list of node connected nodes.
+
+        :return: List of connected nodes
+        :rtype: list
+        """
+        return self.mst.nodes()
 
     def draw(self, mst=True, node_size=60, width=2):
         """
@@ -622,6 +632,16 @@ class Star(Network):
         """
 
         return list(self.hubs.keys())
+    
+    @property
+    def node_list(self):
+        """
+        Returns the list of node connected nodes.
+
+        :return: List of connected nodes
+        :rtype: list
+        """
+        return self.nxg.nodes()
 
     def draw(self, node_size=60, width=2):
         """

@@ -72,7 +72,7 @@ class Visualizer():
 def main(arguments):
 
     opam_eval = 'eval `opam config env --safe`'
-    val = subprocess.check_output("%s && ./../coracle/coracle_sim.byte %s %s" % (opam_eval, "-f", "test.json"), shell=True)
+    val = subprocess.check_output("./../coracle/coracle_sim.byte %s %s" % ("-f", "test.json"), shell=True)
     raw_out = json.loads(val)
     raw_res = raw_out['results']
 

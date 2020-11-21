@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """A simple script that takes network configuration parameters as an infile
 and generates a JSON file for the Coracle Simulator
@@ -46,18 +46,9 @@ def _build_mesh(network, num_nodes, width, length, height):
     mesh.create_links()
     mesh.remove_disconnected_nodes()
 
-    # @Barkin: these seem to be need to called, not sure why
-    mesh.network_edges
-    mesh.network_node_count
-
-    # mesh.draw()
-
-    # store each node as server and append to node list
-    for i in range(0, mesh.network_node_count):
-        temp = {}
-        temp['type'] = "server"
-        temp['id'] = i+1
-        nodes.append(temp)
+    # print(mesh.network_edges)
+    # print(mesh.network_node_count)
+    # print(mesh.node_list)
 
     # store each link as a bidirectional link and append to link list
     i = 1
@@ -71,12 +62,19 @@ def _build_mesh(network, num_nodes, width, length, height):
         i+=1
         links.append(temp)
 
+    # store each node as server and append to node list
+    for node in mesh.node_list:
+        temp = {}
+        temp['type'] = "server"
+        temp['id'] = node
+        nodes.append(temp)
+
     #  add node list and link list to network dictionary
     network['nodes'] = nodes
     network['links'] = links
 
 
-def _link_star(network, num_nodes, width, length, height):
+def _build_star(network, num_nodes, width, length, height):
 
     nodes = list()
     links = list()
@@ -92,9 +90,23 @@ def _link_star(network, num_nodes, width, length, height):
     star.create_links()
     star.remove_disconnected_nodes()
 
+    # store each link as a bidirectional link and append to link list
+    i=1
+    for key in star.network_edges:
+        temp={}
+        temp['start'] = key[0]
+        temp['end'] = key[1]
+        temp['id'] = i
+        temp['direction'] = "bi"
+
+        i+=1
+        links.append(temp)
+
+
     # print(star.network_edges)
-    # print(star.network_node_count)
+    # print(star.node_list)
     # print(star.network_hubs)
+
 
     # star.draw()
 
@@ -124,8 +136,9 @@ def configure_network_parameters(system_dict, args):
     if (args.topology) == "mesh":
         _build_mesh(network, args.nodes, args.width, args.length, args.height)
     elif(args.topology) == "star":
-        _link_star(network, args.nodes, args.width, args.length, args.height)
+        _build_star(network, args.nodes, args.width, args.length, args.height)
     else:
+        raise Exception("Invalid topology")
         exit()
 
     system_dict['network'] = network
@@ -182,7 +195,7 @@ def main(arguments):
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('nodes', help="The approximate number of nodes you desire to have in the network", type=int)
+    parser.add_argument('-n', '--nodes', help="The approximate number of nodes you desire to have in the network", type=int, required=True)
     parser.add_argument('--infile', help="Input file", type=argparse.FileType('r'))
     parser.add_argument('-o', '--outfile', help="Output file",
                         default=sys.stdout, type=argparse.FileType('w'))
