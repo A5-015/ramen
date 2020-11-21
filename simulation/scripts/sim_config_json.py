@@ -102,12 +102,26 @@ def _build_star(network, num_nodes, width, length, height):
         i+=1
         links.append(temp)
 
+    server_nodes = list(star.node_list-star.network_hubs)
+
+    # store each non-hub node as server and append to node list
+    for node in server_nodes:
+        temp = {}
+        temp['type'] = "server"
+        temp['id'] = node
+        nodes.append(temp)
+    
+    # store hub nodeas hub and append to node list
+    for node in star.network_hubs:
+        temp = {}
+        temp['type'] = "hub"
+        temp['id'] = node
+        nodes.append(temp)
 
     # print(star.network_edges)
     # print(star.node_list)
     # print(star.network_hubs)
-
-
+    # print(list(server_nodes))
     # star.draw()
 
     #  add node list and link list to network dictionary
