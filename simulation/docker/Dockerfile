@@ -62,6 +62,16 @@ RUN apt remove -y git && \
     apt autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
+# Add base64 decoder script
+COPY base64_to_json.py /home/base64_to_json.py
+
+# Environment variables required to run OCaml without eval `opam config env`
+ENV CAML_LD_LIBRARY_PATH="/root/.opam/system/lib/stublibs:/usr/lib/ocaml/stublibs"
+ENV MANPATH="/root/.opam/system/man:"
+ENV PERL5LIB="/root/.opam/system/lib/perl5"
+ENV OCAML_TOPLEVEL_PATH="/root/.opam/system/lib/toplevel"
+ENV PATH="/root/.opam/system/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin/sh:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 # Example ways to run each simulator
 # RUN eval `opam config env` && \
 #     ./ocaml-raft/cmdstart.byte -candidate "Uniform-11-22" -follower "Uniform-150-155" -leader "Fixed-75" -nodes 3 -delay "Fixed-7"
