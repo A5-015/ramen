@@ -97,7 +97,7 @@ class Network():
             # Add created node's coordinates to the Network class
             self.node_coor_x[curr_node.x].append(curr_node)
             self.node_coor_y[curr_node.y].append(curr_node)
-            self.node_coor_x[curr_node.z].append(curr_node)
+            self.node_coor_z[curr_node.z].append(curr_node)
 
             # Add a pointer to the node to the Network class
             self.nodes[curr_node.id] = curr_node
@@ -313,7 +313,7 @@ class Mesh(Network):
         mst = list(mst)[0]
 
         self.mst = mst
-    
+
     @property
     def node_list(self):
         """
@@ -632,7 +632,7 @@ class Star(Network):
         """
 
         return list(self.hubs.keys())
-    
+
     @property
     def node_list(self):
         """
