@@ -13,6 +13,7 @@ import subprocess
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 from matplotlib.backends.backend_pdf import PdfPages
 
 
@@ -85,10 +86,11 @@ def main(arguments):
         "-d", "--docker", help="Docker image to use", default=default_docker_image
     )
     parser.add_argument(
-        "-e", "--experiments", help="Number of experiments to run", default=5
+        "-e", "--experiments", help="Number of experiments to run", default=3
     )
     args = parser.parse_args(arguments)
 
+    simulation_results = []
     with open(args.infile) as file:
         # Import the JSON file contents
         data = json.load(file)
@@ -96,22 +98,37 @@ def main(arguments):
         # Encode network simulation data into base64
         encoded_json = base64.b64encode(json.dumps(data).encode()).decode()
 
-        # Construct the command chain
+        # Construct the command chain for e loops
         command = (
-            'sudo docker run %s /bin/sh -c "python3 base64_to_json.py %s > network.json && ./coracle/coracle_sim.byte -f network.json"'
-            % (args.docker, encoded_json)
+            "sudo docker run %s /bin/bash -c 'for i in {1..%s}; do python3 base64_to_json.py %s > network.json; ./coracle/coracle_sim.byte -f network.json; echo; done'"
+            % (args.docker, args.experiments, encoded_json)
         )
 
-        # Run the simulation
-        simulation_result = subprocess.check_output(command, shell=True, text=True)
+        # Run the simulation(s) process
+        process = subprocess.Popen(
+            ["/bin/bash", "-c", command],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
 
-    # Parse the results
-    raw_out = json.loads(simulation_result)
-    raw_res = raw_out["results"]
+        # Start a progress bar
+        with tqdm(total=args.experiments, desc="Running simulations...") as pbar:
+            while process.poll() is None:
+                line = process.stdout.readline()
+                if line != b"" and line != b"\n":
+                    pbar.update(1)
+                    simulation_results.append(line)
 
-    visualizer = Visualizer()
-    visualizer.parse(raw_res)
-    visualizer.generate_pdf()
+    # Strip each result of a newline character using list comprehension
+    simulation_results = [result.strip() for result in simulation_results]
+
+    # # Parse the results
+    # raw_out = json.loads(simulation_results[0])
+    # raw_res = raw_out["results"]
+
+    # visualizer = Visualizer()
+    # visualizer.parse(raw_res)
+    # visualizer.generate_pdf()
 
 
 if __name__ == "__main__":
