@@ -12,65 +12,69 @@ import argparse
 import subprocess
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from tqdm import tqdm
-from matplotlib.backends.backend_pdf import PdfPages
+import plotly.graph_objects as go
+from collections import defaultdict
 
 
 class Visualizer:
     def __init__(self):
-        self.tables = []
-        self.figures = []
+        self.raw_results = []
+        self.raw_dictionary = defaultdict(list)
 
-    def parse(self, results):
-        for key, value in results.items():
-
-            if key == "table":
-                self.tables.append(value)
-
-            elif key == "figures":
-                self.figures.append(value)
-
+    def _parse(self, result):
+        # Store in ordered dictionary for easy retrieval
+        for key, value in result.items():
+            # Recurse to get to bottom of JSON tree
             if type(value) is dict:
-                self.parse(value)
+                self._parse(value)
+            else:
+                # Only store statistics
+                if key != "figures" and type(value) != str:
+                    self.raw_dictionary[key].append(value)
 
-    def build_figure(self, fig, ax, raw_figure):
+    def _generate_statistics(self):
 
-        ax.set(
-            xlabel=raw_figure["x axis"]["label"],
-            xlim=(raw_figure["x axis"]["start"], raw_figure["x axis"]["end"]),
-            ylabel=raw_figure["y axis"]["label"],
-            ylim=(raw_figure["y axis"]["start"], raw_figure["y axis"]["end"]),
-            title=raw_figure["title"],
+        num_attributes = len(self.raw_dictionary)
+
+        self.statistics_dataframe = pd.DataFrame(
+            np.zeros((num_attributes, 2)),
+            columns=["Mean", "Variance"],
+            index=self.raw_dictionary.keys(),
         )
 
-        for line in raw_figure["data"]:
-            x_points = []
-            y_points = []
-            for data_point in line["data"]:
-                x_points.append(data_point["x"])
-                y_points.append(data_point["y"])
-            ax.plot(x_points, y_points)
+        for key, value in self.raw_dictionary.items():
+            self.statistics_dataframe.loc[key, :][0] = np.mean(value)
+            self.statistics_dataframe.loc[key, :][1] = np.var(value)
+
+    def initialize(self, all_runs):
+        # Filter out to keep only results key in each run
+        for run in all_runs:
+            for key, value in run.items():
+                if key == "results":
+                    self.raw_results.append(value)
+                    self._parse(value)
 
     def generate_pdf(self):
-
-        with PdfPages("./test.pdf") as export_pdf:
-            for table in self.tables:
-                df = pd.DataFrame.from_dict(table, orient="index")
-                fig, ax = plt.subplots(figsize=(10, 6))
-                plt.axis("off")
-                pd.plotting.table(ax, df, loc="center")
-                fig.tight_layout()
-                export_pdf.savefig()
-                plt.close()
-
-            for raw_figure_set in self.figures:
-                if raw_figure_set:
-                    for raw_figure in raw_figure_set:
-                        fig, ax = plt.subplots(figsize=(10, 6))
-                        self.build_figure(fig, ax, raw_figure)
-                        export_pdf.savefig()
-                        plt.close()
+        self._generate_statistics()
+        fig = go.Figure(
+            data=[
+                go.Table(
+                    header=dict(
+                        values=list(["Attributes"])
+                        + list(self.statistics_dataframe.columns)
+                    ),
+                    cells=dict(
+                        values=[
+                            self.statistics_dataframe.index,
+                            self.statistics_dataframe.Mean,
+                            self.statistics_dataframe.Variance,
+                        ]
+                    ),
+                )
+            ]
+        )
+        fig.show()
 
 
 def main(arguments):
@@ -86,7 +90,7 @@ def main(arguments):
         "-d", "--docker", help="Docker image to use", default=default_docker_image
     )
     parser.add_argument(
-        "-e", "--experiments", help="Number of experiments to run", default=3
+        "-e", "--experiments", help="Number of experiments to run", type=int, default=3
     )
     args = parser.parse_args(arguments)
 
@@ -120,15 +124,18 @@ def main(arguments):
                     simulation_results.append(line)
 
     # Strip each result of a newline character using list comprehension
-    simulation_results = [result.strip() for result in simulation_results]
+    simulation_results = [
+        json.loads(result.strip().decode()) for result in simulation_results
+    ]
 
-    # # Parse the results
-    # raw_out = json.loads(simulation_results[0])
-    # raw_res = raw_out["results"]
+    # print(simulation_results[0])
 
-    # visualizer = Visualizer()
-    # visualizer.parse(raw_res)
-    # visualizer.generate_pdf()
+    # with open(args.infile) as file:
+    #     simulation_results = json.load(file)
+
+    visualizer = Visualizer()
+    visualizer.initialize(simulation_results)
+    visualizer.generate_pdf()
 
 
 if __name__ == "__main__":
