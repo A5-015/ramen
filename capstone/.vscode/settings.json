@@ -3,4 +3,7 @@
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
     "clang-tidy.lintOnSave": true,
+    "files.associations": {
+        "functional": "cpp"
+    },
 }
