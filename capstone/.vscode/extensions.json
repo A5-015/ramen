@@ -5,6 +5,7 @@
         "bbenoist.doxygen",
         "cschlosser.doxdocgen",
         "ms-vscode.cpptools",
+        "notskm.clang-tidy",
         "platformio.platformio-ide",
         "xaver.clang-format"
     ]
