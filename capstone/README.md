@@ -1,5 +1,7 @@
 # Development Setup Instructions
 
+- Make sure to initialize the submodules
+  - `git submodule update --init --recursive`
 - Install [Clang](https://clang.llvm.org/)
   - `sudo apt install clang`
 - Install [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html)
