@@ -20,3 +20,5 @@ cmake_install.cmake
 compile_commands.json
 .clangd
 DartConfiguration.tcl
+docs/html
+docs/latex

@@ -23,7 +23,7 @@ class Server {
   uint8_t state;
   uint32_t term;
   uint32_t votedFor;
-  LogHolder log;
+  LogHolder::LogHolder log;
   uint16_t electionAlarm;
   std::unordered_map<uint32_t, bool> votesReceived;
   uint32_t lastHeartBeat;
@@ -50,7 +50,8 @@ class Server {
   void handleAppendEntriesRequest(uint32_t sender, std::string data);
   void handleAppendEntriesResponse();
 
-  void moveDataFromQueueToLog(DataQueue queue, LogHolder log);
+  void moveDataFromQueueToLog(DataQueue::DataQueue queue,
+                              LogHolder::LogHolder log);
   void sendLocalQueueDataToLeaderQueue(std::string data);
   void handleNewData(std::string data);
 };

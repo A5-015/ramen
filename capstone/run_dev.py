@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 import pathlib
@@ -23,17 +25,28 @@ def check_image():
         os.system("docker build -t ramen-dev .")
 
 
-if args.target == "test":
-    check_image()
+def run_command_in_docker(command):
+    """
+    Runs the given command in the docker container
 
+    :param command: Command to run
+    :type command: str
+    """
+
+    check_image()
     os.system(
-        "docker run --user=1000 -v %s:/ramen ramen-dev /bin/bash -c \"cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make && run-parts --regex catch_ bin/\""
-        % project_path
+        'docker run --user=1000 -v %s:/ramen ramen-dev /bin/bash -c "%s"'
+        % (project_path, command)
+    )
+
+
+if args.target == "test":
+    run_command_in_docker(
+        "cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make && run-parts --regex catch_ bin/"
     )
 
 elif args.target == "shell" or args.target == "bash":
     check_image()
-
     os.system(
         "docker run --user=1000 -it -v %s:/ramen ramen-dev" % project_path
     )
@@ -50,3 +63,6 @@ elif args.target == "pio":
     os.system(
         'platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
     )
+
+elif args.target == "doc" or args.target == "docs":
+    run_command_in_docker("cd docs && doxygen")

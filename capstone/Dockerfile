@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 
 # Install required packages
 RUN apt update -qq && \ 
-    apt install -y -qq python-pip git wget cmake libboost-system-dev && \
+    apt install -y -qq python-pip git wget cmake libboost-system-dev doxygen graphviz && \
     pip install platformio && \
     platformio lib --global install painlessMesh
 
