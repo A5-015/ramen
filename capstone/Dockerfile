@@ -4,7 +4,8 @@ FROM ubuntu:16.04
 # Install required packages
 RUN apt update -qq && \ 
     apt install -y -qq python-pip git wget cmake libboost-system-dev && \
-    pip install platformio
+    pip install platformio && \
+    platformio lib --global install painlessMesh
 
 # Clean the packages
 RUN apt remove -y -qq git wget && \

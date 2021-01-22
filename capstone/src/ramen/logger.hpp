@@ -1,9 +1,6 @@
 #ifndef _RAMEN_LOGGER_HPP_
 #define _RAMEN_LOGGER_HPP_
 
-namespace ramen {
-namespace logger {
-
 #include <stdarg.h>
 
 #include "Arduino.h"
@@ -127,6 +124,4 @@ class LogClass {
   char str[200];
 };
 
-}  // namespace logger
-}  // namespace ramen
 #endif

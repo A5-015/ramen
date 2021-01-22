@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <painlessMesh.h>
 
-using namespace ramen;
+#include "ramen/data_queue.hpp"
+#include "ramen/log_holder.hpp"
+#include "ramen/server.hpp"
 
 #endif

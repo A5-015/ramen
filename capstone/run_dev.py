@@ -43,3 +43,10 @@ elif args.target == "clean":
     os.system("find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete")
     os.system("rm -rf bin")
     print("Cleaned!")
+
+elif args.target == "pio":
+    # NOTE: Running locally, not in docker
+    os.system("platformio lib --global install painlessMesh")
+    os.system(
+        'platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
+    )

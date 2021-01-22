@@ -4,7 +4,6 @@
 
 #include "catch2/catch.hpp"
 #include "ramen/logger.hpp"
-using namespace ramen::logger;
 
 LogClass Log;
 
