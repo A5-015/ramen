@@ -52,4 +52,5 @@
         "utility": "cpp",
         "typeinfo": "cpp"
     },
+    "cmake.configureOnOpen": false,
 }
