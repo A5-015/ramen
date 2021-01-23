@@ -1,3 +1,12 @@
 [submodule "docs/capstone-reports"]
 	path = docs/capstone-reports
 	url = https://github.com/A5-015/capstone-reports
+[submodule "library/test/painlessMesh"]
+	path = library/test/painlessMesh
+	url = https://gitlab.com/painlessMesh/painlessMesh
+[submodule "library/test/ArduinoJson"]
+	path = library/test/ArduinoJson
+	url = https://github.com/bblanchon/ArduinoJson
+[submodule "library/test/TaskScheduler"]
+	path = library/test/TaskScheduler
+	url = https://github.com/arkhipenko/TaskScheduler
