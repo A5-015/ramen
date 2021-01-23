@@ -5,6 +5,7 @@
 #include <stdarg.h>
 
 namespace ramen {
+namespace logger {
 
 typedef enum {
   DEBUG = 1,
@@ -102,6 +103,7 @@ class Logger {
   }
 };
 
+}  // namespace logger
 }  // namespace ramen
 
 #endif

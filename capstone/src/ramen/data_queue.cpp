@@ -2,7 +2,9 @@
 
 #include <Arduino.h>
 
-ramen::DataQueue::DataQueue(){};
+using namespace ramen::dataqueue;
 
-void ramen::DataQueue::pop(uint32_t address){};
-void ramen::DataQueue::push(uint32_t address, std::string data){};
+DataQueue::DataQueue(){};
+
+void DataQueue::pop(uint32_t address){};
+void DataQueue::push(uint32_t address, std::string data){};

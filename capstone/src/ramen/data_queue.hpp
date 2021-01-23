@@ -8,6 +8,7 @@
 #include "ramen/configuration.hpp"
 
 namespace ramen {
+namespace dataqueue {
 
 /**
  * @brief Stores the data received from a client until it is moved to the log
@@ -41,6 +42,7 @@ class DataQueue {
   void push(uint32_t address, std::string data);
 };
 
+}  // namespace dataqueue
 }  // namespace ramen
 
 #endif

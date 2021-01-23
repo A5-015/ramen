@@ -8,6 +8,7 @@
 #include "ramen/configuration.hpp"
 
 namespace ramen {
+namespace logholder {
 
 /**
  * @brief Holds the logs of the consensus for the given server
@@ -67,6 +68,7 @@ class LogHolder {
   void advanceCommitIndex(uint32_t address);
 };
 
+}  // namespace logholder
 }  // namespace ramen
 
 #endif

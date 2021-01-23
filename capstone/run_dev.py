@@ -40,7 +40,7 @@ def run_command_in_docker(command):
     )
 
 
-if args.target == "test":
+if args.target == "catch":
     run_command_in_docker(
         "cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make && run-parts --regex catch_ bin/"
     )

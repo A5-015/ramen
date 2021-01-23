@@ -8,8 +8,14 @@
 #include "ramen/configuration.hpp"
 #include "ramen/data_queue.hpp"
 #include "ramen/log_holder.hpp"
+#include "ramen/logger.hpp"
 
 namespace ramen {
+namespace server {
+
+using namespace ramen::dataqueue;
+using namespace ramen::logholder;
+using namespace ramen::logger;
 
 /**
  * @brief Class that manages the consensus on the mesh network
@@ -26,6 +32,7 @@ class Server {
   uint16_t electionAlarm;
   std::unordered_map<uint32_t, bool> votesReceived;
   uint32_t lastHeartBeat;
+  Logger Log;
 
  public:
   /**
@@ -175,6 +182,7 @@ class Server {
   void handleNewData(std::string data);
 };
 
+}  // namespace server
 }  // namespace ramen
 
 #endif
