@@ -15,7 +15,6 @@ namespace ramen {
  * @brief Class that manages the consensus on the mesh network
  *
  */
-namespace server {
 class Server {
  private:
   uint32_t id;
@@ -23,13 +22,13 @@ class Server {
   uint8_t state;
   uint32_t term;
   uint32_t votedFor;
-  LogHolder::LogHolder log;
+  LogHolder log;
   uint16_t electionAlarm;
   std::unordered_map<uint32_t, bool> votesReceived;
   uint32_t lastHeartBeat;
 
  public:
-  void init();
+  Server();
 
   void switchMode(uint8_t mode);
   uint8_t getMode();
@@ -50,13 +49,11 @@ class Server {
   void handleAppendEntriesRequest(uint32_t sender, std::string data);
   void handleAppendEntriesResponse();
 
-  void moveDataFromQueueToLog(DataQueue::DataQueue queue,
-                              LogHolder::LogHolder log);
+  void moveDataFromQueueToLog(DataQueue queue, LogHolder log);
   void sendLocalQueueDataToLeaderQueue(std::string data);
   void handleNewData(std::string data);
 };
 
-}  // namespace server
 }  // namespace ramen
 
 #endif

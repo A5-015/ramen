@@ -13,7 +13,6 @@ namespace ramen {
  * holder
  *
  */
-namespace DataQueue {
 class DataQueue {
  private:
   std::vector<std::string> entries;
@@ -31,7 +30,6 @@ class DataQueue {
   void advanceCommitIndex(uint32_t address);
 };
 
-}  // namespace DataQueue
 }  // namespace ramen
 
 #endif

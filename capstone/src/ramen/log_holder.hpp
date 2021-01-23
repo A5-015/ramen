@@ -13,7 +13,6 @@ namespace ramen {
  * @brief Holds the logs of the consensus for the given server
  *
  */
-namespace LogHolder {
 class LogHolder {
  private:
   std::queue<std::tuple<uint32_t, std::string>> entries;
@@ -23,7 +22,6 @@ class LogHolder {
   void push(uint32_t address, std::string data);
 };
 
-}  // namespace LogHolder
 }  // namespace ramen
 
 #endif
