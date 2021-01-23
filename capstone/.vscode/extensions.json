@@ -5,11 +5,11 @@
         "bbenoist.doxygen",
         "cschlosser.doxdocgen",
         "ms-vscode.cpptools",
+        "njpwerner.autodocstring",
         "notskm.clang-tidy",
         "platformio.platformio-ide",
-        "twxs.cmake",
-        "xaver.clang-format",
         "streetsidesoftware.code-spell-checker",
-        "njpwerner.autodocstring"
+        "twxs.cmake",
+        "xaver.clang-format"
     ]
 }

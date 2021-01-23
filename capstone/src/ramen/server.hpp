@@ -35,18 +35,32 @@ class Server {
   Server();
 
   /**
-   * @brief Switch between server modes in consensus
+   * @brief Initializes the raft consensus on the mesh network
    *
-   * @param mode 0 for follower, 1 for candidate, and 2 for leader
+   * Add this to your setup() function.
    */
-  void switchMode(uint8_t mode);
+  void init(std::string meshName, std::string meshPassword, uint8_t meshPort);
 
   /**
-   * @brief Get the Mode object
+   * @brief Perform crucial maintenance task.
+   *
+   * Add this to your loop() function.
+   */
+  void update();
+
+  /**
+   * @brief Switch between server states in consensus
+   *
+   * @param state 0 for follower, 1 for candidate, and 2 for leader
+   */
+  void switchState(uint8_t state);
+
+  /**
+   * @brief Get the State object
    *
    * @return uint8_t
    */
-  uint8_t getMode();
+  uint8_t getState();
 
   /**
    * @brief Set the Election Alarm object
@@ -91,7 +105,7 @@ class Server {
   std::string receiveData();
 
   /**
-   * @brief Request vode from a follower as a candidate
+   * @brief Request vote from a follower as a candidate
    *
    * @param receiver Address of the receiver node
    * @param data Data to send in JSON format

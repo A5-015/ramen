@@ -6,6 +6,7 @@
 
 #include "ramen/data_queue.hpp"
 #include "ramen/log_holder.hpp"
+#include "ramen/logger.hpp"
 #include "ramen/server.hpp"
 
 #endif

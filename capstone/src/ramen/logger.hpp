@@ -1,127 +1,107 @@
 #ifndef _RAMEN_LOGGER_HPP_
 #define _RAMEN_LOGGER_HPP_
 
+#include <Arduino.h>
 #include <stdarg.h>
 
-#include "Arduino.h"
+namespace ramen {
 
 typedef enum {
-  ERROR = 1 << 0,
-  STARTUP = 1 << 1,
-  MESH_STATUS = 1 << 2,
-  CONNECTION = 1 << 3,
-  SYNC = 1 << 4,
-  S_TIME = 1 << 5,
-  COMMUNICATION = 1 << 6,
-  GENERAL = 1 << 7,
-  MSG_TYPES = 1 << 8,
-  REMOTE = 1 << 9,
-  APPLICATION = 1 << 10,
-  DEBUG = 1 << 11
+  DEBUG = 1,
+  INFO = 2,
+  WARNING = 3,
+  ERROR = 4,
+  CRITICAL = 5
 } LogLevel;
 
-class LogClass {
+/**
+ * @brief The logger class for logging messages. Maximum message size is 200
+ * characters.
+ *
+ */
+class Logger {
+ private:
+  uint8_t level = 0;
+  char str[200];
+
  public:
-  void setLogLevel(uint16_t newTypes) {
-    // set the different kinds of debug messages you want to generate.
-    types = newTypes;
-    Serial.print(F("\nsetLogLevel:"));
-    if (types & ERROR) {
-      Serial.print(F(" ERROR |"));
+  /**
+   * @brief Set the logging level
+   *
+   * @param givenLevel DEBUG or INFO or WARNING or ERROR or CRITICAL
+   */
+  void setLogLevel(uint8_t givenLevel) {
+    level = givenLevel;
+
+    Serial.print(F("Logging level is set to: "));
+
+    if (level == DEBUG) {
+      Serial.print(F("DEBUG"));
+
+    } else if (level == INFO) {
+      Serial.print(F("INFO"));
+
+    } else if (level == WARNING) {
+      Serial.print(F("WARNING"));
+
+    } else if (level == ERROR) {
+      Serial.print(F("ERROR"));
+
+    } else if (level == CRITICAL) {
+      Serial.print(F("CRITICAL"));
     }
-    if (types & STARTUP) {
-      Serial.print(F(" STARTUP |"));
-    }
-    if (types & MESH_STATUS) {
-      Serial.print(F(" MESH_STATUS |"));
-    }
-    if (types & CONNECTION) {
-      Serial.print(F(" CONNECTION |"));
-    }
-    if (types & SYNC) {
-      Serial.print(F(" SYNC |"));
-    }
-    if (types & S_TIME) {
-      Serial.print(F(" S_TIME |"));
-    }
-    if (types & COMMUNICATION) {
-      Serial.print(F(" COMMUNICATION |"));
-    }
-    if (types & GENERAL) {
-      Serial.print(F(" GENERAL |"));
-    }
-    if (types & MSG_TYPES) {
-      Serial.print(F(" MSG_TYPES |"));
-    }
-    if (types & REMOTE) {
-      Serial.print(F(" REMOTE |"));
-    }
-    if (types & APPLICATION) {
-      Serial.print(F(" APPLICATION |"));
-    }
-    if (types & DEBUG) {
-      Serial.print(F(" DEBUG |"));
-    }
+
     Serial.println();
-    return;
-  }
-  void operator()(LogLevel type, const char* format...) {
-    if (type & types) {  // Print only the message types set for output
-      va_list args;
-      va_start(args, format);
+  };
 
-      vsnprintf(str, 200, format, args);
+  /**
+   * @brief Overloads the () operator to log messages.
+   * Example usage:
+   *
+   * ramen::Logger Log;
+   * Log.setLogLevel(ramen::ERROR);
+   * Log(ramen::ERROR, "This is the error message %u \n", 1);
+   *
+   * @param givenLevel Logging level
+   * @param format The message itself
+   */
+  void operator()(LogLevel givenLevel, const char* format...) {
+    va_list args;
+    va_start(args, format);
 
-      if (types) {
-        switch (type) {
-          case ERROR:
-            Serial.print(F("ERROR: "));
-            break;
-          case STARTUP:
-            Serial.print(F("STARTUP: "));
-            break;
-          case MESH_STATUS:
-            Serial.print(F("MESH_STATUS: "));
-            break;
-          case CONNECTION:
-            Serial.print(F("CONNECTION: "));
-            break;
-          case SYNC:
-            Serial.print(F("SYNC: "));
-            break;
-          case S_TIME:
-            Serial.print(F("S_TIME: "));
-            break;
-          case COMMUNICATION:
-            Serial.print(F("COMMUNICATION: "));
-            break;
-          case GENERAL:
-            Serial.print(F("GENERAL: "));
-            break;
-          case MSG_TYPES:
-            Serial.print(F("MSG_TYPES: "));
-            break;
-          case REMOTE:
-            Serial.print(F("REMOTE: "));
-            break;
-          case APPLICATION:
-            Serial.print(F("APPLICATION: "));
-            break;
-          case DEBUG:
-            Serial.print(F("DEBUG: "));
-            break;
-        }
+    vsnprintf(str, 200, format, args);
+
+    // Print the message if the logging level is equal or higher than the set
+    // logging level
+    if (givenLevel >= level) {
+      // Print the correct message label
+      switch (givenLevel) {
+        case DEBUG:
+          Serial.print(F("[DEBUG]"));
+          break;
+        case INFO:
+          Serial.print(F("[INFO]"));
+          break;
+        case WARNING:
+          Serial.print(F("[WARNING]"));
+          break;
+        case ERROR:
+          Serial.print(F("[ERROR]"));
+          break;
+        case CRITICAL:
+          Serial.print(F("[CRITICAL]"));
+          break;
       }
 
+      // Print the message itself
+      Serial.print(F(" "));
       Serial.print(str);
-
-      va_end(args);
     }
-  }
 
- private:
-  uint16_t types = 0;
-  char str[200];
+    va_end(args);
+  }
 };
+
+}  // namespace ramen
 
 #endif

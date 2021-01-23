@@ -5,13 +5,16 @@
 #include "catch2/catch.hpp"
 #include "ramen/logger.hpp"
 
-LogClass Log;
+ramen::Logger Log;
 
-SCENARIO("We can log things") {
-  Log.setLogLevel(ERROR | DEBUG | COMMUNICATION);
-  Log(ERROR, "We should see the next %u lines\n", 3);
-  Log(DEBUG, "We should see the next %u lines\n", 2);
-  Log(COMMUNICATION, "We should see the next %u lines\n", 1);
-  Log(ERROR, "But not the next one\n");
-  Log(S_TIME, "This should not be showing\n");
+SCENARIO("Logging test") {
+  Log.setLogLevel(ramen::ERROR);
+  Log(ramen::ERROR,
+      "This message should be visible and there shouldn't be a debug message "
+      "below\n");
+  Log(ramen::DEBUG, "This message should NOT be visible\n");
+  Log(ramen::ERROR,
+      "This message should also be visible and a CRITICAL message should be "
+      "visible below\n");
+  Log(ramen::CRITICAL, "This message should be visible\n");
 }

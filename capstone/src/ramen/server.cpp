@@ -4,16 +4,26 @@
 
 ramen::Server::Server(){};
 
-void ramen::Server::switchMode(uint8_t mode){};
-uint8_t ramen::Server::getMode(){};
+void ramen::Server::init(std::string meshName, std::string meshPassword,
+                         uint8_t meshPort){
+
+};
+
+void ramen::Server::update(){};
+
+void ramen::Server::switchState(uint8_t state){};
+uint8_t ramen::Server::getState() { return ramen::Server::state; };
 
 void ramen::Server::setElectionAlarm(){};
 void ramen::Server::startNewElection(){};
-bool ramen::Server::getElectionResults(){};
+bool ramen::Server::getElectionResults() { return false; };
 
 void ramen::Server::broadcastData(std::string data){};
 void ramen::Server::sendData(uint32_t receiver, std::string data){};
-std::string ramen::Server::receiveData(){};
+std::string ramen::Server::receiveData() {
+  std::string data;
+  return data;
+};
 
 void ramen::Server::requestVote(uint32_t receiver, std::string data){};
 void ramen::Server::handleVoteRequest(uint32_t sender, std::string data){};
