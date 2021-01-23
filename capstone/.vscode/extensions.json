@@ -8,6 +8,8 @@
         "notskm.clang-tidy",
         "platformio.platformio-ide",
         "twxs.cmake",
-        "xaver.clang-format"
+        "xaver.clang-format",
+        "streetsidesoftware.code-spell-checker",
+        "njpwerner.autodocstring"
     ]
 }

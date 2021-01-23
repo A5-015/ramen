@@ -1,8 +1,9 @@
 #ifndef _RAMEN_DATA_QUEUE_HPP_
 #define _RAMEN_DATA_QUEUE_HPP_
 
+#include <queue>
 #include <string>
-#include <unordered_map>
+#include <tuple>
 
 #include "ramen/configuration.hpp"
 
@@ -15,19 +16,29 @@ namespace ramen {
  */
 class DataQueue {
  private:
-  std::vector<std::string> entries;
-
-  std::unordered_map<uint32_t, uint32_t> matchIndex;
-  std::unordered_map<uint32_t, uint32_t> nextIndex;
+  std::queue<std::tuple<uint32_t, std::string>> entries;
 
  public:
-  uint32_t getMatchIndex(uint32_t address);
-  void setMatchIndex(uint32_t address, uint32_t index);
+  /**
+   * @brief Construct a new Data Queue object
+   *
+   */
+  DataQueue();
 
-  uint32_t getNextIndex(uint32_t address);
-  void setNextIndex(uint32_t address, uint32_t index);
+  /**
+   * @brief
+   *
+   * @param address
+   */
+  void pop(uint32_t address);
 
-  void advanceCommitIndex(uint32_t address);
+  /**
+   * @brief
+   *
+   * @param address
+   * @param data
+   */
+  void push(uint32_t address, std::string data);
 };
 
 }  // namespace ramen

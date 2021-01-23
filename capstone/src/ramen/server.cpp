@@ -2,15 +2,17 @@
 
 #include <Arduino.h>
 
+ramen::Server::Server(){};
+
 void ramen::Server::switchMode(uint8_t mode){};
 uint8_t ramen::Server::getMode(){};
 
 void ramen::Server::setElectionAlarm(){};
-void ramen::Server::startNewElection_candidate(){};
+void ramen::Server::startNewElection(){};
 bool ramen::Server::getElectionResults(){};
 
 void ramen::Server::broadcastData(std::string data){};
-void ramen::Server::sendData(){};
+void ramen::Server::sendData(uint32_t receiver, std::string data){};
 std::string ramen::Server::receiveData(){};
 
 void ramen::Server::requestVote(uint32_t receiver, std::string data){};

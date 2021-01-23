@@ -2,5 +2,12 @@
 
 #include <Arduino.h>
 
-void ramen::LogHolder::pop(uint32_t address){};
-void ramen::LogHolder::push(uint32_t address, std::string data){};
+ramen::LogHolder::LogHolder(){};
+
+uint32_t ramen::LogHolder::getMatchIndex(uint32_t address){};
+void ramen::LogHolder::setMatchIndex(uint32_t address, uint32_t index){};
+
+uint32_t ramen::LogHolder::getNextIndex(uint32_t address){};
+void ramen::LogHolder::setNextIndex(uint32_t address, uint32_t index){};
+
+void ramen::LogHolder::advanceCommitIndex(uint32_t address){};

@@ -1,9 +1,9 @@
 #ifndef _RAMEN_LOG_HOLDER_HPP_
 #define _RAMEN_LOG_HOLDER_HPP_
 
-#include <queue>
 #include <string>
-#include <tuple>
+#include <unordered_map>
+#include <vector>
 
 #include "ramen/configuration.hpp"
 
@@ -15,11 +15,56 @@ namespace ramen {
  */
 class LogHolder {
  private:
-  std::queue<std::tuple<uint32_t, std::string>> entries;
+  std::vector<std::string> entries;
+
+  std::unordered_map<uint32_t, uint32_t> matchIndex;
+  std::unordered_map<uint32_t, uint32_t> nextIndex;
 
  public:
-  void pop(uint32_t address);
-  void push(uint32_t address, std::string data);
+  /**
+   * @brief Construct a new Log Holder object
+   *
+   */
+  LogHolder();
+
+  /**
+   * @brief Get the Match Index object
+   *
+   * @param address
+   * @return uint32_t
+   */
+  uint32_t getMatchIndex(uint32_t address);
+
+  /**
+   * @brief Set the Match Index object
+   *
+   * @param address
+   * @param index
+   */
+  void setMatchIndex(uint32_t address, uint32_t index);
+
+  /**
+   * @brief Get the Next Index object
+   *
+   * @param address
+   * @return uint32_t
+   */
+  uint32_t getNextIndex(uint32_t address);
+
+  /**
+   * @brief Set the Next Index object
+   *
+   * @param address
+   * @param index
+   */
+  void setNextIndex(uint32_t address, uint32_t index);
+
+  /**
+   * @brief
+   *
+   * @param address
+   */
+  void advanceCommitIndex(uint32_t address);
 };
 
 }  // namespace ramen
