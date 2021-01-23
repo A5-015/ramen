@@ -143,3 +143,5 @@ cython_debug/
 # Custom
 *.json
 *.pdf
+
+!library.json

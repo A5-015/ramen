@@ -1,0 +1,25 @@
+{
+    "name": "ramen",
+    "keywords": "raft, consensus, mesh, iot",
+    "description": "Raft consensus algorithm coupled with an IEEE 802.11 based mesh network for embedded systems",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/A5-015/ramen"
+    },
+    "version": "1.0.0",
+    "frameworks": "arduino",
+    "platforms": "espressif8266",
+    "dependencies": [
+        {
+            "name": "painlessMesh"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Barkin Simsek"
+        },
+        {
+            "name": "Nishant Aswani"
+        }
+    ]
+}
