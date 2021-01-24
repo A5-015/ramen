@@ -88,6 +88,12 @@
         "editor.defaultFormatter": "ms-vscode.cpptools"
     },
     "cSpell.words": [
-        "nmspc"
+        "DCMAKE",
+        "Werror",
+        "Wextra",
+        "iwholename",
+        "nmspc",
+        "nodemcuv",
+        "platformio"
     ]
 }
