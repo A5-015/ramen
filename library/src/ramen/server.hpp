@@ -50,7 +50,7 @@ class Server {
    *
    * Add this to your setup() function.
    */
-  void init(std::string meshName, std::string meshPassword, uint8_t meshPort);
+  void init(String meshName, String meshPassword, uint16_t meshPort);
 
   /**
    * @brief Perform crucial maintenance task.

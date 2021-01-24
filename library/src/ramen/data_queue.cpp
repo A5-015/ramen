@@ -7,4 +7,4 @@ using namespace ramen::dataqueue;
 DataQueue::DataQueue(){};
 
 void DataQueue::pop(uint32_t address){};
-void DataQueue::push(uint32_t address, std::string data){};
+void DataQueue::push(uint32_t address, String data){};
