@@ -15,9 +15,11 @@ _server::Server() : state(0), term(0) {
   // TODO: Change to switchState()
 };
 
-void _server::init(std::string meshName, std::string meshPassword,
-                   uint8_t meshPort) {
-  Log(DEBUG, "Just initialized the system\n");
+void _server::init(String meshName, String meshPassword, uint16_t meshPort) {
+  // Initialize painlessMesh
+  mesh.init(meshName, meshPassword, &scheduler, meshPort);
+  Log(DEBUG, "Just initialized painlessMesh\n");
+  id = mesh.getNodeId();
 };
 
 void _server::update(){};

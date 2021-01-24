@@ -17,7 +17,7 @@ namespace dataqueue {
  */
 class DataQueue {
  private:
-  std::queue<std::tuple<uint32_t, std::string>> entries;
+  std::queue<std::tuple<uint32_t, String>> entries;
 
  public:
   /**
@@ -39,7 +39,7 @@ class DataQueue {
    * @param address
    * @param data
    */
-  void push(uint32_t address, std::string data);
+  void push(uint32_t address, String data);
 };
 
 }  // namespace dataqueue
