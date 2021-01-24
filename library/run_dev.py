@@ -25,6 +25,16 @@ def check_image():
         os.system("docker build -t ramen-dev .")
 
 
+def check_root_access():
+    """
+    Checks if the script has root privileges
+    """
+
+    if os.geteuid() != 0:
+        print("Please run me with sudo or give me root access somehow")
+        exit()
+
+
 def run_command_in_docker(command):
     """
     Runs the given command in the docker container
@@ -33,12 +43,12 @@ def run_command_in_docker(command):
     :type command: str
     """
 
+    check_root_access()
     check_image()
     os.system(
         'docker run --user=1000 -v %s:/ramen ramen-dev /bin/bash -c "%s"'
         % (project_path, command)
     )
-
 
 if args.target == "catch":
     run_command_in_docker(
