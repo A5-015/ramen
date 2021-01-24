@@ -50,9 +50,10 @@ def run_command_in_docker(command):
         % (project_path, command)
     )
 
+
 if args.target == "catch":
     run_command_in_docker(
-        "cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make && run-parts --regex catch_ bin/"
+        "cd library && cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make && run-parts --regex catch_ bin/"
     )
 
 elif args.target == "shell" or args.target == "bash":
@@ -62,16 +63,22 @@ elif args.target == "shell" or args.target == "bash":
     )
 
 elif args.target == "clean":
-    os.system("make clean")
-    os.system("find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete")
-    os.system("rm -rf bin")
+    os.system("cd library && make clean")
+    os.system(
+        "cd library && find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete"
+    )
+    os.system("rm -rf library/Makefile")
+    os.system("rm -rf library/compile_commands.json")
+    os.system("rm -rf library/bin")
+    os.system("rm -rf library/.pio")
+    os.system("rm -rf docs/html")
     print("Cleaned!")
 
 elif args.target == "pio":
     # NOTE: Running locally, not in docker
     os.system("platformio lib --global install painlessMesh")
     os.system(
-        'platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
+        'cd library && platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
     )
 
 elif args.target == "doc" or args.target == "docs":

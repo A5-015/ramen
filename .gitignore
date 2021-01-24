@@ -145,3 +145,7 @@ cython_debug/
 *.pdf
 
 !library.json
+
+DartConfiguration.tcl
+docs/html
+docs/latex
