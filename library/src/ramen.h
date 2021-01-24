@@ -2,6 +2,9 @@
 #define _RAMEN_H_
 
 #include <Arduino.h>
+
+// painlessMesh handles correct version of TaskScheduler library
+// #include <TaskScheduler.h>
 #include <painlessMesh.h>
 
 #include "ramen/data_queue.hpp"

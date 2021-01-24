@@ -1,6 +1,8 @@
 #ifndef _RAMEN_SERVER_HPP_
 #define _RAMEN_SERVER_HPP_
 
+#include <painlessMesh.h>
+
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -33,6 +35,8 @@ class Server {
   std::unordered_map<uint32_t, bool> votesReceived;
   uint32_t lastHeartBeat;
   Logger Log;
+  painlessMesh mesh;
+  Scheduler scheduler;
 
  public:
   /**

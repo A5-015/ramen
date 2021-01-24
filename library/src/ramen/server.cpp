@@ -1,43 +1,49 @@
 #include "ramen/server.hpp"
 
 #include <Arduino.h>
+#include <painlessMesh.h>
 
-using namespace ramen::server;
-using namespace ramen::dataqueue;
-using namespace ramen::logholder;
+using _server = ramen::server::Server;
+using _dataqueue = ramen::dataqueue::DataQueue;
+using _logholder = ramen::logholder::LogHolder;
 using namespace ramen::logger;
 
-Server::Server() { Log.setLogLevel(DEBUG); };
+_server::Server() : state(0), term(0) {
+  // Set logging level to DEBUG
+  Log.setLogLevel(DEBUG);
 
-void Server::init(std::string meshName, std::string meshPassword,
-                  uint8_t meshPort) {
+  // TODO: Change to switchState()
+};
+
+void _server::init(std::string meshName, std::string meshPassword,
+                   uint8_t meshPort) {
   Log(DEBUG, "Just initialized the system\n");
 };
 
-void Server::update(){};
+void _server::update(){};
 
-void Server::switchState(uint8_t state){};
-uint8_t Server::getState() { return Server::state; };
+void _server::switchState(uint8_t state){};
+uint8_t _server::getState() { return _server::state; };
 
-void Server::setElectionAlarm(){};
-void Server::startNewElection(){};
-bool Server::getElectionResults() { return false; };
+void _server::setElectionAlarm(){};
+void _server::startNewElection(){};
+bool _server::getElectionResults() { return false; };
 
-void Server::broadcastData(std::string data){};
-void Server::sendData(uint32_t receiver, std::string data){};
-std::string Server::receiveData() {
+void _server::broadcastData(std::string data){};
+void _server::sendData(uint32_t receiver, std::string data){};
+std::string _server::receiveData() {
   std::string data;
   return data;
 };
 
-void Server::requestVote(uint32_t receiver, std::string data){};
-void Server::handleVoteRequest(uint32_t sender, std::string data){};
-void Server::handleVoteResponse(uint32_t sender, std::string data){};
+void _server::requestVote(uint32_t receiver, std::string data){};
+void _server::handleVoteRequest(uint32_t sender, std::string data){};
+void _server::handleVoteResponse(uint32_t sender, std::string data){};
 
-void Server::requestAppendEntries(uint32_t receiver, std::string data){};
-void Server::handleAppendEntriesRequest(uint32_t sender, std::string data){};
-void Server::handleAppendEntriesResponse(){};
+void _server::requestAppendEntries(uint32_t receiver, std::string data){};
+void _server::handleAppendEntriesRequest(uint32_t sender, std::string data){};
+void _server::handleAppendEntriesResponse(){};
 
-void Server::moveDataFromQueueToLog(DataQueue queue, LogHolder log){};
-void Server::sendLocalQueueDataToLeaderQueue(std::string data){};
-void Server::handleNewData(std::string data){};
+void _server::moveDataFromQueueToLog(DataQueue queue, LogHolder log){};
+void _server::sendLocalQueueDataToLeaderQueue(std::string data){};
+void _server::handleNewData(std::string data){};
