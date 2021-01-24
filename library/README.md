@@ -2,6 +2,10 @@
 
 - Make sure to initialize the submodules
   - `git submodule update --init --recursive`
+- Install [PlatformIO](https://pypi.org/project/platformio/)
+  - `sudo apt install docker.io`
+- Install [Docker](https://pypi.org/project/platformio/)
+  - `pip install platformio`
 - Install [Clang](https://clang.llvm.org/)
   - `sudo apt install clang`
 - Install [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html)
