@@ -86,5 +86,8 @@
     ],
     "[cpp]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"
-    }
+    },
+    "cSpell.words": [
+        "nmspc"
+    ]
 }
