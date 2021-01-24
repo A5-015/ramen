@@ -46,8 +46,8 @@ def run_command_in_docker(command):
     check_root_access()
     check_image()
     os.system(
-        'docker run --user=1000 -v %s:/ramen ramen-dev /bin/bash -c "%s"'
-        % (project_path, command)
+        'docker run --user=1000 -v %s:/ramen -v %s:/.platformio ramen-dev /bin/bash -c "%s"'
+        % (project_path, os.path.join(project_path, ".cache"), command)
     )
 
 
@@ -59,7 +59,8 @@ if args.target == "catch":
 elif args.target == "shell" or args.target == "bash":
     check_image()
     os.system(
-        "docker run --user=1000 -it -v %s:/ramen ramen-dev" % project_path
+        "docker run --user=1000 -it -v %s:/ramen -v %s:/.platformio  ramen-dev"
+        % (project_path, os.path.join(project_path, ".cache"))
     )
 
 elif args.target == "clean":
@@ -75,10 +76,8 @@ elif args.target == "clean":
     print("Cleaned!")
 
 elif args.target == "pio":
-    # NOTE: Running locally, not in docker
-    os.system("platformio lib --global install painlessMesh")
-    os.system(
-        'cd library && platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
+    run_command_in_docker(
+        'platformio lib --global install painlessMesh && cd library && platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
     )
 
 elif args.target == "doc" or args.target == "docs":
