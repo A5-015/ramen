@@ -55,7 +55,6 @@
     "cmake.configureOnOpen": false,
     "autoDocstring.docstringFormat": "sphinx",
     "autoDocstring.startOnNewLine": true,
-    "tabnine.experimentalAutoImports": true,
     "extensions.ignoreRecommendations": false,
     "editor.rulers": [
         80
@@ -70,7 +69,7 @@
         "--multi-line",
         "3",
         "--project",
-        "captchamonitor"
+        "ramen"
     ],
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": [
