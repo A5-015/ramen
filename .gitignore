@@ -152,3 +152,4 @@ docs/latex
 
 !.vscode/settings.json
 !.vscode/extensions.json
+!.cache
