@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 
 # Install required packages
 RUN apt update -qq && \ 
-    apt install -y -qq software-properties-common && \
+    apt install -y -qq software-properties-common build-essential && \
     add-apt-repository ppa:deadsnakes/ppa &&\
     apt update -qq && \
     apt install -y -qq python3.7 python3-pip git wget cmake libboost-system-dev doxygen graphviz && \
@@ -11,7 +11,7 @@ RUN apt update -qq && \
     python3.7 -m pip install platformio
 
 # Clean the packages
-RUN apt remove -y -qq git wget software-properties-common python python3.5 && \
+RUN apt remove -y -qq git wget python python3.5 && \
     apt autoremove -y -qq && \
     rm -rf /var/lib/apt/lists/*
 
