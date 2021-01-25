@@ -46,7 +46,7 @@ def run_command_in_docker(command):
     check_root_access()
     check_image()
     os.system(
-        'docker run --user=1000 -v %s:/ramen -v %s:/.platformio ramen-dev /bin/bash -c "%s"'
+        'docker run --user=1000 -t -v %s:/ramen -v %s:/.platformio ramen-dev /bin/bash -c "%s"'
         % (project_path, os.path.join(project_path, ".cache"), command)
     )
 
@@ -57,6 +57,7 @@ if args.target == "catch":
     )
 
 elif args.target == "shell" or args.target == "bash":
+    check_root_access()
     check_image()
     os.system(
         "docker run --user=1000 -it -v %s:/ramen -v %s:/.platformio  ramen-dev"
@@ -82,3 +83,7 @@ elif args.target == "pio":
 
 elif args.target == "doc" or args.target == "docs":
     run_command_in_docker("cd docs && doxygen")
+
+elif args.target == "image" or args.target == "img":
+    check_root_access()
+    os.system("docker build -t ramen-dev .")
