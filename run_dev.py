@@ -6,10 +6,28 @@ import pathlib
 import subprocess
 
 project_path = pathlib.Path(__file__).parent.absolute()
-
 parser = argparse.ArgumentParser()
 parser.add_argument("target")
 args = parser.parse_args()
+
+
+class bcolors:
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKCYAN = "\033[96m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+
+
+tty_error_message = (
+    bcolors.OKCYAN
+    + "^^^^ If you just saw `Permission denied: '/dev/ttyUSB0'` error above, run 'sudo chown ${USER}:dialout /dev/ttyUSB0' ^^^^"
+    + bcolors.ENDC
+)
 
 
 def check_image():
@@ -41,6 +59,8 @@ def run_command_in_docker(command, privileged=False):
 
     :param command: Command to run
     :type command: str
+    :param privileged: Option to run the container in privileged mode, defaults to False
+    :type privileged: bool, optional
     """
 
     if privileged:
@@ -100,9 +120,9 @@ elif args.target == "clean":
     os.system("rm -rf library/bin")
     os.system("rm -rf library/.pio")
     os.system("rm -rf docs/html")
-    print("Cleaned!")
+    print(bcolors.OKGREEN + "Cleaned!" + bcolors.ENDC)
 
-elif args.target == "pio":
+elif args.target == "pio-build":
     run_command_in_docker(
         'platformio lib --global install painlessMesh && cd library && platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
     )
@@ -114,11 +134,22 @@ elif args.target == "image" or args.target == "img":
     check_root_access()
     os.system("docker build -t ramen-dev .")
 
-elif args.target == "upload":
+elif args.target == "pio-upload":
     check_root_access()
     run_command_in_docker(
         "cd library/examples/basic && pio run --target upload", True
     )
-    print(
-        "^^^^ If you just saw `Permission denied: '/dev/ttyUSB0'` error above, run 'sudo chown ${USER}:dialout /dev/ttyUSB0' ^^^^"
-    )
+    print(tty_error_message)
+
+elif args.target == "pio-monitor":
+    check_root_access()
+    run_command_in_docker("platformio device monitor --baud 115200", True)
+    print(tty_error_message)
+
+elif args.target == "pio-list":
+    check_root_access()
+    run_command_in_docker("platformio device list", True)
+    print(tty_error_message)
+
+else:
+    print(bcolors.WARNING + "Unknown option" + bcolors.ENDC)
