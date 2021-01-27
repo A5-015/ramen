@@ -14,7 +14,7 @@ using namespace ramen::server;
 Logger Log;
 
 SCENARIO("Testing start of election") {
-  Log.setLogLevel(ramen::server::DEBUG);
+  Log.setLogLevel(DEBUG);
   Server consensus_on_mesh;
-  // consensus_on_mesh.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
+  consensus_on_mesh.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
 }

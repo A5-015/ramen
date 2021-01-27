@@ -14,7 +14,7 @@ FILE(GLOB TESTFILES test/**/catch_*.cpp)
 foreach(TESTFILE ${TESTFILES})
     get_filename_component(NAME ${TESTFILE} NAME_WE) 
     add_executable(${NAME} ${TESTFILE} test/catch/fake_serial.cpp)
-    target_include_directories(${NAME} PUBLIC src/ test/include/ test/catch/ test/ArduinoJson/src/ test/TaskScheduler/src test/painlessMesh/src)
+    include_directories(${NAME} src/ src/ramen test/include/ test/catch/ test/ArduinoJson/src/ test/TaskScheduler/src)
 endforeach()
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")

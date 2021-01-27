@@ -56,7 +56,7 @@ def check_submodules():
     Checks if the submodules are initialized
     """
 
-    submodules = ["ArduinoJson", "TaskScheduler", "painlessMesh"]
+    submodules = ["ArduinoJson", "TaskScheduler"]
 
     for module in submodules:
         if os.listdir(os.path.join(project_path, "library/test", module)) == []:
@@ -69,7 +69,7 @@ def check_submodules():
 if args.target == "catch":
     check_submodules()
     run_command_in_docker(
-        "cd library && cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make && run-parts --regex catch_ bin/"
+        "cd library && cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make VERBOSE=1 && run-parts --regex catch_ bin/"
     )
 
 elif args.target == "shell" or args.target == "bash":
