@@ -35,7 +35,7 @@ def check_root_access():
         exit()
 
 
-def run_command_in_docker(command):
+def run_command_in_docker(command, privileged=False):
     """
     Runs the given command in the docker container
 
@@ -43,11 +43,21 @@ def run_command_in_docker(command):
     :type command: str
     """
 
+    if privileged:
+        privileged_option = "--privileged"
+    else:
+        privileged_option = ""
+
     check_root_access()
     check_image()
     os.system(
-        'docker run --user=1000 -t -v %s:/ramen -v %s:/.platformio ramen-dev /bin/bash -c "%s"'
-        % (project_path, os.path.join(project_path, ".cache"), command)
+        'docker run --user=1000 %s -t -v %s:/ramen -v %s:/.platformio ramen-dev /bin/bash -c "%s"'
+        % (
+            privileged_option,
+            project_path,
+            os.path.join(project_path, ".cache"),
+            command,
+        )
     )
 
 
@@ -103,3 +113,12 @@ elif args.target == "doc" or args.target == "docs":
 elif args.target == "image" or args.target == "img":
     check_root_access()
     os.system("docker build -t ramen-dev .")
+
+elif args.target == "upload":
+    check_root_access()
+    run_command_in_docker(
+        "cd library/examples/basic && pio run --target upload", True
+    )
+    print(
+        "^^^^ If you just saw `Permission denied: '/dev/ttyUSB0'` error above, run 'sudo chown ${USER}:dialout /dev/ttyUSB0' ^^^^"
+    )
