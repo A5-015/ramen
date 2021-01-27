@@ -11,11 +11,12 @@
 #include "fake_painlessmesh.hpp"
 // clang-format on
 
+// For scheduler
 #define _TASK_PRIORITY
 #define _TASK_STD_FUNCTION
-
 #include <TaskSchedulerDeclarations.h>
 
+// To disable real painlessMesh
 #define _RAMEN_CATCH_TESTING_
 
 typedef std::string string_t;
