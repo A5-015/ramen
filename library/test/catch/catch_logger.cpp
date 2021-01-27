@@ -1,8 +1,10 @@
 #define CATCH_CONFIG_MAIN
 
+// clang-format off
 #include "catch2/catch.hpp"
 #include "catch_configuration.hpp"
-#include "ramen/logger.hpp"
+#include <ramen.h>
+// clang-format on
 
 using namespace ramen::logger;
 Logger Log;

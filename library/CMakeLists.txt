@@ -1,20 +1,30 @@
-cmake_minimum_required (VERSION 2.6)
-project (ramen)
+cmake_minimum_required(VERSION 3.5)
+project(ramen_catch)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
-find_package(Boost 1.42.0 REQUIRED COMPONENTS system)
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
+add_definitions(-D _RAMEN_CATCH_TESTING_)
 
-FILE(GLOB TESTFILES test/**/catch_*.cpp)
+file(GLOB TESTFILES test/**/catch_*.cpp)
 foreach(TESTFILE ${TESTFILES})
     get_filename_component(NAME ${TESTFILE} NAME_WE) 
-    add_executable(${NAME} ${TESTFILE} test/catch/fake_serial.cpp)
-    include_directories(${NAME} src/ src/ramen test/include/ test/catch/ test/ArduinoJson/src/ test/TaskScheduler/src)
+
+    add_executable(${NAME} ${TESTFILE} "${PROJECT_BINARY_DIR}/test/include/fake_serial.cpp"
+                                       "${PROJECT_BINARY_DIR}/src/ramen/logger.hpp"
+                                       "${PROJECT_BINARY_DIR}/src/ramen/data_queue.cpp"
+                                       "${PROJECT_BINARY_DIR}/src/ramen/log_holder.cpp"
+                                       "${PROJECT_BINARY_DIR}/src/ramen/server.cpp"
+                                       "${PROJECT_BINARY_DIR}/src/ramen.h")
+
+    target_include_directories(${NAME} PUBLIC "${PROJECT_BINARY_DIR}/src/"
+                                              "${PROJECT_BINARY_DIR}/src/ramen/"
+                                              "${PROJECT_BINARY_DIR}/test/"
+                                              "${PROJECT_BINARY_DIR}/test/include/"
+                                              "${PROJECT_BINARY_DIR}/test/TaskScheduler/src/"
+                                              "${PROJECT_BINARY_DIR}/test/ArduinoJson/src/")
 endforeach()
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
