@@ -1,7 +1,5 @@
 #include "ramen/log_holder.hpp"
 
-#include <Arduino.h>
-
 using namespace ramen::logholder;
 
 LogHolder::LogHolder(){};

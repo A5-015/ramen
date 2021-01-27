@@ -16,7 +16,7 @@ namespace logholder {
  */
 class LogHolder {
  private:
-  std::vector<String> entries;
+  std::vector<string_t> entries;
 
   std::unordered_map<uint32_t, uint32_t> matchIndex;
   std::unordered_map<uint32_t, uint32_t> nextIndex;
