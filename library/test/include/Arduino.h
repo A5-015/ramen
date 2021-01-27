@@ -1,6 +1,7 @@
 /**
  * Wrapper file, which is used to test on PC hardware
  */
+
 #ifndef ARDUINO_WRAP_H
 #define ARDUINO_WRAP_H
 
@@ -9,7 +10,6 @@
 
 #define F(string_literal) string_literal
 #define ARDUINO_ARCH_ESP8266
-#define PAINLESSMESH_BOOST
 
 #ifndef NULL
 #define NULL 0
@@ -40,45 +40,18 @@ struct IPAddress {
   IPAddress(int, int, int, int) {}
 };
 
-/**
- * Override the configution file.
- **/
+// #ifndef PAINLESSMESH_ENABLE_ARDUINO_WIFI
+// // DO NOTHING ON PURPOSE
+// // class MeshConnection;
+// // using painlessMesh = painlessmesh::Mesh<MeshConnection>;
+// #endif
 
-#ifndef _PAINLESS_MESH_CONFIGURATION_HPP_
-#define _PAINLESS_MESH_CONFIGURATION_HPP_
+// clang-format off
+// The order is important
+#include "painlessMesh_configuration.hpp"
+#include "painlessmesh/protocol.hpp"
+#include "painlessMesh.h"
+#include "ramen_configuration.hpp"
+// clang-format on
 
-#define _TASK_PRIORITY  // Support for layered scheduling priority
-#define _TASK_STD_FUNCTION
-
-#include <TaskSchedulerDeclarations.h>
-
-#define ARDUINOJSON_USE_LONG_LONG 1
-
-#include <ArduinoJson.h>
-#undef ARDUINOJSON_ENABLE_ARDUINO_STRING
-
-#define ICACHE_FLASH_ATTR
-
-#define PAINLESSMESH_ENABLE_STD_STRING
-
-// Enable OTA support
-#define PAINLESSMESH_ENABLE_OTA
-
-#define NODE_TIMEOUT 5 * TASK_SECOND
-
-typedef std::string TSTRING;
-
-#ifdef ESP32
-#define MAX_CONN 10
-#else
-#define MAX_CONN 4
-#endif  // DEBUG
-
-#include "fake_asynctcp.hpp"
-#include "fake_serial.hpp"
-
-extern WiFiClass WiFi;
-extern ESPClass ESP;
-
-#endif
 #endif

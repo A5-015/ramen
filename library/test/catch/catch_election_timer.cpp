@@ -4,16 +4,16 @@
 #define MESH_PASSWORD "ramen123*"
 #define MESH_PORT 5555
 
-#include <Arduino.h>
-
+#include "Arduino.h"
 #include "catch2/catch.hpp"
-#include "ramen.h"
+#include "ramen/logger.hpp"
+#include "ramen/server.hpp"
 
-// using namespace ramen::logger;
-ramen::logger::Logger Log;
+ramen::logger::Logger ramen_logger;
+using namespace ramen::server;
 
 SCENARIO("Testing start of election") {
-  Log.setLogLevel(DEBUG);
-  ramen::server::Server consensus_on_mesh;
-  consensus_on_mesh.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
+  ramen_logger.setLogLevel(ramen::server::DEBUG);
+  Server consensus_on_mesh;
+  // consensus_on_mesh.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
 }

@@ -2,7 +2,6 @@
 #define _RAMEN_DATA_QUEUE_HPP_
 
 #include <queue>
-#include <string>
 #include <tuple>
 
 #include "ramen/configuration.hpp"
@@ -17,7 +16,7 @@ namespace dataqueue {
  */
 class DataQueue {
  private:
-  std::queue<std::tuple<uint32_t, String>> entries;
+  std::queue<std::tuple<uint32_t, string_t>> entries;
 
  public:
   /**
@@ -39,7 +38,7 @@ class DataQueue {
    * @param address
    * @param data
    */
-  void push(uint32_t address, String data);
+  void push(uint32_t address, string_t data);
 };
 
 }  // namespace dataqueue

@@ -1,6 +1,5 @@
 #include "ramen/server.hpp"
 
-#include <Arduino.h>
 #include <painlessMesh.h>
 
 using _server = ramen::server::Server;
@@ -15,7 +14,8 @@ _server::Server() : state(0), term(0) {
   // TODO: Change to switchState()
 };
 
-void _server::init(String meshName, String meshPassword, uint16_t meshPort) {
+void _server::init(string_t meshName, string_t meshPassword,
+                   uint16_t meshPort) {
   // Initialize painlessMesh
   mesh.init(meshName, meshPassword, &scheduler, meshPort);
   Log(DEBUG, "Just initialized painlessMesh\n");
@@ -43,21 +43,21 @@ void _server::setElectionAlarm() {
 void _server::startNewElection() { Log(INFO, "Started election!"); };
 bool _server::getElectionResults() { return false; };
 
-void _server::broadcastData(std::string data){};
-void _server::sendData(uint32_t receiver, std::string data){};
-std::string _server::receiveData() {
-  std::string data;
+void _server::broadcastData(string_t data){};
+void _server::sendData(uint32_t receiver, string_t data){};
+string_t _server::receiveData() {
+  string_t data;
   return data;
 };
 
-void _server::requestVote(uint32_t receiver, std::string data){};
-void _server::handleVoteRequest(uint32_t sender, std::string data){};
-void _server::handleVoteResponse(uint32_t sender, std::string data){};
+void _server::requestVote(uint32_t receiver, string_t data){};
+void _server::handleVoteRequest(uint32_t sender, string_t data){};
+void _server::handleVoteResponse(uint32_t sender, string_t data){};
 
-void _server::requestAppendEntries(uint32_t receiver, std::string data){};
-void _server::handleAppendEntriesRequest(uint32_t sender, std::string data){};
+void _server::requestAppendEntries(uint32_t receiver, string_t data){};
+void _server::handleAppendEntriesRequest(uint32_t sender, string_t data){};
 void _server::handleAppendEntriesResponse(){};
 
 void _server::moveDataFromQueueToLog(DataQueue queue, LogHolder log){};
-void _server::sendLocalQueueDataToLeaderQueue(std::string data){};
-void _server::handleNewData(std::string data){};
+void _server::sendLocalQueueDataToLeaderQueue(string_t data){};
+void _server::handleNewData(string_t data){};
