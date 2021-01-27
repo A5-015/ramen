@@ -19,7 +19,7 @@
 
 #else
 
-    // Used for testing
+    // Used for testing only
     #include <catch_configuration.hpp>
 
 #endif

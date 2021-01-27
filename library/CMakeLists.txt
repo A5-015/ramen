@@ -13,11 +13,11 @@ foreach(TESTFILE ${TESTFILES})
     get_filename_component(NAME ${TESTFILE} NAME_WE) 
 
     add_executable(${NAME} ${TESTFILE} "${PROJECT_BINARY_DIR}/test/include/fake_serial.cpp"
+                                       "${PROJECT_BINARY_DIR}/test/include/scheduler.cpp"
                                        "${PROJECT_BINARY_DIR}/src/ramen/logger.hpp"
                                        "${PROJECT_BINARY_DIR}/src/ramen/data_queue.cpp"
                                        "${PROJECT_BINARY_DIR}/src/ramen/log_holder.cpp"
-                                       "${PROJECT_BINARY_DIR}/src/ramen/server.cpp"
-                                       "${PROJECT_BINARY_DIR}/src/ramen.h")
+                                       "${PROJECT_BINARY_DIR}/src/ramen/server.cpp")
 
     target_include_directories(${NAME} PUBLIC "${PROJECT_BINARY_DIR}/src/"
                                               "${PROJECT_BINARY_DIR}/src/ramen/"
