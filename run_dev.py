@@ -7,7 +7,62 @@ import subprocess
 
 project_path = pathlib.Path(__file__).parent.absolute()
 parser = argparse.ArgumentParser()
-parser.add_argument("target")
+
+parser.add_argument(
+    "--catch",
+    action="store_true",
+    help="Runs the catch tests available in the library/test/catch folder",
+)
+
+parser.add_argument(
+    "--clean",
+    action="store_true",
+    help="Cleans the project folder by deleting the temporary files and other build artifacts",
+)
+
+parser.add_argument(
+    "--pbuild",
+    action="store_true",
+    help="Builds the 'basic.ino' example",
+)
+
+parser.add_argument(
+    "--pupload",
+    action="store_true",
+    help="Builds and uploads the 'basic.ino' example to the board",
+)
+
+parser.add_argument(
+    "--pmonitor",
+    action="store_true",
+    help="Start a serial monitor",
+)
+
+parser.add_argument(
+    "--plist",
+    action="store_true",
+    help="Lists plugged development boards",
+)
+
+parser.add_argument(
+    "--shell",
+    action="store_true",
+    help="Runs the Docker container in interactive mode and gives shell access",
+)
+
+parser.add_argument(
+    "--img",
+    action="store_true",
+    help="Builds a new Docker image from the Dockerfile",
+)
+
+parser.add_argument(
+    "--doc",
+    action="store_true",
+    help="Generates documentation from the doxygen comments",
+)
+
+
 args = parser.parse_args()
 
 
@@ -96,13 +151,13 @@ def check_submodules():
             exit()
 
 
-if args.target == "catch":
+if args.catch:
     check_submodules()
     run_command_in_docker(
         "cd library && cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make VERBOSE=1 && run-parts --regex catch_ bin/"
     )
 
-elif args.target == "shell" or args.target == "bash":
+elif args.shell:
     check_root_access()
     check_image()
     os.system(
@@ -110,7 +165,7 @@ elif args.target == "shell" or args.target == "bash":
         % (project_path, os.path.join(project_path, ".cache"))
     )
 
-elif args.target == "clean":
+elif args.clean:
     os.system("cd library && make clean")
     os.system(
         "cd library && find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete"
@@ -122,34 +177,31 @@ elif args.target == "clean":
     os.system("rm -rf docs/html")
     print(bcolors.OKGREEN + "Cleaned!" + bcolors.ENDC)
 
-elif args.target == "pio-build":
+elif args.pbuild:
     run_command_in_docker(
         'platformio lib --global install painlessMesh && cd library && platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
     )
 
-elif args.target == "doc" or args.target == "docs":
+elif args.doc:
     run_command_in_docker("cd docs && doxygen")
 
-elif args.target == "image" or args.target == "img":
+elif args.img:
     check_root_access()
     os.system("docker build -t ramen-dev .")
 
-elif args.target == "pio-upload":
+elif args.pupload:
     check_root_access()
     run_command_in_docker(
         "cd library/examples/basic && pio run --target upload", True
     )
     print(tty_error_message)
 
-elif args.target == "pio-monitor":
+elif args.pmonitor:
     check_root_access()
     run_command_in_docker("platformio device monitor --baud 115200", True)
     print(tty_error_message)
 
-elif args.target == "pio-list":
+elif args.plist:
     check_root_access()
     run_command_in_docker("platformio device list", True)
     print(tty_error_message)
-
-else:
-    print(bcolors.WARNING + "Unknown option" + bcolors.ENDC)
