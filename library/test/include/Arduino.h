@@ -40,18 +40,4 @@ struct IPAddress {
   IPAddress(int, int, int, int) {}
 };
 
-// // #ifndef PAINLESSMESH_ENABLE_ARDUINO_WIFI
-// // // DO NOTHING ON PURPOSE
-// // // class MeshConnection;
-// // // using painlessMesh = painlessmesh::Mesh<MeshConnection>;
-// // #endif
-
-// // clang-format off
-// // The order is important
-// #include "painlessMesh_configuration.hpp"
-// #include "painlessmesh/protocol.hpp"
-// #include "painlessMesh.h"
-// #include "ramen_configuration.hpp"
-// // clang-format on
-
 #endif

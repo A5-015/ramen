@@ -25,17 +25,18 @@ void _server::update(){};
 void _server::switchState(uint8_t state){};
 uint8_t _server::getState() { return _server::state; };
 
-void _server::setElectionAlarm() {
-  Task election(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER, [&] {
-    if (mesh.getNodeTime() % 2) {
-      // If coin toss results in 1, start a new election
-      // In this way, we randomize the election duration without worrying about
-      // timer overflow
-      startNewElection();
-    }
-  });
-  scheduler.addTask(election);
-  election.enable();
+void _server::setElectionAlarm(){
+    // Task election(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER,
+    // [&] {
+    //   if (mesh.getNodeTime() % 2) {
+    //     // If coin toss results in 1, start a new election
+    //     // In this way, we randomize the election duration without worrying
+    //     // about timer overflow
+    //     startNewElection();
+    //   }
+    // });
+    // scheduler.addTask(election);
+    // election.enable();
 };
 
 void _server::startNewElection() { Log(INFO, "Started election!"); };
