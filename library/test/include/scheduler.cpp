@@ -5,4 +5,6 @@
  * NOTE: DO NOT ADD ANYTHING TO THIS FILE
  */
 
+#define _TASK_PRIORITY
+#define _TASK_STD_FUNCTION
 #include <TaskScheduler.h>

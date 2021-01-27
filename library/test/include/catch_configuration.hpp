@@ -4,7 +4,10 @@
 
 // clang-format off
 #ifndef _RAMEN_CONFIGURATION_HPP_
-#define _RAMEN_CONFIGURATION_HPP_
+
+    #define _RAMEN_CONFIGURATION_HPP_
+
+    #include "Arduino.h"
 
     // Used for testing of pc
     typedef std::string string_t;
@@ -19,7 +22,6 @@
     #include <ArduinoJson.h>
     #undef ARDUINOJSON_ENABLE_ARDUINO_STRING
 
-    #include "Arduino.h"
     #include "fake_serial.hpp"
     #include "fake_painlessmesh.hpp"
 
