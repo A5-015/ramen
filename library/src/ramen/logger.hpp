@@ -1,7 +1,7 @@
 #ifndef _RAMEN_LOGGER_HPP_
 #define _RAMEN_LOGGER_HPP_
 
-#include <Arduino.h>
+#include "ramen/configuration.hpp"
 #include <stdarg.h>
 
 namespace ramen {
