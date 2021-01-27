@@ -1,8 +1,9 @@
 #ifndef _RAMEN_LOGGER_HPP_
 #define _RAMEN_LOGGER_HPP_
 
-#include "ramen/configuration.hpp"
 #include <stdarg.h>
+
+#include "ramen/configuration.hpp"
 
 namespace ramen {
 namespace logger {

@@ -4,11 +4,8 @@
 #define MESH_PASSWORD "ramen123*"
 #define MESH_PORT 5555
 
-// clang-format off
 #include "catch2/catch.hpp"
-#include "catch_configuration.hpp"
-#include <ramen.h>
-// clang-format on
+#include "ramen.h"
 
 using namespace ramen::logger;
 using namespace ramen::server;
