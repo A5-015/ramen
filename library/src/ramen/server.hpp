@@ -1,8 +1,6 @@
 #ifndef _RAMEN_SERVER_HPP_
 #define _RAMEN_SERVER_HPP_
 
-#include <painlessMesh.h>
-
 #include <unordered_map>
 #include <vector>
 

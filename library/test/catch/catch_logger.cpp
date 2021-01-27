@@ -1,8 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
-#include <Arduino.h>
-
 #include "catch2/catch.hpp"
+#include "catch_configuration.hpp"
 #include "ramen/logger.hpp"
 
 using namespace ramen::logger;

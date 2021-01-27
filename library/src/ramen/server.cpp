@@ -1,7 +1,5 @@
 #include "ramen/server.hpp"
 
-#include <painlessMesh.h>
-
 using _server = ramen::server::Server;
 using _dataqueue = ramen::dataqueue::DataQueue;
 using _logholder = ramen::logholder::LogHolder;
