@@ -34,6 +34,7 @@ class Server {
   Logger Log;
   painlessMesh mesh;
   Scheduler scheduler;
+  Task *task_election_ptr;
 
  public:
   /**

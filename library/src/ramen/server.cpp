@@ -5,14 +5,6 @@ using _dataqueue = ramen::dataqueue::DataQueue;
 using _logholder = ramen::logholder::LogHolder;
 using namespace ramen::logger;
 
-void testFunction() {
-  Logger ServerLogger;
-  ServerLogger.setLogLevel(ramen::logger::LogLevel::DEBUG);
-  ServerLogger(ramen::logger::LogLevel::DEBUG, "poop\n");
-}
-
-Task testingTask(TASK_SECOND * 1, TASK_FOREVER, testFunction);
-
 _server::Server() : state(0), term(0) {
   // Set logging level to DEBUG
   Log.setLogLevel(DEBUG);
@@ -34,22 +26,24 @@ void _server::switchState(uint8_t state){};
 uint8_t _server::getState() { return _server::state; };
 
 void _server::setElectionAlarm() {
-  // Task election(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER, [&]
-  // {
-  //   if (true) {
-  //     // If coin toss results in 1, start a new election
-  //     // In this way, we randomize the election duration without worrying
-  //     // about timer overflow
-  //     Log(DEBUG, "Should start an election now!");
-  //     startNewElection();
-  //   }
-  // });
-  scheduler.addTask(testingTask);
-  testingTask.enable();
+  task_election_ptr =
+      new Task(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER, [&] {
+        if (mesh.getNodeTime() % 2) {
+          // If coin toss results in 1, start a new election
+          // In this way, we randomize the election duration without worrying
+          // about timer overflow
+          startNewElection();
+        }
+      });
+
+  scheduler.addTask(*task_election_ptr);
+  task_election_ptr->enable();
   Log(DEBUG, "Set the election timer\n");
 };
 
-void _server::startNewElection() { Log(INFO, "Started election!"); };
+void _server::startNewElection() {
+  Log(INFO, "Started election: %u\n", mesh.getNodeTime());
+};
 bool _server::getElectionResults() { return false; };
 
 void _server::broadcastData(string_t data){};
