@@ -16,10 +16,10 @@ namespace logholder {
  */
 class LogHolder {
  private:
-  std::vector<string_t> entries;
+  std::vector<std::pair<uint32_t, string_t>> entries;
 
-  std::unordered_map<uint32_t, uint32_t> matchIndex;
-  std::unordered_map<uint32_t, uint32_t> nextIndex;
+  std::unordered_map<uint32_t, uint32_t> *matchIndex_ptr;
+  std::unordered_map<uint32_t, uint32_t> *nextIndex_ptr;
 
  public:
   /**
@@ -66,6 +66,34 @@ class LogHolder {
    * @param address
    */
   void advanceCommitIndex(uint32_t address);
+
+  /**
+   * @brief  Set the match index for all nodes to 0
+   *
+   * @param nodeList Node list obtained from painlessMesh
+   */
+  void resetMatchIndexMap(std::list<uint32_t> *nodeList);
+
+  /**
+   * @brief  Set the next index for all nodes to 1
+   *
+   * @param nodeList Node list obtained from painlessMesh
+   */
+  void resetNextIndexMap(std::list<uint32_t> *nodeList);
+
+  /**
+   * @brief Get the size of the entries
+   *
+   * @return uint32_t
+   */
+  uint32_t getLogSize();
+
+  /**
+   * @brief Get the last log entry's term
+   *
+   * @return uint32_t
+   */
+  uint32_t getLastLogTerm();
 };
 
 }  // namespace logholder
