@@ -29,7 +29,7 @@ class Server {
   uint32_t votedFor;
   LogHolder log;
   uint16_t electionAlarm;
-  std::unordered_map<uint32_t, bool> votesReceived;
+  std::unordered_map<uint32_t, bool> *votesReceived_ptr;
   uint32_t lastHeartBeat;
   Logger Log;
   painlessMesh mesh;

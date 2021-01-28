@@ -7,7 +7,7 @@ using namespace ramen::logger;
 
 _server::Server() : state(0), term(0) {
   // Set logging level to DEBUG
-  Log.setLogLevel(DEBUG);
+  this->Log.setLogLevel(DEBUG);
 
   // TODO: Change to switchState()
 };
@@ -15,9 +15,9 @@ _server::Server() : state(0), term(0) {
 void _server::init(string_t meshName, string_t meshPassword,
                    uint16_t meshPort) {
   // Initialize painlessMesh
-  mesh.init(meshName, meshPassword, &scheduler, meshPort);
-  Log(DEBUG, "Just initialized painlessMesh\n");
-  id = mesh.getNodeId();
+  this->mesh.init(meshName, meshPassword, &scheduler, meshPort);
+  this->Log(DEBUG, "Just initialized painlessMesh\n");
+  this->id = mesh.getNodeId();
 };
 
 void _server::update() { mesh.update(); };
@@ -28,22 +28,41 @@ uint8_t _server::getState() { return _server::state; };
 void _server::setElectionAlarm() {
   task_election_ptr =
       new Task(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER, [&] {
-        if (mesh.getNodeTime() % 2) {
-          // If coin toss results in 1, start a new election
-          // In this way, we randomize the election duration without worrying
-          // about timer overflow
-          startNewElection();
+        // Check if there are nodes in the network
+        bool isAloneNode = (mesh.getNodeList(false).size() == 0);
+
+        // Timeout if in follower mode or alone in the network
+        if (this->state == 0 || isAloneNode) {
+          if (this->mesh.getNodeTime() % 2) {
+            // If coin toss results in 1, start a new election
+            // In this way, we randomize the election duration without worrying
+            // about timer overflow
+            startNewElection();
+          }
         }
       });
 
-  scheduler.addTask(*task_election_ptr);
+  this->scheduler.addTask(*task_election_ptr);
   task_election_ptr->enable();
-  Log(DEBUG, "Set the election timer\n");
+  this->Log(DEBUG, "Set the election timer\n");
 };
 
 void _server::startNewElection() {
-  Log(INFO, "Started election: %u\n", mesh.getNodeTime());
+  auto nodeList = mesh.getNodeList(false);
+
+  this->Log(INFO, "Started election: %u\n", mesh.getNodeTime());
+  this->term += 1;
+  this->votedFor = this->id;
+  // Change state to candidate
+  this->state = 1;
+  // Reinitialize list of votes granted
+  this->votesReceived_ptr = new std::unordered_map<uint32_t, bool>;
+  for (auto it = nodeList.begin(); it != nodeList.end(); ++it) {
+    this->votesReceived_ptr->insert(std::make_pair(*it, false));
+  }
+
 };
+
 bool _server::getElectionResults() { return false; };
 
 void _server::broadcastData(string_t data){};
