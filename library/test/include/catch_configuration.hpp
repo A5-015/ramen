@@ -22,8 +22,15 @@
     #include <ArduinoJson.h>
     #undef ARDUINOJSON_ENABLE_ARDUINO_STRING
 
+    // Arduino's Serial
     #include "fake_serial.hpp"
+
+    // painlessMesh
     #include "fake_painlessmesh.hpp"
+    using painlessMesh = fake_painlessmesh::painlessMesh;
+
+    // Make everything public for testing
+    #define private public
 
     // ramen variables
     #define TASK_ELECTION_INTERVAL 1000

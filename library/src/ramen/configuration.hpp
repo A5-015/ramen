@@ -12,8 +12,9 @@
         // #include <TaskScheduler.h>
         #include <painlessMesh.h>
 
-        #define TASK_ELECTION_INTERVAL 1000
         typedef String string_t;
+
+        #define TASK_ELECTION_INTERVAL 1000
 
     #endif
 
