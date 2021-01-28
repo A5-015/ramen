@@ -154,7 +154,15 @@ def check_submodules():
 if args.catch:
     check_submodules()
     run_command_in_docker(
-        "cd library && cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror' && make VERBOSE=1 && run-parts --regex catch_ bin/"
+        "cd library"
+        + "&&"
+        + "cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror'"
+        + "&&"
+        + "make VERBOSE=1"
+        + "&&"
+        + "echo '\n\033[96m===============================================================================\nRunning the tests:\033[0m\n'"
+        + "&&"
+        + "run-parts --regex catch_ bin/"
     )
 
 elif args.shell:
@@ -168,7 +176,9 @@ elif args.shell:
 elif args.clean:
     os.system("cd library && make clean")
     os.system(
-        "cd library && find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete"
+        "cd library"
+        + "&&"
+        + "find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete"
     )
     os.system("rm -rf library/Makefile")
     os.system("rm -rf library/compile_commands.json")
@@ -179,7 +189,11 @@ elif args.clean:
 
 elif args.pbuild:
     run_command_in_docker(
-        'platformio lib --global install painlessMesh && cd library && platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
+        "platformio lib --global install painlessMesh"
+        + "&&"
+        + "cd library"
+        + "&&"
+        + 'platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
     )
 
 elif args.doc:
