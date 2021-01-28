@@ -36,6 +36,7 @@ void _server::setElectionAlarm() {
   });
   scheduler.addTask(election);
   election.enable();
+  Log(DEBUG, "Set the election timer\n");
 };
 
 void _server::startNewElection() { Log(INFO, "Started election!"); };

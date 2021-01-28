@@ -20,4 +20,6 @@ SCENARIO("Testing start of election") {
   Log(INFO, "Current mesh time is set to %u \n", ramen.mesh.getMeshTime());
 
   ramen.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
+
+  ramen.setElectionAlarm();
 }
