@@ -116,10 +116,8 @@ class Server {
   /**
    * @brief Request vote from a follower as a candidate
    *
-   * @param receiver Address of the receiver node
-   * @param data Data to send in JSON format
    */
-  void requestVote(uint32_t receiver, string_t data);
+  void requestVote();
 
   /**
    * @brief Handle incoming vote request as a follower
