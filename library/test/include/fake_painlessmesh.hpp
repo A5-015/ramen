@@ -10,6 +10,8 @@
 #include <list>
 #include <vector>
 
+#include "catch_common.hpp"
+
 namespace fake_painlessmesh {
 
 struct Node {
@@ -23,6 +25,7 @@ class painlessMesh {
   std::string _mesh_password;
   long _mesh_port;
   std::list<fake_painlessmesh::Node> _nodes;
+  std::list<uint32_t> _node_list;
   uint32_t _mesh_time = 0;
 
  public:
@@ -44,6 +47,14 @@ class painlessMesh {
 
   uint32_t getNodeTime() {
     return this->_mesh_time;
+  };
+
+  void update() {
+
+  };
+
+  std::list<uint32_t> getNodeList(bool include_self = false) {
+    return _node_list;
   };
 
   /////////////////////////////////////////////////////
