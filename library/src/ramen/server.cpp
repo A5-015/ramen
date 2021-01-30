@@ -10,8 +10,6 @@ using namespace ramen::logger;
 _server::Server() : _state(FOLLOWER), _term(0) {
   // Set logging level to DEBUG
   this->_logger.setLogLevel(DEBUG);
-
-  // TODO: Change to switchState()
 };
 
 void _server::init(string_t mesh_name,
@@ -29,13 +27,16 @@ void _server::update() {
   requestVote();
 };
 
-void _server::switchState(ServerState state) {};
+void _server::switchState(ServerState state) {
+  this->_state = state;
+};
 
 ramen::server::ServerState _server::getState() {
   return _server::_state;
 };
 
 void _server::setElectionAlarm() {
+  // Create a new election alarm task for the scheduler
   _task_election_ptr =
       new Task(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER, [&] {
         // Check if there are nodes in the network
@@ -52,6 +53,7 @@ void _server::setElectionAlarm() {
         }
       });
 
+  // Add the alarm to scheduler and enable it
   this->_scheduler.addTask(*_task_election_ptr);
   _task_election_ptr->enable();
 
