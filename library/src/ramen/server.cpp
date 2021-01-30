@@ -5,14 +5,7 @@ using _dataqueue = ramen::dataqueue::DataQueue;
 using _logholder = ramen::logholder::LogHolder;
 using namespace ramen::logger;
 
-// struct MessageRequestVote {
-//   string_t type = "RequestVote";
-//   uint32_t term;
-//   uint32_t lastLogTerm;
-//   uint32_t lastLogIndex;
-// };
-
-_server::Server() : _state(0), _term(0) {
+_server::Server() : _state(FOLLOWER), _term(0) {
   // Set logging level to DEBUG
   this->_logger.setLogLevel(DEBUG);
 
@@ -33,9 +26,9 @@ void _server::update() {
   requestVote();
 };
 
-void _server::switchState(uint8_t state) {};
+void _server::switchState(ServerState state) {};
 
-uint8_t _server::getState() {
+ramen::server::ServerState _server::getState() {
   return _server::_state;
 };
 
@@ -70,7 +63,7 @@ void _server::startNewElection() {
   this->_voted_for = this->_id;
 
   // Change state to candidate
-  this->_state = 1;
+  this->_state = CANDIDATE;
 
   // Reinitialize list of votes granted
   this->_votes_received_ptr = new std::unordered_map<uint32_t, bool>;
@@ -96,23 +89,23 @@ string_t _server::receiveData() {
 };
 
 void _server::requestVote() {
-  // struct MessageRequestVote message;
-  // message.term = this->term;
-  // message.lastLogTerm = this->log.getLastLogTerm();
-  // message.lastLogIndex = this->log.getLogSize();
+    // struct MessageRequestVote message;
+    // message.term = this->term;
+    // message.lastLogTerm = this->log.getLastLogTerm();
+    // message.lastLogIndex = this->log.getLogSize();
 
-  DynamicJsonDocument payload(1024);
-  string_t serialized_payload;
+    // DynamicJsonDocument payload(1024);
+    // string_t serialized_payload;
 
-  payload["type"] = "RequestVote";
-  payload["term"] = this->_term;
-  payload["lastLogTerm"] = this->_log.getLastLogTerm();
-  payload["lastLogIndex"] = this->_log.getLogSize();
+    // payload["type"] = "RequestVote";
+    // payload["term"] = this->_term;
+    // payload["lastLogTerm"] = this->_log.getLastLogTerm();
+    // payload["lastLogIndex"] = this->_log.getLogSize();
 
-  serializeJson(payload, serialized_payload);
-  // Log(DEBUG, serialized_payload);
-  Serial.begin(115200);
-  Serial.println(serialized_payload);
+    // serializeJson(payload, serialized_payload);
+    // // Log(DEBUG, serialized_payload);
+    // Serial.begin(115200);
+    // Serial.println(serialized_payload);
 };
 
 void _server::handleVoteRequest(uint32_t sender, string_t data) {};
