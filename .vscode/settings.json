@@ -78,7 +78,10 @@
         "string": "cpp",
         "string_view": "cpp",
         "shared_mutex": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "any": "cpp",
+        "charconv": "cpp",
+        "cuchar": "cpp"
     },
     "cmake.configureOnOpen": false,
     "autoDocstring.docstringFormat": "sphinx",

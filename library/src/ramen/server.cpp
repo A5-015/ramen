@@ -24,7 +24,6 @@ void _server::init(string_t mesh_name,
 
 void _server::update() {
   _mesh.update();
-  requestVote();
 };
 
 void _server::switchState(ServerState state) {
