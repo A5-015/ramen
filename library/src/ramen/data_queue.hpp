@@ -16,7 +16,7 @@ namespace dataqueue {
    */
   class DataQueue {
    private:
-    std::queue<std::tuple<uint32_t, string_t>> entries;
+    std::queue<std::tuple<uint32_t, string_t>> _entries;
 
    public:
     /**

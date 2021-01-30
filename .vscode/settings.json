@@ -3,6 +3,7 @@
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
     "clang-tidy.lintOnSave": true,
+    "clang-tidy.buildPath": "${workspaceFolder}/library/examples/basic/.pio/build/nodemcuv2/compile_commands.json",
     "files.associations": {
         "functional": "cpp",
         "unordered_map": "cpp",
@@ -116,11 +117,13 @@
     },
     "cSpell.words": [
         "DCMAKE",
+        "Struct",
         "Werror",
         "Wextra",
         "iwholename",
         "nmspc",
         "nodemcuv",
-        "platformio"
+        "platformio",
+        "NOLINTNEXTLINE"
     ]
 }

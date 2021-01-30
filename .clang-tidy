@@ -1,34 +1,50 @@
-{
-    "Checks": "*, readability-identifier-naming",
-    "CheckOptions": [
-        {
-            "key": "readability-identifier-naming.NamespaceCase",
-            "value": "lower_case"
-        },
-        {
-            "key": "readability-identifier-naming.ClassCase",
-            "value": "CamelCase"
-        },
-        {
-            "key": "readability-identifier-naming.PrivateMemberPrefix",
-            "value": "_"
-        },
-        {
-            "key": "readability-identifier-naming.StructCase",
-            "value": "camelCase"
-        },
-        {
-            "key": "readability-identifier-naming.FunctionCase",
-            "value": "camelCase"
-        },
-        {
-            "key": "readability-identifier-naming.VariableCase",
-            "value": "lower_case"
-        },
-        {
-            "key": "readability-identifier-naming.GlobalConstantCase",
-            "value": "UPPER_CASE"
-        }
-    ],
-    "FormatStyle": "google"
-}
+Checks:              '-*,readability-identifier-naming'
+CheckOptions:
+  - key:             readability-identifier-naming.ClassCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.ClassMemberCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ConstantPointerParameterSuffix
+    value:           _ptr
+  - key:             readability-identifier-naming.EnumCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.EnumConstantCase
+    value:           UPPER_CASE
+  - key:             readability-identifier-naming.FunctionCase
+    value:           camelCase
+  - key:             readability-identifier-naming.GlobalConstantCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.GlobalPointerSuffix
+    value:           _ptr
+  - key:             readability-identifier-naming.GlobalVariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.StaticConstantCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.LocalConstantPointerSuffix
+    value:           _ptr
+  - key:             readability-identifier-naming.LocalPointerSuffix
+    value:           _ptr
+  - key:             readability-identifier-naming.LocalVariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.MacroDefinitionCase
+    value:           _UPPER_CASE_
+  - key:             readability-identifier-naming.MemberCase
+    value:           lower_case
+  - key:             readability-identifier-naming.NamespaceCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.PointerParameterSuffix
+    value:           _ptr
+  - key:             readability-identifier-naming.PrivateMemberPrefix
+    value:           _
+  - key:             readability-identifier-naming.PrivateMethodPrefix
+    value:           _
+  - key:             readability-identifier-naming.StructCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.TypeAliasCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.TypedefCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.VariableCase
+    value:           lower_case
