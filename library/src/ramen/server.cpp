@@ -19,7 +19,8 @@ _server::Server() : state(0), term(0) {
   // TODO: Change to switchState()
 };
 
-void _server::init(string_t meshName, string_t meshPassword,
+void _server::init(string_t meshName,
+                   string_t meshPassword,
                    uint16_t meshPort) {
   // Initialize painlessMesh
   this->mesh.init(meshName, meshPassword, &scheduler, meshPort);
@@ -32,8 +33,11 @@ void _server::update() {
   requestVote();
 };
 
-void _server::switchState(uint8_t state){};
-uint8_t _server::getState() { return _server::state; };
+void _server::switchState(uint8_t state) {};
+
+uint8_t _server::getState() {
+  return _server::state;
+};
 
 void _server::setElectionAlarm() {
   task_election_ptr =
@@ -43,8 +47,8 @@ void _server::setElectionAlarm() {
         Log(INFO, "I have %u mates\n", mesh.getNodeList(false).size());
 
         // Timeout if in follower mode or alone in the network
-        if (this->state == 0 || isAloneNode) {
-          if (this->mesh.getNodeTime() % 2) {
+        if(this->state == 0 || isAloneNode) {
+          if(this->mesh.getNodeTime() % 2) {
             // If coin toss results in 1, start a new election
             // In this way, we randomize the election duration without worrying
             // about timer overflow
@@ -70,7 +74,7 @@ void _server::startNewElection() {
 
   // Reinitialize list of votes granted
   this->votesReceived_ptr = new std::unordered_map<uint32_t, bool>;
-  for (auto it = nodeList.begin(); it != nodeList.end(); ++it) {
+  for(auto it = nodeList.begin(); it != nodeList.end(); ++it) {
     this->votesReceived_ptr->insert(std::make_pair(*it, false));
   }
 
@@ -79,10 +83,13 @@ void _server::startNewElection() {
   this->log.resetNextIndexMap(&nodeList);
 };
 
-bool _server::getElectionResults() { return false; };
+bool _server::getElectionResults() {
+  return false;
+};
 
-void _server::broadcastData(string_t data){};
-void _server::sendData(uint32_t receiver, string_t data){};
+void _server::broadcastData(string_t data) {};
+
+void _server::sendData(uint32_t receiver, string_t data) {};
 string_t _server::receiveData() {
   string_t data;
   return data;
@@ -108,13 +115,13 @@ void _server::requestVote() {
   Serial.println(serialized_payload);
 };
 
-void _server::handleVoteRequest(uint32_t sender, string_t data){};
-void _server::handleVoteResponse(uint32_t sender, string_t data){};
+void _server::handleVoteRequest(uint32_t sender, string_t data) {};
+void _server::handleVoteResponse(uint32_t sender, string_t data) {};
 
-void _server::requestAppendEntries(uint32_t receiver, string_t data){};
-void _server::handleAppendEntriesRequest(uint32_t sender, string_t data){};
-void _server::handleAppendEntriesResponse(){};
+void _server::requestAppendEntries(uint32_t receiver, string_t data) {};
+void _server::handleAppendEntriesRequest(uint32_t sender, string_t data) {};
+void _server::handleAppendEntriesResponse() {};
 
-void _server::moveDataFromQueueToLog(DataQueue queue, LogHolder log){};
-void _server::sendLocalQueueDataToLeaderQueue(string_t data){};
-void _server::handleNewData(string_t data){};
+void _server::moveDataFromQueueToLog(DataQueue queue, LogHolder log) {};
+void _server::sendLocalQueueDataToLeaderQueue(string_t data) {};
+void _server::handleNewData(string_t data) {};
