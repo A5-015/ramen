@@ -8,6 +8,7 @@
     #define _RAMEN_CONFIGURATION_HPP_
 
     #include "Arduino.h"
+    #include <string>
 
     // Used for testing of pc
     typedef std::string string_t;
