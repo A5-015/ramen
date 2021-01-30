@@ -1,9 +1,9 @@
 #include "Arduino.h"
 #include "ramen.h"
 
-#define MESH_NAME "ramen"
+#define MESH_NAME     "ramen"
 #define MESH_PASSWORD "ramen123*"
-#define MESH_PORT 5555
+#define MESH_PORT     5555
 
 ramen::server::Server consensus_on_mesh;
 
@@ -13,4 +13,6 @@ void setup() {
   consensus_on_mesh.setElectionAlarm();
 }
 
-void loop() { consensus_on_mesh.update(); }
+void loop() {
+  consensus_on_mesh.update();
+}

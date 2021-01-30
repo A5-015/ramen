@@ -29,27 +29,37 @@ class painlessMesh {
   ///////////////////////////////////////////////////
   // Methods for faking painlessMesh functionality //
   ///////////////////////////////////////////////////
-  void init(std::string mesh_name, std::string mesh_password,
-            Scheduler* scheduler, long mesh_port) {
+  void init(std::string mesh_name,
+            std::string mesh_password,
+            Scheduler* scheduler,
+            long mesh_port) {
     this->mesh_name = mesh_name;
     this->mesh_password = mesh_password;
     this->mesh_port = mesh_port;
   };
 
-  uint32_t getNodeId() { return 0; };
+  uint32_t getNodeId() {
+    return 0;
+  };
 
-  uint32_t getNodeTime() { return mesh_time; };
+  uint32_t getNodeTime() {
+    return mesh_time;
+  };
 
   /////////////////////////////////////////////////////
   // Methods used for modifying the mesh for testing //
   /////////////////////////////////////////////////////
-  void addNode(){};
+  void addNode() {};
 
-  void setMeshTime(uint32_t time) { this->mesh_time = time; };
+  void setMeshTime(uint32_t time) {
+    this->mesh_time = time;
+  };
 
-  uint32_t getMeshTime() { return mesh_time; };
+  uint32_t getMeshTime() {
+    return mesh_time;
+  };
 };
 
-}  // namespace fake_painlessmesh
+} // namespace fake_painlessmesh
 
 #endif

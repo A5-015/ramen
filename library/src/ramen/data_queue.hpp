@@ -9,39 +9,39 @@
 namespace ramen {
 namespace dataqueue {
 
-/**
- * @brief Stores the data received from a client until it is moved to the log
- * holder
- *
- */
-class DataQueue {
- private:
-  std::queue<std::tuple<uint32_t, string_t>> entries;
-
- public:
   /**
-   * @brief Construct a new Data Queue object
+   * @brief Stores the data received from a client until it is moved to the log
+   * holder
    *
    */
-  DataQueue();
+  class DataQueue {
+   private:
+    std::queue<std::tuple<uint32_t, string_t>> entries;
 
-  /**
-   * @brief
-   *
-   * @param address
-   */
-  void pop(uint32_t address);
+   public:
+    /**
+     * @brief Construct a new Data Queue object
+     *
+     */
+    DataQueue();
 
-  /**
-   * @brief
-   *
-   * @param address
-   * @param data
-   */
-  void push(uint32_t address, string_t data);
-};
+    /**
+     * @brief
+     *
+     * @param address
+     */
+    void pop(uint32_t address);
 
-}  // namespace dataqueue
-}  // namespace ramen
+    /**
+     * @brief
+     *
+     * @param address
+     * @param data
+     */
+    void push(uint32_t address, string_t data);
+  };
+
+} // namespace dataqueue
+} // namespace ramen
 
 #endif

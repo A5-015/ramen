@@ -20,9 +20,13 @@
 #include <iomanip>
 #include <iostream>
 
-void FakeSerial::begin(unsigned long speed) { return; }
+void FakeSerial::begin(unsigned long speed) {
+  return;
+}
 
-void FakeSerial::end() { return; }
+void FakeSerial::end() {
+  return;
+}
 
 size_t FakeSerial::write(const unsigned char buf[], size_t size) {
   using namespace std;
@@ -33,8 +37,8 @@ size_t FakeSerial::write(const unsigned char buf[], size_t size) {
   cout << "Serial::write: ";
   cout << internal << setfill('0');
 
-  for (unsigned int i = 0; i < size; i++) {
-    cout << setw(2) << hex << (unsigned int)buf[i] << " ";
+  for(unsigned int i = 0; i < size; i++) {
+    cout << setw(2) << hex << (unsigned int) buf[i] << " ";
   }
   cout << endl;
 
@@ -45,8 +49,12 @@ size_t FakeSerial::write(const unsigned char buf[], size_t size) {
   return size;
 }
 
-void FakeSerial::print(const char* buf) { std::cout << buf; }
+void FakeSerial::print(const char* buf) {
+  std::cout << buf;
+}
 
-void FakeSerial::println() { std::cout << std::endl; }
+void FakeSerial::println() {
+  std::cout << std::endl;
+}
 
 FakeSerial Serial;

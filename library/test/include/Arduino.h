@@ -12,32 +12,37 @@
 #define ARDUINO_ARCH_ESP8266
 
 #ifndef NULL
-#define NULL 0
+  #define NULL 0
 #endif
 
 inline unsigned long millis() {
   struct timeval te;
-  gettimeofday(&te, NULL);  // get current time
+  gettimeofday(&te, NULL); // get current time
   long long milliseconds =
-      te.tv_sec * 1000LL + te.tv_usec / 1000;  // calculate milliseconds
+      te.tv_sec * 1000LL + te.tv_usec / 1000; // calculate milliseconds
   // printf("milliseconds: %lld\n", milliseconds);
   return milliseconds;
 }
 
 inline unsigned long micros() {
   struct timeval te;
-  gettimeofday(&te, NULL);  // get current time
+  gettimeofday(&te, NULL); // get current time
   long long milliseconds = te.tv_sec * 1000000LL + te.tv_usec;
   return milliseconds;
 }
 
-inline void delay(int i) { usleep(i); }
+inline void delay(int i) {
+  usleep(i);
+}
 
-inline void yield() {}
+inline void yield() {
+}
 
 struct IPAddress {
-  IPAddress() {}
-  IPAddress(int, int, int, int) {}
+  IPAddress() {
+  }
+  IPAddress(int, int, int, int) {
+  }
 };
 
 #endif
