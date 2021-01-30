@@ -102,6 +102,35 @@ namespace logger {
 
       va_end(args);
     }
+
+    void operator()(LogLevel given_level, string_t& message) {
+      // Print the message if the logging level is equal or higher than the
+      // set logging level
+      if(given_level >= _level) {
+        // Print the correct message label
+        switch(given_level) {
+          case DEBUG:
+            Serial.print(F("[DEBUG]"));
+            break;
+          case INFO:
+            Serial.print(F("[INFO]"));
+            break;
+          case WARNING:
+            Serial.print(F("[WARNING]"));
+            break;
+          case ERROR:
+            Serial.print(F("[ERROR]"));
+            break;
+          case CRITICAL:
+            Serial.print(F("[CRITICAL]"));
+            break;
+        }
+
+        // Print the message itself
+        Serial.print(F(" "));
+        Serial.print(message);
+      }
+    }
   };
 
 } // namespace logger
