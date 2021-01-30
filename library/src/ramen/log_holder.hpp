@@ -16,10 +16,10 @@ namespace logholder {
    */
   class LogHolder {
    private:
-    std::vector<std::pair<uint32_t, string_t>> entries;
+    std::vector<std::pair<uint32_t, string_t>> _entries;
 
-    std::unordered_map<uint32_t, uint32_t> *matchIndex_ptr;
-    std::unordered_map<uint32_t, uint32_t> *nextIndex_ptr;
+    std::unordered_map<uint32_t, uint32_t> *_match_index_ptr;
+    std::unordered_map<uint32_t, uint32_t> *_next_index_ptr;
 
    public:
     /**
@@ -72,14 +72,14 @@ namespace logholder {
      *
      * @param nodeList Node list obtained from painlessMesh
      */
-    void resetMatchIndexMap(std::list<uint32_t> *nodeList);
+    void resetMatchIndexMap(std::list<uint32_t> *node_list_ptr);
 
     /**
      * @brief  Set the next index for all nodes to 1
      *
      * @param nodeList Node list obtained from painlessMesh
      */
-    void resetNextIndexMap(std::list<uint32_t> *nodeList);
+    void resetNextIndexMap(std::list<uint32_t> *node_list_ptr);
 
     /**
      * @brief Get the size of the entries

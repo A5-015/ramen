@@ -21,19 +21,19 @@ namespace server {
    */
   class Server {
    private:
-    uint32_t id;
-    std::vector<uint32_t> peers;
-    uint8_t state;
-    uint32_t term;
-    uint32_t votedFor;
-    LogHolder log;
-    uint16_t electionAlarm;
-    std::unordered_map<uint32_t, bool> *votesReceived_ptr;
-    uint32_t lastHeartBeat;
-    Logger Log;
-    painlessMesh mesh;
-    Scheduler scheduler;
-    Task *task_election_ptr;
+    uint32_t _id;
+    std::vector<uint32_t> _peers;
+    uint8_t _state;
+    uint32_t _term;
+    uint32_t _voted_for;
+    LogHolder _log;
+    uint16_t _election_alarm;
+    std::unordered_map<uint32_t, bool>* _votes_received_ptr;
+    uint32_t _last_heart_beat;
+    Logger _logger;
+    painlessMesh _mesh;
+    Scheduler _scheduler;
+    Task* _task_election_ptr;
 
    public:
     /**
@@ -47,7 +47,7 @@ namespace server {
      *
      * Add this to your setup() function.
      */
-    void init(string_t meshName, string_t meshPassword, uint16_t meshPort);
+    void init(string_t mesh_name, string_t mesh_password, uint16_t mesh_port);
 
     /**
      * @brief Perform crucial maintenance task.

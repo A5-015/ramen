@@ -9,15 +9,15 @@
 
 using namespace ramen::logger;
 using namespace ramen::server;
-Logger Log;
+Logger logger;
 
 SCENARIO("Testing start of election") {
-  Log.setLogLevel(DEBUG);
+  logger.setLogLevel(DEBUG);
 
   Server ramen;
 
-  ramen.mesh.setMeshTime(100);
-  Log(INFO, "Current mesh time is set to %u \n", ramen.mesh.getMeshTime());
+  ramen._mesh.setMeshTime(100);
+  logger(INFO, "Current mesh time is set to %u \n", ramen._mesh.getMeshTime());
 
   ramen.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
 

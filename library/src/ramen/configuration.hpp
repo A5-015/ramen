@@ -12,6 +12,7 @@
         // #include <TaskScheduler.h>
         #include <painlessMesh.h>
 
+        // NOLINTNEXTLINE
         typedef String string_t;
 
         #define TASK_ELECTION_INTERVAL 1000

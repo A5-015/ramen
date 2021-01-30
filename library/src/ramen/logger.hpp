@@ -23,8 +23,8 @@ namespace logger {
    */
   class Logger {
    private:
-    uint8_t level = 0;
-    char str[200];
+    uint8_t _level = 0;
+    char _str[200];
 
    public:
     /**
@@ -32,24 +32,24 @@ namespace logger {
      *
      * @param givenLevel DEBUG or INFO or WARNING or ERROR or CRITICAL
      */
-    void setLogLevel(uint8_t givenLevel) {
-      level = givenLevel;
+    void setLogLevel(uint8_t given_level) {
+      _level = given_level;
 
       Serial.print(F("Logging level is set to: "));
 
-      if(level == DEBUG) {
+      if(_level == DEBUG) {
         Serial.print(F("DEBUG"));
 
-      } else if(level == INFO) {
+      } else if(_level == INFO) {
         Serial.print(F("INFO"));
 
-      } else if(level == WARNING) {
+      } else if(_level == WARNING) {
         Serial.print(F("WARNING"));
 
-      } else if(level == ERROR) {
+      } else if(_level == ERROR) {
         Serial.print(F("ERROR"));
 
-      } else if(level == CRITICAL) {
+      } else if(_level == CRITICAL) {
         Serial.print(F("CRITICAL"));
       }
 
@@ -67,17 +67,17 @@ namespace logger {
      * @param givenLevel Logging level
      * @param format The message itself
      */
-    void operator()(LogLevel givenLevel, const char* format...) {
+    void operator()(LogLevel given_level, const char* format_ptr...) {
       va_list args;
-      va_start(args, format);
+      va_start(args, format_ptr);
 
-      vsnprintf(str, 200, format, args);
+      vsnprintf(_str, 200, format_ptr, args);
 
       // Print the message if the logging level is equal or higher than the
       // set logging level
-      if(givenLevel >= level) {
+      if(given_level >= _level) {
         // Print the correct message label
-        switch(givenLevel) {
+        switch(given_level) {
           case DEBUG:
             Serial.print(F("[DEBUG]"));
             break;
@@ -97,7 +97,7 @@ namespace logger {
 
         // Print the message itself
         Serial.print(F(" "));
-        Serial.print(str);
+        Serial.print(_str);
       }
 
       va_end(args);
