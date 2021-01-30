@@ -1,5 +1,7 @@
 #include "ramen/server.hpp"
 
+#include "ramen/messages.hpp"
+
 using _server = ramen::server::Server;
 using _dataqueue = ramen::dataqueue::DataQueue;
 using _logholder = ramen::logholder::LogHolder;
@@ -17,8 +19,9 @@ void _server::init(string_t mesh_name,
                    uint16_t mesh_port) {
   // Initialize painlessMesh
   this->_mesh.init(mesh_name, mesh_password, &_scheduler, mesh_port);
-  this->_logger(DEBUG, "Just initialized painlessMesh\n");
   this->_id = _mesh.getNodeId();
+
+  this->_logger(DEBUG, "Just initialized painlessMesh\n");
 };
 
 void _server::update() {
@@ -37,7 +40,6 @@ void _server::setElectionAlarm() {
       new Task(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER, [&] {
         // Check if there are nodes in the network
         bool isAloneNode = (_mesh.getNodeList(false).size() == 0);
-        _logger(INFO, "I have %u mates\n", _mesh.getNodeList(false).size());
 
         // Timeout if in follower mode or alone in the network
         if(this->_state == 0 || isAloneNode) {
@@ -52,17 +54,16 @@ void _server::setElectionAlarm() {
 
   this->_scheduler.addTask(*_task_election_ptr);
   _task_election_ptr->enable();
+
   this->_logger(DEBUG, "Set the election timer\n");
 };
 
 void _server::startNewElection() {
+  //  Get node list from painlessMesh
   auto nodeList = _mesh.getNodeList(false);
 
-  this->_logger(INFO, "Started election: %u\n", _mesh.getNodeTime());
   this->_term += 1;
   this->_voted_for = this->_id;
-
-  // Change state to candidate
   this->_state = CANDIDATE;
 
   // Reinitialize list of votes granted
@@ -74,6 +75,8 @@ void _server::startNewElection() {
   // Empty out the log holder indices of all other nodes
   this->_log.resetMatchIndexMap(&nodeList);
   this->_log.resetNextIndexMap(&nodeList);
+
+  this->_logger(INFO, "Started election at %u\n", _mesh.getNodeTime());
 };
 
 bool _server::getElectionResults() {
@@ -83,29 +86,23 @@ bool _server::getElectionResults() {
 void _server::broadcastData(string_t data) {};
 
 void _server::sendData(uint32_t receiver, string_t data) {};
+
 string_t _server::receiveData() {
   string_t data;
   return data;
 };
 
 void _server::requestVote() {
-    // struct MessageRequestVote message;
-    // message.term = this->term;
-    // message.lastLogTerm = this->log.getLastLogTerm();
-    // message.lastLogIndex = this->log.getLogSize();
+  // Generate the message
+  MessageRequestVote message;
+  message.term = this->_term;
+  message.last_log_term = this->_log.getLastLogTerm();
+  message.last_log_index = this->_log.getLogSize();
 
-    // DynamicJsonDocument payload(1024);
-    // string_t serialized_payload;
+  // Broadcast the message
+  _mesh.sendBroadcast(message.serialize());
 
-    // payload["type"] = "RequestVote";
-    // payload["term"] = this->_term;
-    // payload["lastLogTerm"] = this->_log.getLastLogTerm();
-    // payload["lastLogIndex"] = this->_log.getLogSize();
-
-    // serializeJson(payload, serialized_payload);
-    // // Log(DEBUG, serialized_payload);
-    // Serial.begin(115200);
-    // Serial.println(serialized_payload);
+  this->_logger(DEBUG, "Requested vote from other nodes\n");
 };
 
 void _server::handleVoteRequest(uint32_t sender, string_t data) {};
