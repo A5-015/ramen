@@ -229,13 +229,9 @@ elif args.pmonitor:
 elif args.pum:
     check_root_access()
     run_command_in_docker(
-        "cd library/examples/basic"
-        + "&&"
-        + "pio run --target upload"
-        + "&&"
-        + "platformio device monitor --baud 115200",
-        True,
+        "cd library/examples/basic && pio run --target upload", True
     )
+    run_command_in_docker("platformio device monitor --baud 115200", True)
     print(tty_error_message)
 
 elif args.plist:

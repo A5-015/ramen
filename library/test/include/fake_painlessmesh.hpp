@@ -53,6 +53,10 @@ class painlessMesh {
 
   };
 
+  bool sendBroadcast(string_t data) {
+    return true;
+  };
+
   std::list<uint32_t> getNodeList(bool include_self = false) {
     return _node_list;
   };
