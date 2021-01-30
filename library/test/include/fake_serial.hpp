@@ -17,12 +17,15 @@
 
 #include <iostream>
 
+#include "catch_common.hpp"
+
 class FakeSerial {
  public:
   void begin(unsigned long);
   void end();
   size_t write(const unsigned char*, size_t);
   void print(const char*);
+  void print(const string_t&);
   void println();
 };
 

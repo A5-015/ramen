@@ -6,4 +6,7 @@
 // NOLINTNEXTLINE
 typedef unsigned int uint32_t;
 
+// NOLINTNEXTLINE
+typedef std::string string_t;
+
 #endif
