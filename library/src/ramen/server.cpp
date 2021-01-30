@@ -43,11 +43,21 @@ void _server::setElectionAlarm() {
 
         // Timeout if in follower mode or alone in the network
         if(this->_state == 0 || isAloneNode) {
-          if(this->_mesh.getNodeTime() % 2) {
+          // Start a new election if the coin is flipped true or the maximum
+          // number of skips reached
+          if((this->_mesh.getNodeTime() % 2) ||
+             (_task_election_skipped_coin_flips >
+              TASK_ELECTION_MAXIMUM_SKIPPED_COIN_FLIPS)) {
+            // Reset the flips
+            this->_task_election_skipped_coin_flips = 0;
+
             // If coin toss results in 1, start a new election
             // In this way, we randomize the election duration without worrying
             // about timer overflow
             startNewElection();
+
+          } else {
+            this->_task_election_skipped_coin_flips += 1;
           }
         }
       });

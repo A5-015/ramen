@@ -36,6 +36,7 @@ namespace server {
     painlessMesh _mesh;
     Scheduler _scheduler;
     Task* _task_election_ptr;
+    uint8_t _task_election_skipped_coin_flips;
 
    public:
     /**
