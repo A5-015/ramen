@@ -39,6 +39,12 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--pum",
+    action="store_true",
+    help="Builds, uploads the 'basic.ino' example to the board, and starts a serial monitor",
+)
+
+parser.add_argument(
     "--plist",
     action="store_true",
     help="Lists plugged development boards",
@@ -62,6 +68,11 @@ parser.add_argument(
     help="Generates documentation from the doxygen comments",
 )
 
+parser.add_argument(
+    "--init",
+    action="store_true",
+    help="Initialize and setup the repository for development",
+)
 
 args = parser.parse_args()
 
@@ -215,7 +226,52 @@ elif args.pmonitor:
     run_command_in_docker("platformio device monitor --baud 115200", True)
     print(tty_error_message)
 
+elif args.pum:
+    check_root_access()
+    run_command_in_docker(
+        "cd library/examples/basic"
+        + "&&"
+        + "pio run --target upload"
+        + "&&"
+        + "platformio device monitor --baud 115200",
+        True,
+    )
+    print(tty_error_message)
+
 elif args.plist:
     check_root_access()
     run_command_in_docker("platformio device list", True)
     print(tty_error_message)
+
+elif args.init:
+    check_root_access()
+
+    print(
+        bcolors.OKGREEN
+        + ">> Installing required system packages"
+        + bcolors.ENDC
+    )
+    os.system("apt install -y -qq docker clang clang-format clang-tidy")
+
+    print(
+        bcolors.OKGREEN
+        + ">> Installing required python packages"
+        + bcolors.ENDC
+    )
+    os.system("pip3 install -U platformio black pylint")
+
+    print(bcolors.OKGREEN + ">> Initialing the submodules" + bcolors.ENDC)
+    os.system("git submodule update --init --recursive")
+
+    print(
+        bcolors.OKGREEN
+        + ">> Checking out the correct version of the submodules"
+        + bcolors.ENDC
+    )
+    os.system(
+        "cd library/test/TaskScheduler"
+        + "&&"
+        + "git checkout b36cc818db89430b7564d1c56a668937f6dae6ec"
+    )
+
+    print(bcolors.OKGREEN + ">> DONE <<" + bcolors.ENDC)
