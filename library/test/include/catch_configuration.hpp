@@ -30,6 +30,8 @@
     #include "fake_painlessmesh.hpp"
     using painlessMesh = fake_painlessmesh::painlessMesh;
 
+    #include "catch_common.hpp"
+
     // Make everything public for testing
     #define private public
 

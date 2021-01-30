@@ -53,6 +53,10 @@ void FakeSerial::print(const char* buf) {
   std::cout << buf;
 }
 
+void FakeSerial::print(const string_t& message) {
+  std::cout << message;
+}
+
 void FakeSerial::println() {
   std::cout << std::endl;
 }
