@@ -15,6 +15,8 @@ namespace server {
   using namespace ramen::logholder;
   using namespace ramen::logger;
 
+  typedef enum { FOLLOWER = 0, CANDIDATE = 1, LEADER = 2 } ServerState;
+
   /**
    * @brief Class that manages the consensus on the mesh network
    *
@@ -23,7 +25,7 @@ namespace server {
    private:
     uint32_t _id;
     std::vector<uint32_t> _peers;
-    uint8_t _state;
+    ServerState _state;
     uint32_t _term;
     uint32_t _voted_for;
     LogHolder _log;
@@ -59,16 +61,16 @@ namespace server {
     /**
      * @brief Switch between server states in consensus
      *
-     * @param state 0 for follower, 1 for candidate, and 2 for leader
+     * @param state FOLLOWER or CANDIDATE or LEADER
      */
-    void switchState(uint8_t state);
+    void switchState(ServerState state);
 
     /**
      * @brief Get the State object
      *
-     * @return uint8_t
+     * @return ServerState
      */
-    uint8_t getState();
+    ServerState getState();
 
     /**
      * @brief Set the Election Alarm object
