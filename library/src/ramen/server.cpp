@@ -1,7 +1,5 @@
 #include "ramen/server.hpp"
 
-#include <ctime>
-
 #include "ramen/messages.hpp"
 
 using _server = ramen::server::Server;
@@ -9,8 +7,8 @@ using _dataqueue = ramen::dataqueue::DataQueue;
 using _logholder = ramen::logholder::LogHolder;
 using namespace ramen::logger;
 
-_server::Server() : _state(FOLLOWER), _term(0), _leader_exists(false) {
-  // Set logging level to DEBUG
+_server::Server() :
+    _state(FOLLOWER), _term(0), _received_new_append_entry_request(false) {
   this->_logger.setLogLevel(DEBUG);
 };
 
@@ -20,6 +18,7 @@ void _server::init(string_t mesh_name,
   // Initialize painlessMesh
   this->_mesh.init(mesh_name, mesh_password, &_scheduler, mesh_port);
   this->_id = _mesh.getNodeId();
+  this->setElectionAlarmValue();
 
   this->_logger(DEBUG, "Just initialized painlessMesh\n");
 };
@@ -40,24 +39,22 @@ ramen::server::ServerState _server::getState() {
 };
 
 void _server::setElectionAlarmValue() {
-  this->_election_alarm = 1 + (rand() % 10) * ELECTION_TIMEOUT_FACTOR;
+  this->_election_alarm = (1 + (std::rand() % 10)) * ELECTION_TIMEOUT_FACTOR;
   this->_logger(DEBUG, "Set the election timer to %u\n", this->_election_alarm);
 };
 
 void _server::checkForElectionAlarmTimeout() {
-  uint32_t current_node_time = this->_mesh.getNodeTime();
-
   if(this->_received_new_append_entry_request) {
     this->setElectionAlarmValue();
     this->_received_new_append_entry_request = false;
   } else {
-    if((uint32_t)(current_node_time - _previous_node_time) >=
+    uint32_t current_node_time = this->_mesh.getNodeTime();
+    if((uint32_t)(current_node_time - this->_previous_node_time) >=
        this->_election_alarm) {
       this->startNewElection();
+      this->_previous_node_time = current_node_time;
     }
   }
-
-  this->_previous_node_time = current_node_time;
 };
 
 void _server::startNewElection() {

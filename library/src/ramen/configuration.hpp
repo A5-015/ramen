@@ -15,7 +15,7 @@
         // NOLINTNEXTLINE
         typedef String string_t;
 
-        #define ELECTION_TIMEOUT_FACTOR 100
+        #define ELECTION_TIMEOUT_FACTOR 100000
 
     #endif
 
