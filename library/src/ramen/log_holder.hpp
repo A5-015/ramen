@@ -18,8 +18,8 @@ namespace logholder {
    private:
     std::vector<std::pair<uint32_t, string_t>> _entries;
 
-    std::unordered_map<uint32_t, uint32_t> *_match_index_ptr;
-    std::unordered_map<uint32_t, uint32_t> *_next_index_ptr;
+    std::unordered_map<uint32_t, uint32_t> *_match_index_ptr = NULL;
+    std::unordered_map<uint32_t, uint32_t> *_next_index_ptr = NULL;
 
    public:
     /**
