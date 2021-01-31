@@ -32,7 +32,7 @@ namespace server {
     uint32_t _election_alarm;
     uint32_t _previous_node_time;
     bool _received_new_append_entry_request;
-    std::unordered_map<uint32_t, bool>* _votes_received_ptr;
+    std::unordered_map<uint32_t, bool>* _votes_received_ptr = NULL;
     uint32_t _last_heart_beat;
     Logger _logger;
     painlessMesh _mesh;
@@ -121,7 +121,7 @@ namespace server {
      *
      * @return std::string
      */
-    string_t receiveData();
+    void receiveData(uint32_t from, string_t& data);
 
     /**
      * @brief Request vote from a follower as a candidate
@@ -135,7 +135,7 @@ namespace server {
      * @param sender Address of the sender node
      * @param data Data received in JSON format
      */
-    void handleVoteRequest(uint32_t sender, string_t data);
+    void handleVoteRequest(uint32_t sender, string_t& data);
 
     /**
      * @brief Handle the response of a follower to the vote request
@@ -143,7 +143,7 @@ namespace server {
      * @param sender Address of the sender node
      * @param data Data received in JSON format
      */
-    void handleVoteResponse(uint32_t sender, string_t data);
+    void handleVoteResponse(uint32_t sender, string_t& data);
 
     /**
      * @brief Request a follower to append an entry to its log

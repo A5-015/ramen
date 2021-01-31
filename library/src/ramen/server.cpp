@@ -9,7 +9,7 @@ using namespace ramen::logger;
 
 _server::Server() :
     _state(FOLLOWER), _term(0), _received_new_append_entry_request(false) {
-  this->_logger.setLogLevel(DEBUG);
+  this->_logger.setLogLevel(INFO);
 };
 
 void _server::init(string_t mesh_name,
@@ -17,6 +17,9 @@ void _server::init(string_t mesh_name,
                    uint16_t mesh_port) {
   // Initialize painlessMesh
   this->_mesh.init(mesh_name, mesh_password, &_scheduler, mesh_port);
+  this->_mesh.onReceive([&](uint32_t from, string_t data) {
+    this->receiveData(from, data);
+  });
   this->_id = _mesh.getNodeId();
   this->setElectionAlarmValue();
 
@@ -25,8 +28,17 @@ void _server::init(string_t mesh_name,
 
 void _server::update() {
   _mesh.update();
-  if(this->_state != LEADER) {
+
+  if(this->_state == FOLLOWER) {
     this->checkForElectionAlarmTimeout();
+  }
+
+  else if(this->_state == CANDIDATE) {
+    this->checkForElectionAlarmTimeout();
+    this->requestVote();
+  }
+
+  else if(this->_state == LEADER) {
   }
 };
 
@@ -72,7 +84,9 @@ void _server::startNewElection() {
   this->_state = CANDIDATE;
 
   // Reinitialize list of votes granted
+  delete this->_votes_received_ptr;
   this->_votes_received_ptr = new std::unordered_map<uint32_t, bool>;
+
   for(auto it = nodeList.begin(); it != nodeList.end(); ++it) {
     this->_votes_received_ptr->insert(std::make_pair(*it, false));
   }
@@ -81,7 +95,7 @@ void _server::startNewElection() {
   this->_log.resetMatchIndexMap(&nodeList);
   this->_log.resetNextIndexMap(&nodeList);
 
-  this->_logger(INFO, "Started election at %u\n", _mesh.getNodeTime());
+  this->_logger(DEBUG, "Started election at %u\n", _mesh.getNodeTime());
 };
 
 bool _server::getElectionResults() {
@@ -92,9 +106,23 @@ void _server::broadcastData(string_t data) {};
 
 void _server::sendData(uint32_t receiver, string_t data) {};
 
-string_t _server::receiveData() {
-  string_t data;
-  return data;
+void _server::receiveData(uint32_t from, string_t& data) {
+  DynamicJsonDocument payload(1024);
+  deserializeJson(payload, data);
+  MessageType type = payload["type"];
+
+  switch(type) {
+    case REQUEST_VOTE:
+      this->handleVoteRequest(from, data);
+      break;
+
+    case SEND_VOTE:
+      this->handleVoteResponse(from, data);
+      break;
+
+    default:
+      break;
+  }
 };
 
 void _server::requestVote() {
@@ -110,8 +138,21 @@ void _server::requestVote() {
   this->_logger(DEBUG, "Requested vote from other nodes\n");
 };
 
-void _server::handleVoteRequest(uint32_t sender, string_t data) {};
-void _server::handleVoteResponse(uint32_t sender, string_t data) {};
+void _server::handleVoteRequest(uint32_t sender, string_t& data) {
+  // Generate the message
+  MessageSendVote message;
+  message.term = this->_term;
+  // TODO: Handle vote condition
+  message.granted = true;
+
+  this->_mesh.sendSingle(sender, message.serialize());
+
+  this->_logger(INFO, "Replied to %u with %d vote\n", sender, message.granted);
+};
+
+void _server::handleVoteResponse(uint32_t sender, string_t& data) {
+  this->_logger(INFO, "Thanks dawg!\n");
+};
 
 void _server::requestAppendEntries(uint32_t receiver, string_t data) {};
 void _server::handleAppendEntriesRequest(uint32_t sender, string_t data) {};
