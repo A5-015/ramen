@@ -30,13 +30,14 @@ namespace server {
     uint32_t _voted_for;
     LogHolder _log;
     uint16_t _election_alarm;
+    uint32_t _previous_node_time;
+    bool _received_new_append_entry_request;
     std::unordered_map<uint32_t, bool>* _votes_received_ptr;
     uint32_t _last_heart_beat;
     Logger _logger;
     painlessMesh _mesh;
     Scheduler _scheduler;
     Task* _task_election_ptr;
-    uint8_t _task_election_skipped_coin_flips;
 
    public:
     /**
@@ -74,10 +75,17 @@ namespace server {
     ServerState getState();
 
     /**
-     * @brief Set the Election Alarm object
+     * @brief Set the election alarm value
      *
      */
-    void setElectionAlarm();
+    void setElectionAlarmValue();
+
+    /**
+     * @brief Checks for whether the timeout interval has elapsed for an
+     * election
+     *
+     */
+    void checkForElectionAlarmTimeout();
 
     /**
      * @brief Start a new election

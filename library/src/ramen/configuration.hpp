@@ -15,8 +15,7 @@
         // NOLINTNEXTLINE
         typedef String string_t;
 
-        #define TASK_ELECTION_INTERVAL 1000
-        #define TASK_ELECTION_MAXIMUM_SKIPPED_COIN_FLIPS 20
+        #define ELECTION_TIMEOUT_FACTOR 100
 
     #endif
 
