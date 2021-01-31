@@ -44,14 +44,20 @@ void _server::setElectionAlarmValue() {
 };
 
 void _server::checkForElectionAlarmTimeout() {
+  uint32_t current_node_time = this->_mesh.getNodeTime();
+  // Decide to start an election or not
   if(this->_received_new_append_entry_request) {
-    this->setElectionAlarmValue();
+    // Reset the prev time for restarting the timer
+    this->_previous_node_time = current_node_time;
+    // Assume that the no new append entry requests will be received (no leaders
+    // are available in the network)
     this->_received_new_append_entry_request = false;
   } else {
-    uint32_t current_node_time = this->_mesh.getNodeTime();
     if((uint32_t)(current_node_time - this->_previous_node_time) >=
        this->_election_alarm) {
+      // Start an election and restart the timer
       this->startNewElection();
+      this->setElectionAlarmValue();
       this->_previous_node_time = current_node_time;
     }
   }
