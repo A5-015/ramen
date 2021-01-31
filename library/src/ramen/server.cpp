@@ -1,5 +1,7 @@
 #include "ramen/server.hpp"
 
+#include <ctime>
+
 #include "ramen/messages.hpp"
 
 using _server = ramen::server::Server;
@@ -7,7 +9,7 @@ using _dataqueue = ramen::dataqueue::DataQueue;
 using _logholder = ramen::logholder::LogHolder;
 using namespace ramen::logger;
 
-_server::Server() : _state(FOLLOWER), _term(0) {
+_server::Server() : _state(FOLLOWER), _term(0), _leader_exists(false) {
   // Set logging level to DEBUG
   this->_logger.setLogLevel(DEBUG);
 };
@@ -24,6 +26,9 @@ void _server::init(string_t mesh_name,
 
 void _server::update() {
   _mesh.update();
+  if(this->_state != LEADER) {
+    this->checkForElectionAlarmTimeout();
+  }
 };
 
 void _server::switchState(ServerState state) {
@@ -34,39 +39,25 @@ ramen::server::ServerState _server::getState() {
   return _server::_state;
 };
 
-void _server::setElectionAlarm() {
-  // Create a new election alarm task for the scheduler
-  _task_election_ptr =
-      new Task(TASK_ELECTION_INTERVAL * TASK_MILLISECOND, TASK_FOREVER, [&] {
-        // Check if there are nodes in the network
-        bool isAloneNode = (_mesh.getNodeList(false).size() == 0);
+void _server::setElectionAlarmValue() {
+  this->_election_alarm = 1 + (rand() % 10) * ELECTION_TIMEOUT_FACTOR;
+  this->_logger(DEBUG, "Set the election timer to %u\n", this->_election_alarm);
+};
 
-        // Timeout if in follower mode or alone in the network
-        if(this->_state == 0 || isAloneNode) {
-          // Start a new election if the coin is flipped true or the maximum
-          // number of skips reached
-          if((this->_mesh.getNodeTime() % 2) ||
-             (_task_election_skipped_coin_flips >
-              TASK_ELECTION_MAXIMUM_SKIPPED_COIN_FLIPS)) {
-            // Reset the flips
-            this->_task_election_skipped_coin_flips = 0;
+void _server::checkForElectionAlarmTimeout() {
+  uint32_t current_node_time = this->_mesh.getNodeTime();
 
-            // If coin toss results in 1, start a new election
-            // In this way, we randomize the election duration without worrying
-            // about timer overflow
-            startNewElection();
+  if(this->_received_new_append_entry_request) {
+    this->setElectionAlarmValue();
+    this->_received_new_append_entry_request = false;
+  } else {
+    if((uint32_t)(current_node_time - _previous_node_time) >=
+       this->_election_alarm) {
+      this->startNewElection();
+    }
+  }
 
-          } else {
-            this->_task_election_skipped_coin_flips += 1;
-          }
-        }
-      });
-
-  // Add the alarm to scheduler and enable it
-  this->_scheduler.addTask(*_task_election_ptr);
-  _task_election_ptr->enable();
-
-  this->_logger(DEBUG, "Set the election timer\n");
+  this->_previous_node_time = current_node_time;
 };
 
 void _server::startNewElection() {
