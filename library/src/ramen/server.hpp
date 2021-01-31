@@ -29,7 +29,7 @@ namespace server {
     uint32_t _term;
     uint32_t _voted_for;
     LogHolder _log;
-    uint16_t _election_alarm;
+    uint32_t _election_alarm;
     uint32_t _previous_node_time;
     bool _received_new_append_entry_request;
     std::unordered_map<uint32_t, bool>* _votes_received_ptr;
