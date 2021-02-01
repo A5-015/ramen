@@ -1,3 +1,8 @@
+/**
+ * @file data_queue.cpp
+ * @brief data_queue.cpp
+ *
+ */
 #include "ramen/data_queue.hpp"
 
 using namespace ramen::dataqueue;

@@ -1,3 +1,8 @@
+/**
+ * @file logger.hpp
+ * @brief logger.hpp
+ * 
+ */
 #ifndef _RAMEN_LOGGER_HPP_
 #define _RAMEN_LOGGER_HPP_
 

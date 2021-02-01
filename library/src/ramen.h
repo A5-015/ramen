@@ -1,3 +1,8 @@
+/**
+ * @file ramen.h
+ * @brief Main header file for the end user
+ *
+ */
 #ifndef _RAMEN_H_
 #define _RAMEN_H_
 
