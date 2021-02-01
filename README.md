@@ -4,6 +4,9 @@
 
 See the [wiki page](https://github.com/A5-015/ramen/wiki) for further details.
 
+## ramen API
+Full documentation can be found [here](https://a5-015.github.io/ramen/).
+
 ## Development Setup Instructions
 
 - Make sure to initialize the submodules
