@@ -1,3 +1,8 @@
+/**
+ * @file data_queue.hpp
+ * @brief data_queue.hpp
+ *
+ */
 #ifndef _RAMEN_DATA_QUEUE_HPP_
 #define _RAMEN_DATA_QUEUE_HPP_
 

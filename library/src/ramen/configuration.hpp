@@ -1,3 +1,8 @@
+/**
+ * @file configuration.hpp
+ * @brief configuration.hpp
+ * 
+ */
 // clang-format off
 #ifndef _RAMEN_CATCH_TESTING_
 
