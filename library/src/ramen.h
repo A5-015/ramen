@@ -12,4 +12,6 @@
 #include "ramen/logger.hpp"
 #include "ramen/server.hpp"
 
+using ramenServer = ramen::server::Server;
+
 #endif
