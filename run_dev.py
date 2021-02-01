@@ -89,13 +89,6 @@ class bcolors:
     UNDERLINE = "\033[4m"
 
 
-tty_error_message = (
-    bcolors.OKCYAN
-    + "^^^^ If you just saw `Permission denied: '/dev/ttyUSB0'` error above, run 'sudo chown ${USER}:dialout /dev/ttyUSB0' ^^^^"
-    + bcolors.ENDC
-)
-
-
 def check_image():
     """
     Checks if the image exists locally and builds it if it doesn't exist
@@ -162,6 +155,20 @@ def check_submodules():
             exit()
 
 
+def chown_ttyUSB0_to_user():
+    """
+    Applies chown 1000:dialout to /dev/ttyUSB0 in order to upload code to the board
+    """
+
+    check_root_access()
+    print(
+        bcolors.OKCYAN
+        + ">> 'sudo chown 1000:dialout /dev/ttyUSB0'"
+        + bcolors.ENDC
+    )
+    os.system("chown 1000:dialout /dev/ttyUSB0")
+
+
 if args.catch:
     check_submodules()
     run_command_in_docker(
@@ -216,28 +223,28 @@ elif args.img:
 
 elif args.pupload:
     check_root_access()
+    chown_ttyUSB0_to_user()
     run_command_in_docker(
         "cd library/examples/basic && pio run --target upload", True
     )
-    print(tty_error_message)
 
 elif args.pmonitor:
     check_root_access()
+    chown_ttyUSB0_to_user()
     run_command_in_docker("platformio device monitor --baud 115200", True)
-    print(tty_error_message)
 
 elif args.pum:
     check_root_access()
+    chown_ttyUSB0_to_user()
     run_command_in_docker(
         "cd library/examples/basic && pio run --target upload", True
     )
     run_command_in_docker("platformio device monitor --baud 115200", True)
-    print(tty_error_message)
 
 elif args.plist:
     check_root_access()
+    chown_ttyUSB0_to_user()
     run_command_in_docker("platformio device list", True)
-    print(tty_error_message)
 
 elif args.init:
     check_root_access()
