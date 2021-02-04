@@ -47,12 +47,32 @@ void _server::update() {
   }
 };
 
-void _server::switchState(ServerState state) {
-  this->_state = state;
-};
-
-ramen::server::ServerState _server::getState() {
-  return _server::_state;
+void _server::switchState(ServerState state, uint32_t term) {
+  switch(state) {
+    case LEADER: {
+      auto nodeList = _mesh.getNodeList(false);
+      this->_state = LEADER;
+      this->_log.resetNextIndexMap(&nodeList, this->_log.getLogSize() + 1);
+      this->_election_alarm = INFINITY;
+      break;
+    }
+    case CANDIDATE: {
+      break;
+    }
+    case FOLLOWER: {
+      // Reset election alarm if stepping down from being a leader
+      if(this->_state = LEADER) {
+        this->setElectionAlarmValue();
+      }
+      // Set new state and update term
+      this->_state = state;
+      this->_term = term;
+      this->_voted_for = NULL;
+      break;
+    }
+    default:
+      break;
+  }
 };
 
 void _server::setElectionAlarmValue() {
@@ -97,14 +117,27 @@ void _server::startNewElection() {
   }
 
   // Empty out the log holder indices of all other nodes
-  this->_log.resetMatchIndexMap(&nodeList);
-  this->_log.resetNextIndexMap(&nodeList);
+  this->_log.resetMatchIndexMap(&nodeList, 0);
+  this->_log.resetNextIndexMap(&nodeList, 1);
 
   this->_logger(DEBUG, "Started election at %u\n", _mesh.getNodeTime());
 };
 
 bool _server::getElectionResults() {
-  return false;
+  // Initialize to one because node votes for itself
+  uint32_t granted_votes = 1;
+
+  // Iterate through map to count granted votes
+  for(auto vote : *(this->_votes_received_ptr)) {
+    if(vote.second) {
+      ++granted_votes;
+    }
+  }
+
+  // Majority decides election win
+  bool won_election = granted_votes > (this->_votes_received_ptr->size() / 2);
+
+  return won_election;
 };
 
 void _server::broadcastData(string_t data) {};
@@ -118,11 +151,11 @@ void _server::receiveData(uint32_t from, string_t& data) {
 
   switch(type) {
     case REQUEST_VOTE:
-      this->handleVoteRequest(from, data);
+      this->handleVoteRequest(from, payload);
       break;
 
     case SEND_VOTE:
-      this->handleVoteResponse(from, data);
+      this->handleVoteResponse(from, payload);
       break;
 
     default:
@@ -143,20 +176,61 @@ void _server::requestVote() {
   this->_logger(DEBUG, "Requested vote from other nodes\n");
 };
 
-void _server::handleVoteRequest(uint32_t sender, string_t& data) {
+void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
+  // Equalize term with sender if term is lower
+  if(this->_term < data["term"]) {
+    this->switchState(FOLLOWER, data["term"]);
+  }
+
+  // Default vote grant to false
+  bool granted = false;
+
+  // If term is equal to sender && (haven't voted yet || voted for sender
+  // before)
+  // clang-format off
+  if(this->_term == data["term"] &&
+     (this->_voted_for == NULL || this->_voted_for == sender)) {
+
+    // If log term and log size are greater than or equal to receiver's term and
+    // size
+    if(data["lastLogTerm"] >= this->_log.getLastLogTerm() &&
+       data["lastLogIndex"] >= this->_log.getLogSize()) {
+
+      // then vote for sender and reset alarm
+      granted = true;
+      this->_voted_for = sender;
+      this->setElectionAlarmValue();
+    }
+  }
+  // clang-format on
+
   // Generate the message
   MessageSendVote message;
   message.term = this->_term;
-  // TODO: Handle vote condition
-  message.granted = true;
+  message.granted = granted;
 
   this->_mesh.sendSingle(sender, message.serialize());
 
-  this->_logger(INFO, "Replied to %u with %d vote\n", sender, message.granted);
+  this->_logger(INFO, "Replied to %u with %u vote\n", sender, message.granted);
 };
 
-void _server::handleVoteResponse(uint32_t sender, string_t& data) {
-  this->_logger(INFO, "Thanks dawg!\n");
+void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
+  // Equalize term with responder if term is lower
+  if(this->_term < data["term"]) {
+    this->switchState(FOLLOWER, data["term"]);
+  }
+
+  // Update votes received map
+  bool granted = data["granted"];
+  if(this->_state == CANDIDATE && this->_term == data["term"]) {
+    this->_votes_received_ptr->emplace(sender, granted);
+    this->_logger(INFO, "Saved vote from %u with %u vote\n", sender, granted);
+  }
+
+  // Check for vote
+  if(this->getElectionResults()) {
+    this->switchState(LEADER);
+  }
 };
 
 void _server::requestAppendEntries(uint32_t receiver, string_t data) {};
