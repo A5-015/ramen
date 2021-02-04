@@ -66,18 +66,12 @@ namespace server {
     void update();
 
     /**
-     * @brief Switch between server states in consensus
+     * @brief Step down to a lower state and update term
      *
-     * @param state FOLLOWER or CANDIDATE or LEADER
+     * @param state
+     * @param term
      */
-    void switchState(ServerState state);
-
-    /**
-     * @brief Get the State object
-     *
-     * @return ServerState
-     */
-    ServerState getState();
+    void switchState(ServerState state, uint32_t term = NULL);
 
     /**
      * @brief Set the election alarm value
@@ -140,7 +134,7 @@ namespace server {
      * @param sender Address of the sender node
      * @param data Data received in JSON format
      */
-    void handleVoteRequest(uint32_t sender, string_t& data);
+    void handleVoteRequest(uint32_t sender, DynamicJsonDocument& data);
 
     /**
      * @brief Handle the response of a follower to the vote request
@@ -148,7 +142,7 @@ namespace server {
      * @param sender Address of the sender node
      * @param data Data received in JSON format
      */
-    void handleVoteResponse(uint32_t sender, string_t& data);
+    void handleVoteResponse(uint32_t sender, DynamicJsonDocument& data);
 
     /**
      * @brief Request a follower to append an entry to its log
