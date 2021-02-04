@@ -25,19 +25,21 @@ void LogHolder::setNextIndex(uint32_t address, uint32_t index) {};
 
 void LogHolder::advanceCommitIndex(uint32_t address) {};
 
-void LogHolder::resetMatchIndexMap(std::list<uint32_t> *node_list_ptr) {
+void LogHolder::resetMatchIndexMap(std::list<uint32_t> *node_list_ptr,
+                                   uint32_t index) {
   delete this->_match_index_ptr;
   this->_match_index_ptr = new std::unordered_map<uint32_t, uint32_t>;
   for(auto it = node_list_ptr->begin(); it != node_list_ptr->end(); ++it) {
-    this->_match_index_ptr->insert(std::make_pair(*it, 0));
+    this->_match_index_ptr->insert(std::make_pair(*it, index));
   }
 };
 
-void LogHolder::resetNextIndexMap(std::list<uint32_t> *node_list_ptr) {
+void LogHolder::resetNextIndexMap(std::list<uint32_t> *node_list_ptr,
+                                  uint32_t index) {
   delete this->_next_index_ptr;
   this->_next_index_ptr = new std::unordered_map<uint32_t, uint32_t>;
   for(auto it = node_list_ptr->begin(); it != node_list_ptr->end(); ++it) {
-    this->_next_index_ptr->insert(std::make_pair(*it, 1));
+    this->_next_index_ptr->insert(std::make_pair(*it, index));
   }
 };
 

@@ -1,7 +1,7 @@
 /**
  * @file log_holder.hpp
  * @brief log_holder.hpp
- * 
+ *
  */
 #ifndef _RAMEN_LOG_HOLDER_HPP_
 #define _RAMEN_LOG_HOLDER_HPP_
@@ -77,14 +77,14 @@ namespace logholder {
      *
      * @param nodeList Node list obtained from painlessMesh
      */
-    void resetMatchIndexMap(std::list<uint32_t> *node_list_ptr);
+    void resetMatchIndexMap(std::list<uint32_t> *node_list_ptr, uint32_t index);
 
     /**
      * @brief  Set the next index for all nodes to 1
      *
      * @param nodeList Node list obtained from painlessMesh
      */
-    void resetNextIndexMap(std::list<uint32_t> *node_list_ptr);
+    void resetNextIndexMap(std::list<uint32_t> *node_list_ptr, uint32_t index);
 
     /**
      * @brief Get the size of the entries
