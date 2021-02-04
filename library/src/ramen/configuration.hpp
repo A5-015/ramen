@@ -1,7 +1,7 @@
 /**
  * @file configuration.hpp
  * @brief configuration.hpp
- * 
+ *
  */
 // clang-format off
 #ifndef _RAMEN_CATCH_TESTING_
@@ -21,6 +21,7 @@
         typedef String string_t;
 
         #define ELECTION_TIMEOUT_FACTOR 100000
+        #define MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE 100
 
     #endif
 
