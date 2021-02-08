@@ -67,7 +67,7 @@ void _server::switchState(ServerState state, uint32_t term) {
       // Set new state and update term
       this->_state = state;
       this->_term = term;
-      this->_voted_for = NULL;
+      this->_voted_for = 0;
       break;
     }
     default:
@@ -189,7 +189,7 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   // before)
   // clang-format off
   if(this->_term == data["term"] &&
-     (this->_voted_for == NULL || this->_voted_for == sender)) {
+     (this->_voted_for == 0 || this->_voted_for == sender)) {
 
     // If log term and log size are greater than or equal to receiver's term and
     // size

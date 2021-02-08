@@ -71,7 +71,7 @@ namespace server {
      * @param state
      * @param term
      */
-    void switchState(ServerState state, uint32_t term = NULL);
+    void switchState(ServerState state, uint32_t term = 0);
 
     /**
      * @brief Set the election alarm value
