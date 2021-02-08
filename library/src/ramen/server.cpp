@@ -61,7 +61,7 @@ void _server::switchState(ServerState state, uint32_t term) {
     }
     case FOLLOWER: {
       // Reset election alarm if stepping down from being a leader
-      if(this->_state = LEADER) {
+      if((this->_state = LEADER)) {
         this->setElectionAlarmValue();
       }
       // Set new state and update term
