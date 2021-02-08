@@ -15,6 +15,10 @@
   #define NULL 0
 #endif
 
+#ifndef INFINITY
+  #define INFINITY ((unsigned) ~0)
+#endif
+
 inline unsigned long millis() {
   struct timeval te;
   gettimeofday(&te, NULL); // get current time

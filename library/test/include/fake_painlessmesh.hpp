@@ -14,6 +14,8 @@
 
 namespace fake_painlessmesh {
 
+typedef std::function<void(uint32_t from, string_t& msg)> receivedCallback_t;
+
 struct Node {
   uint32_t node_id;
   uint32_t node_time;
@@ -59,6 +61,14 @@ class painlessMesh {
 
   std::list<uint32_t> getNodeList(bool include_self = false) {
     return _node_list;
+  };
+
+  void onReceive(receivedCallback_t on_receive) {
+
+  };
+
+  bool sendSingle(uint32_t destination_id, string_t data) {
+    return true;
   };
 
   /////////////////////////////////////////////////////
