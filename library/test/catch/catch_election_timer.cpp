@@ -14,12 +14,25 @@ Logger logger;
 SCENARIO("Testing start of election") {
   logger.setLogLevel(DEBUG);
 
-  Server ramen;
+  Server ramen_1, ramen_2;
 
-  ramen._mesh.setMeshTime(100);
-  logger(INFO, "Current mesh time is set to %u \n", ramen._mesh.getMeshTime());
+  ramen_1.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
+  ramen_2.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
 
-  ramen.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
+  ramen_1._mesh.setNodeId(1);
+  ramen_2._mesh.setNodeId(2);
 
-  ramen.setElectionAlarm();
+  ramen_1._mesh.addNeighbourNode(ramen_2._mesh.getNodeId(),
+                                 &ramen_2._mesh._message_buffer);
+  ramen_2._mesh.addNeighbourNode(ramen_1._mesh.getNodeId(),
+                                 &ramen_1._mesh._message_buffer);
+
+  // Simulates loop() from Arduino
+  for(uint8_t i = 0; i < 10; ++i) {
+    ramen_1.update();
+    ramen_2.update();
+    // logger(CRITICAL,
+    //        "Mesh time from node 1: %u \n",
+    //        ramen_1._mesh.getMeshTime());
+  }
 }
