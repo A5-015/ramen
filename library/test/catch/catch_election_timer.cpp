@@ -16,11 +16,11 @@ SCENARIO("Testing start of election") {
 
   Server ramen_1, ramen_2;
 
-  ramen_1.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
-  ramen_2.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
-
   ramen_1._mesh.setNodeId(1);
   ramen_2._mesh.setNodeId(2);
+
+  ramen_1.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
+  ramen_2.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
 
   ramen_1._mesh.addNeighbourNode(ramen_2._mesh);
   ramen_2._mesh.addNeighbourNode(ramen_1._mesh);

@@ -14,7 +14,7 @@ using namespace ramen::logger;
 
 _server::Server() :
     _state(FOLLOWER), _term(0), _received_new_append_entry_request(false) {
-  this->_logger.setLogLevel(INFO);
+  this->_logger.setLogLevel(DEBUG);
 };
 
 void _server::init(string_t mesh_name,
@@ -26,6 +26,7 @@ void _server::init(string_t mesh_name,
     this->receiveData(from, data);
   });
   this->_id = _mesh.getNodeId();
+  this->_logger.setLoggerId(_mesh.getNodeId());
   this->setElectionAlarmValue();
 
   this->_logger(DEBUG, "Just initialized painlessMesh\n");

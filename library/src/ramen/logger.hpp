@@ -1,7 +1,7 @@
 /**
  * @file logger.hpp
  * @brief logger.hpp
- * 
+ *
  */
 #ifndef _RAMEN_LOGGER_HPP_
 #define _RAMEN_LOGGER_HPP_
@@ -29,9 +29,19 @@ namespace logger {
   class Logger {
    private:
     uint8_t _level = 0;
+    uint32_t id;
     char _str[200];
 
    public:
+    /**
+     * @brief Set the id for the logger
+     *
+     * @param id
+     */
+    void setLoggerId(uint32_t id) {
+      this->id = id;
+    }
+
     /**
      * @brief Set the logging level
      *
@@ -81,6 +91,16 @@ namespace logger {
       // Print the message if the logging level is equal or higher than the
       // set logging level
       if(given_level >= _level) {
+        // clang-format off
+        // Print the id of the node while testing
+        #ifdef _RAMEN_CATCH_TESTING_
+        string_t s = std::to_string(this->id);
+        Serial.print(F("[ID:"));
+        Serial.print(s.c_str());
+        Serial.print(F("]"));
+        #endif
+        // clang-format on
+
         // Print the correct message label
         switch(given_level) {
           case DEBUG:
@@ -112,6 +132,16 @@ namespace logger {
       // Print the message if the logging level is equal or higher than the
       // set logging level
       if(given_level >= _level) {
+        // clang-format off
+        // Print the id of the node while testing
+        #ifdef _RAMEN_CATCH_TESTING_
+        string_t s = std::to_string(this->id);
+        Serial.print(F("[ID:"));
+        Serial.print(s.c_str());
+        Serial.print(F("]"));
+        #endif
+        // clang-format on
+
         // Print the correct message label
         switch(given_level) {
           case DEBUG:

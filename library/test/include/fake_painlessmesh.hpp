@@ -63,7 +63,7 @@ class painlessMesh {
     this->checkForNewMessages();
   };
 
-  bool sendBroadcast(string_t data) {
+  bool sendBroadcast(string_t data, bool include_self = false) {
     for(auto const& node : this->_nodes) {
       this->sendSingle(node.node_id, data);
     }
@@ -133,12 +133,14 @@ class painlessMesh {
   void checkForNewMessages() {
     // Process all new messages
     while(this->_message_buffer.size() > 0) {
-      printf(">> [ID:%u @ %u] There is a new message\n",
-             this->_node_id,
-             this->_mesh_time);
-
       // Read the message
       auto message = this->_message_buffer.front();
+
+      printf(">> [ID:%u @ %u] New message from %u: %s\n",
+             this->_node_id,
+             this->_mesh_time,
+             message.first,
+             message.second.c_str());
 
       // Run the callback
       this->_received_callback(message.first, message.second);
