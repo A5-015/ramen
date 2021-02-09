@@ -4,6 +4,8 @@
 #define MESH_PASSWORD "ramen123*"
 #define MESH_PORT     5555
 
+#include <thread>
+
 #include "catch2/catch.hpp"
 #include "ramen.h"
 
@@ -11,7 +13,7 @@ using namespace ramen::logger;
 using namespace ramen::server;
 Logger logger;
 
-SCENARIO("Testing start of election") {
+SCENARIO("Testing the operation of ramen using multithreading") {
   logger.setLogLevel(DEBUG);
 
   Server ramen_1, ramen_2, ramen_3;
@@ -43,8 +45,11 @@ SCENARIO("Testing start of election") {
 
   // Simulates loop() from Arduino
   for(uint8_t i = 0; i < 10; ++i) {
-    ramen_1.update();
-    ramen_2.update();
-    ramen_3.update();
+    std::thread t1(&Server::update, &ramen_1);
+    std::thread t2(&Server::update, &ramen_2);
+    std::thread t3(&Server::update, &ramen_3);
+    t1.join();
+    t2.join();
+    t3.join();
   }
 }
