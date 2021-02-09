@@ -135,8 +135,14 @@ bool _server::getElectionResults() {
     }
   }
 
+  this->_logger(
+      DEBUG,
+      "I have %u votes and more than %u votes is enough to win the election\n",
+      granted_votes,
+      this->_votes_received_ptr->size() / 2);
+
   // Majority decides election win
-  bool won_election = granted_votes > (this->_votes_received_ptr->size() / 2);
+  bool won_election = (granted_votes > (this->_votes_received_ptr->size() / 2));
 
   return won_election;
 };
@@ -230,8 +236,12 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
 
   // Check for vote
   if(this->getElectionResults()) {
-    this->_logger(INFO, "Won the election at %u\n", _mesh.getNodeTime());
+    this->_logger(DEBUG, "Won the election at %u\n", _mesh.getNodeTime());
     this->switchState(LEADER);
+  } else {
+    this->_logger(DEBUG,
+                  "Did not win the election at %u\n",
+                  _mesh.getNodeTime());
   }
 };
 
