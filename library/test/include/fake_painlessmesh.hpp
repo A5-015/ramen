@@ -12,6 +12,14 @@
 
 #include "catch_common.hpp"
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 namespace fake_painlessmesh {
 
 typedef std::function<void(uint32_t from, string_t& msg)> receivedCallback_t;
@@ -83,9 +91,12 @@ class painlessMesh {
     for(auto const& node : this->_nodes) {
       if(node.node_id == destination_id) {
         // Insert the message into the target node
+        // Here we use this node's id instead of the destination id because,
+        // it will serve as the from address on the destination node
         node.message_buffer_ptr->push_back(
-            std::make_pair(destination_id, data));
-        printf(">> [ID:%u @ %u] Sent message to node %u: %s\n",
+            std::make_pair(this->_node_id, data));
+        printf(ANSI_COLOR_GREEN
+               "[ID:%u @ %u] Sent message to node %u: %s\n" ANSI_COLOR_RESET,
                this->_node_id,
                this->_mesh_time,
                destination_id,
@@ -95,7 +106,9 @@ class painlessMesh {
     }
 
     // Return false if the destination node was not found
-    printf(">> [ID:%u @ %u] Requested destination id (%u) is not found\n",
+    printf(ANSI_COLOR_RED
+           "[ID:%u @ %u] Requested destination id (%u) is not "
+           "found\n" ANSI_COLOR_RESET,
            this->_node_id,
            this->_mesh_time,
            destination_id);
@@ -136,7 +149,8 @@ class painlessMesh {
       // Read the message
       auto message = this->_message_buffer.front();
 
-      printf(">> [ID:%u @ %u] New message from %u: %s\n",
+      printf(ANSI_COLOR_CYAN
+             "[ID:%u @ %u] New message from %u: %s\n" ANSI_COLOR_RESET,
              this->_node_id,
              this->_mesh_time,
              message.first,
