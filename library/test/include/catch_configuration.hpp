@@ -19,9 +19,9 @@
     #include <TaskSchedulerDeclarations.h>
 
     // ArduinoJson
-    #define ARDUINOJSON_USE_LONG_LONG 1
+    #define ARDUINOJSON_ENABLE_STD_STRING 1
+    #define ARDUINOJSON_ENABLE_ARDUINO_STRING 0
     #include <ArduinoJson.h>
-    #undef ARDUINOJSON_ENABLE_ARDUINO_STRING
 
     // Arduino's Serial
     #include "fake_serial.hpp"
@@ -34,6 +34,9 @@
 
     // Make everything public for testing
     #define private public
+
+    // Variavles for testing
+    #define RAMEN_CATCH_TESTING_PAYLOAD_SIZE 100000
 
     // ramen variables
     #define TASK_ELECTION_INTERVAL 1000

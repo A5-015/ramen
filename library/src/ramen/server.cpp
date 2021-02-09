@@ -14,7 +14,7 @@ using namespace ramen::logger;
 
 _server::Server() :
     _state(FOLLOWER), _term(0), _received_new_append_entry_request(false) {
-  this->_logger.setLogLevel(DEBUG);
+  this->_logger.setLogLevel(INFO);
 };
 
 void _server::init(string_t mesh_name,
@@ -230,6 +230,7 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
 
   // Check for vote
   if(this->getElectionResults()) {
+    this->_logger(INFO, "Won the election at %u\n", _mesh.getNodeTime());
     this->switchState(LEADER);
   }
 };

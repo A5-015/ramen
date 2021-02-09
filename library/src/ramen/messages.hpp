@@ -28,7 +28,11 @@ class MessageRequestVote {
   uint32_t last_log_index;
 
   string_t serialize() {
+#ifdef _RAMEN_CATCH_TESTING_
+    DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
+#else
     DynamicJsonDocument payload(64);
+#endif
 
     string_t serialized_payload;
     payload["type"] = type;
@@ -49,7 +53,11 @@ class MessageSendVote {
   bool granted;
 
   string_t serialize() {
+#ifdef _RAMEN_CATCH_TESTING_
+    DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
+#else
     DynamicJsonDocument payload(48);
+#endif
 
     string_t serialized_payload;
     payload["type"] = type;
@@ -72,7 +80,11 @@ class MessageRequestAppendEntry {
   uint32_t commit_index;
 
   string_t serialize() {
+#ifdef _RAMEN_CATCH_TESTING_
+    DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
+#else
     DynamicJsonDocument payload(MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE);
+#endif
 
     string_t serialized_payload;
     payload["type"] = type;
