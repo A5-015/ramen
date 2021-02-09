@@ -22,10 +22,12 @@ SCENARIO("Testing start of election") {
   ramen_1._mesh.setNodeId(1);
   ramen_2._mesh.setNodeId(2);
 
-  ramen_1._mesh.addNeighbourNode(ramen_2._mesh.getNodeId(),
-                                 &ramen_2._mesh._message_buffer);
-  ramen_2._mesh.addNeighbourNode(ramen_1._mesh.getNodeId(),
-                                 &ramen_1._mesh._message_buffer);
+  ramen_1._mesh.addNeighbourNode(ramen_2._mesh);
+  ramen_2._mesh.addNeighbourNode(ramen_1._mesh);
+  // ramen_1._mesh.addNeighbourNode(ramen_2._mesh.getNodeId(),
+  //                                &ramen_2._mesh._message_buffer);
+  // ramen_2._mesh.addNeighbourNode(ramen_1._mesh.getNodeId(),
+  //                                &ramen_1._mesh._message_buffer);
 
   // Simulates loop() from Arduino
   for(uint8_t i = 0; i < 10; ++i) {
