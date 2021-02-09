@@ -21,4 +21,4 @@ Full documentation can be found [here](https://a5-015.github.io/ramen/).
 - That's it!
 
 ## Licencing
-This project is published under [MIT License](https://github.com/A5-015/ramen/blob/master/LICENSE) and the ramen logo was adapted from icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com)
+This project is published under [GNU GPLv3 License](https://github.com/A5-015/ramen/blob/master/LICENSE) and the ramen logo was adapted from icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com)
