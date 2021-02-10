@@ -1,18 +1,15 @@
 # Download base image ubuntu 16.04
-FROM ubuntu:16.04
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive 
 
 # Install required packages
 RUN apt update -qq && \ 
-    apt install -y -qq software-properties-common build-essential && \
-    add-apt-repository ppa:deadsnakes/ppa &&\
-    apt update -qq && \
-    apt install -y -qq python3.7 python3-pip git wget cmake libboost-system-dev doxygen graphviz && \
-    easy_install3 pip && \
-    python3.7 -m pip install platformio
+    apt install -y software-properties-common build-essential python3-pip cmake doxygen graphviz && \
+    pip3 install platformio
 
 # Clean the packages
-RUN apt remove -y -qq git wget python python3.5 && \
-    apt autoremove -y -qq && \
+RUN apt autoremove -y -qq && \
     rm -rf /var/lib/apt/lists/*
 
 ENV LC_ALL=C.UTF-8
