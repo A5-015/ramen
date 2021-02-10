@@ -1,5 +1,3 @@
-#define CATCH_CONFIG_MAIN
-
 #define MESH_NAME     "ramen"
 #define MESH_PASSWORD "ramen123*"
 #define MESH_PORT     5555
@@ -9,11 +7,11 @@
 #include "catch2/catch.hpp"
 #include "ramen.h"
 
-using namespace ramen::logger;
-using namespace ramen::server;
-Logger logger;
-
 SCENARIO("Testing the operation of ramen using multithreading") {
+  using namespace ramen::logger;
+  using namespace ramen::server;
+  Logger logger;
+
   logger.setLogLevel(DEBUG);
 
   Server ramen_1, ramen_2, ramen_3;

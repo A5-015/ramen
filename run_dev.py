@@ -180,7 +180,8 @@ if args.catch:
         + "&&"
         + "echo '\n\033[96m===============================================================================\nRunning the tests:\033[0m\n'"
         + "&&"
-        + "run-parts --regex catch_ bin/"
+        # + "run-parts --regex catch_ bin/"
+        + "./bin/ramen_unit_test"
     )
 
 elif args.shell:
