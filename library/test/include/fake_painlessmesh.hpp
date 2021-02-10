@@ -53,6 +53,9 @@ class painlessMesh {
     this->_mesh_name = mesh_name;
     this->_mesh_password = mesh_password;
     this->_mesh_port = mesh_port;
+    if(scheduler_ptr) {
+      // Needed to silence -Werror=unused-parameter here only
+    }
   };
 
   uint32_t getNodeId() {
@@ -72,13 +75,30 @@ class painlessMesh {
   };
 
   bool sendBroadcast(string_t data, bool include_self = false) {
+    if(include_self) {
+      printf(ANSI_COLOR_GREEN
+             "[ID:%u @ %u] sendBroadcast was called with include "
+             "self\n" ANSI_COLOR_RESET,
+             this->_node_id,
+             this->_mesh_time);
+    }
+
     for(auto const& node : this->_nodes) {
       this->sendSingle(node.node_id, data);
     }
+
     return true;
   };
 
   std::list<uint32_t> getNodeList(bool include_self = false) {
+    if(include_self) {
+      printf(ANSI_COLOR_GREEN
+             "[ID:%u @ %u] getNodeList was called with include "
+             "self\n" ANSI_COLOR_RESET,
+             this->_node_id,
+             this->_mesh_time);
+    }
+
     return this->_node_list;
   };
 

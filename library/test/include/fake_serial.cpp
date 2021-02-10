@@ -21,6 +21,10 @@
 #include <iostream>
 
 void FakeSerial::begin(unsigned long speed) {
+  if(speed) {
+    // Needed to silence -Werror=unused-parameter here only
+  }
+
   return;
 }
 

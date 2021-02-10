@@ -27,4 +27,5 @@ foreach(TESTFILE ${TESTFILES})
                                               "${PROJECT_BINARY_DIR}/test/ArduinoJson/src/")
 endforeach()
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+# -Wall -Wextra -Woverflow
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -Werror")
