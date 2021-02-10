@@ -8,24 +8,21 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
 add_definitions(-D _RAMEN_CATCH_TESTING_)
 
-file(GLOB TESTFILES test/**/catch_*.cpp)
-foreach(TESTFILE ${TESTFILES})
-    get_filename_component(NAME ${TESTFILE} NAME_WE) 
+file(GLOB TESTFILES test/catch_*.cpp)
+add_executable(ramen_unit_test test/main.cpp "${PROJECT_BINARY_DIR}/test/include/fake_serial.cpp"
+                                    "${PROJECT_BINARY_DIR}/test/include/scheduler.cpp"
+                                    "${PROJECT_BINARY_DIR}/src/ramen/logger.hpp"
+                                    "${PROJECT_BINARY_DIR}/src/ramen/data_queue.cpp"
+                                    "${PROJECT_BINARY_DIR}/src/ramen/log_holder.cpp"
+                                    "${PROJECT_BINARY_DIR}/src/ramen/server.cpp"
+                                    ${TESTFILES})
 
-    add_executable(${NAME} ${TESTFILE} "${PROJECT_BINARY_DIR}/test/include/fake_serial.cpp"
-                                       "${PROJECT_BINARY_DIR}/test/include/scheduler.cpp"
-                                       "${PROJECT_BINARY_DIR}/src/ramen/logger.hpp"
-                                       "${PROJECT_BINARY_DIR}/src/ramen/data_queue.cpp"
-                                       "${PROJECT_BINARY_DIR}/src/ramen/log_holder.cpp"
-                                       "${PROJECT_BINARY_DIR}/src/ramen/server.cpp")
-
-    target_include_directories(${NAME} PUBLIC "${PROJECT_BINARY_DIR}/src/"
-                                              "${PROJECT_BINARY_DIR}/src/ramen/"
-                                              "${PROJECT_BINARY_DIR}/test/"
-                                              "${PROJECT_BINARY_DIR}/test/include/"
-                                              "${PROJECT_BINARY_DIR}/test/TaskScheduler/src/"
-                                              "${PROJECT_BINARY_DIR}/test/ArduinoJson/src/")
-endforeach()
+target_include_directories(ramen_unit_test PUBLIC "${PROJECT_BINARY_DIR}/src/"
+                                                  "${PROJECT_BINARY_DIR}/src/ramen/"
+                                                  "${PROJECT_BINARY_DIR}/test/"
+                                                  "${PROJECT_BINARY_DIR}/test/include/"
+                                                  "${PROJECT_BINARY_DIR}/test/TaskScheduler/src/"
+                                                  "${PROJECT_BINARY_DIR}/test/ArduinoJson/src/")
 
 # -Wall -Wextra -Woverflow
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -Werror")

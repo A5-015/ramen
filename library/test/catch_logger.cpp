@@ -1,12 +1,14 @@
-#define CATCH_CONFIG_MAIN
+#define MESH_NAME     "ramen"
+#define MESH_PASSWORD "ramen123*"
+#define MESH_PORT     5555
 
 #include "catch2/catch.hpp"
 #include "ramen.h"
 
-using namespace ramen::logger;
-Logger logger;
-
 SCENARIO("Logging test") {
+  using namespace ramen::logger;
+  Logger logger;
+
   logger.setLogLevel(ERROR);
   logger(
       ERROR,
