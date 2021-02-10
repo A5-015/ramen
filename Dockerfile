@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install required packages
 RUN apt update -qq && \ 
-    apt install -y software-properties-common build-essential python3-pip cmake doxygen graphviz && \
+    apt install -y software-properties-common build-essential python3-pip cmake doxygen graphviz lcov && \
     pip3 install platformio
 
 # Clean the packages
