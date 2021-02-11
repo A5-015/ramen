@@ -5,7 +5,7 @@
 #define MESH_PASSWORD "ramen123*"
 #define MESH_PORT     5555
 
-ramenServer consensus_on_mesh_server;
+ramen consensus_on_mesh_server;
 
 void setup() {
   Serial.begin(115200);

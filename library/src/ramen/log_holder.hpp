@@ -12,7 +12,7 @@
 
 #include "ramen/configuration.hpp"
 
-namespace ramen {
+namespace broth {
 namespace logholder {
 
   /**
@@ -102,6 +102,6 @@ namespace logholder {
   };
 
 } // namespace logholder
-} // namespace ramen
+} // namespace broth
 
 #endif

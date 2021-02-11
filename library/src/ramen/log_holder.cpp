@@ -5,7 +5,7 @@
  */
 #include "ramen/log_holder.hpp"
 
-using namespace ramen::logholder;
+using namespace broth::logholder;
 
 LogHolder::LogHolder() {};
 

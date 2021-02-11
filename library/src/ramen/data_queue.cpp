@@ -5,7 +5,7 @@
  */
 #include "ramen/data_queue.hpp"
 
-using namespace ramen::dataqueue;
+using namespace broth::dataqueue;
 
 DataQueue::DataQueue() {};
 

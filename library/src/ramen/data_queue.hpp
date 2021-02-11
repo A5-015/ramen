@@ -11,7 +11,7 @@
 
 #include "ramen/configuration.hpp"
 
-namespace ramen {
+namespace broth {
 namespace dataqueue {
 
   /**
@@ -47,6 +47,6 @@ namespace dataqueue {
   };
 
 } // namespace dataqueue
-} // namespace ramen
+} // namespace broth
 
 #endif
