@@ -174,14 +174,19 @@ if args.catch:
     run_command_in_docker(
         "cd library"
         + "&&"
-        + "cmake . -DCMAKE_CXX_FLAGS='-Wall -Werror'"
+        + "cmake ."
         + "&&"
         + "make VERBOSE=1"
         + "&&"
         + "echo '\n\033[96m===============================================================================\nRunning the tests:\033[0m\n'"
         + "&&"
-        # + "run-parts --regex catch_ bin/"
         + "./bin/ramen_unit_test"
+        + "&&"
+        + "gcovr -s -r . -f '/ramen/library/src/ramen/*'"
+        + "&&"
+        + "echo '\n\033[96mGenerating the HTML version of the coverage report under docs/coverage-report\033[0m'"
+        + "&&"
+        + "gcovr -d -r . -f '/ramen/library/src/ramen/*' --html --html-details -o ../docs/coverage-report/coverage.html"
     )
 
 elif args.shell:
