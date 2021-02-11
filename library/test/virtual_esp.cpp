@@ -29,8 +29,8 @@ int main(int argc, char** argv) {
   for(uint8_t i = 0; i < result["nodes"].as<int>(); ++i) {
     // Generate node
     nodes.push_back(new Server());
-    // Set node ID
-    nodes.back()->_mesh.setNodeId(i);
+    // Set node ID, start IDs from 1
+    nodes.back()->_mesh.setNodeId(i + 1);
     // Initialize the node
     nodes.back()->init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
     // Override node's internal logging levels
@@ -46,6 +46,8 @@ int main(int argc, char** argv) {
       }
     }
   }
+
+  std::cout << "\n\033[95m>> Actual simulation loop starts here:\033[0m\n";
 
   // Simulates loop() from Arduino
   while(true) {
