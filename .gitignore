@@ -149,7 +149,6 @@ cython_debug/
 DartConfiguration.tcl
 docs/html
 docs/latex
-docs/coverage-report/*
 
 !.vscode/settings.json
 !.vscode/extensions.json
