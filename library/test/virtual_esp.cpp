@@ -3,57 +3,64 @@
 #define MESH_PORT     5555
 
 // #include <thread>
+// std::thread t1(&Server::update, &ramen_1);
+// t1.join();
+
+#include <cxxopts.hpp>
+#include <vector>
 
 #include "ramen.h"
 
 using namespace ramen::logger;
 using namespace ramen::server;
 
-int main() {
-  Logger logger;
+int main(int argc, char** argv) {
+  cxxopts::Options options("ramen virtual test network",
+                           "Virtual ESP8266 network testing for ramen");
 
-  logger.setLogLevel(DEBUG);
+  // clang-format off
+  options.add_options()
+    ("t,time", "simulation duration", cxxopts::value<float>()->default_value("0.5"))
+    ("n,nodes", "number of nodes", cxxopts::value<int>()->default_value("3"))
+    ;
+  // clang-format on
 
-  Server ramen_1, ramen_2, ramen_3;
+  auto result = options.parse(argc, argv);
 
-  // Assign node ids
-  ramen_1._mesh.setNodeId(1);
-  ramen_2._mesh.setNodeId(2);
-  ramen_3._mesh.setNodeId(3);
+  std::vector<Server*> nodes;
 
-  // Initialize the nodes
-  ramen_1.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
-  ramen_2.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
-  ramen_3.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
-
-  // Override node's internal logging levels
-  ramen_1._logger.setLogLevel(DEBUG);
-  ramen_2._logger.setLogLevel(DEBUG);
-  ramen_3._logger.setLogLevel(DEBUG);
-
-  // Create the connections between nodes
-  ramen_1._mesh.addNeighbourNode(ramen_2._mesh);
-  ramen_1._mesh.addNeighbourNode(ramen_3._mesh);
-
-  ramen_2._mesh.addNeighbourNode(ramen_1._mesh);
-  ramen_2._mesh.addNeighbourNode(ramen_3._mesh);
-
-  ramen_3._mesh.addNeighbourNode(ramen_1._mesh);
-  ramen_3._mesh.addNeighbourNode(ramen_2._mesh);
-
-  // Simulates loop() from Arduino
-  for(uint8_t i = 0; i < 10; ++i) {
-    ramen_1.update();
-    ramen_2.update();
-    ramen_3.update();
+  // Generate the nodes
+  for(uint8_t i = 0; i < result["nodes"].as<int>(); ++i) {
+    // Generate node
+    nodes.push_back(new Server());
+    // Set node ID
+    nodes.back()->_mesh.setNodeId(i);
+    // Initialize the node
+    nodes.back()->init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
+    // Override node's internal logging levels
+    nodes.back()->_logger.setLogLevel(ramen::logger::DEBUG);
   }
 
-  // std::thread t1(&Server::update, &ramen_1);
-  // std::thread t2(&Server::update, &ramen_2);
-  // std::thread t3(&Server::update, &ramen_3);
-  // t1.join();
-  // t2.join();
-  // t3.join();
+  // Create the connections between nodes
+  for(uint8_t i = 0; i < result["nodes"].as<int>(); ++i) {
+    for(uint8_t j = 0; j < result["nodes"].as<int>(); ++j) {
+      if(nodes[i]->_mesh._node_id != nodes[j]->_mesh._node_id) {
+        // Add neighbour nodes except the node itself
+        nodes[i]->_mesh.addNeighbourNode(nodes[j]->_mesh);
+      }
+    }
+  }
+
+  // Simulates loop() from Arduino
+  while(true) {
+    for(uint8_t j = 0; j < result["nodes"].as<int>(); ++j) {
+      nodes[j]->update();
+    }
+    if(nodes.back()->_mesh.getMeshTime() >
+       (result["time"].as<float>() * 1000000)) {
+      break;
+    }
+  }
 
   return 0;
 }

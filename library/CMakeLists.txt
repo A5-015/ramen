@@ -32,6 +32,7 @@ target_include_directories(ramen_unit_test PUBLIC "${PROJECT_BINARY_DIR}/src/"
 # Target virtual_esp
 add_executable(virtual_esp test/virtual_esp.cpp "${PROJECT_BINARY_DIR}/test/include/fake_serial.cpp"
                                                   "${PROJECT_BINARY_DIR}/test/include/scheduler.cpp"
+                                                  "${PROJECT_BINARY_DIR}/test/include/cxxopts.hpp"
                                                   "${PROJECT_BINARY_DIR}/src/ramen/logger.hpp"
                                                   "${PROJECT_BINARY_DIR}/src/ramen/data_queue.cpp"
                                                   "${PROJECT_BINARY_DIR}/src/ramen/log_holder.cpp"

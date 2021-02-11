@@ -21,6 +21,18 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-n",
+    type=int,
+    help="Number of nodes to run in the library in a simulated environment. Needs to be used in combination with --virtual",
+)
+
+parser.add_argument(
+    "-t",
+    type=float,
+    help="Duration of the simulation in the simulated environment in seconds. You can specify float values like 0.1 seconds. Needs to be used in combination with --virtual",
+)
+
+parser.add_argument(
     "--clean",
     action="store_true",
     help="Cleans the project folder by deleting the temporary files and other build artifacts",
@@ -196,6 +208,10 @@ if args.catch:
     )
 
 elif args.virtual:
+    if args.t is None or args.n is None:
+        print("Please specify the -n and/or -t arguments")
+        exit()
+
     check_submodules()
     run_command_in_docker(
         "cd library"
@@ -204,9 +220,13 @@ elif args.virtual:
         + "&&"
         + "make virtual_esp"
         + "&&"
-        + "echo '\n\033[95m===============================================================================\nRunning the virtual network:\033[0m\n'"
+        + "echo '\n\033[95m===============================================================================\nRunning the virtual network:\033[0m'"
         + "&&"
-        + "./bin/virtual_esp"
+        + "echo '\033[95m>> The colorful outputs are outputted by the virtual network\033[0m'"
+        + "&&"
+        + "echo '\033[95m>> The white outputs are outputted by ramen\033[0m\n'"
+        + "&&"
+        + "./bin/virtual_esp -t %s -n %s" % (args.t, args.n),
     )
 
 elif args.shell:
