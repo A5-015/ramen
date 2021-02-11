@@ -1,7 +1,3 @@
-#define MESH_NAME     "ramen"
-#define MESH_PASSWORD "ramen123*"
-#define MESH_PORT     5555
-
 #include "catch2/catch.hpp"
 #include "ramen.h"
 
