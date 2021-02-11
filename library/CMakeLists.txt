@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 # -Wall -Wextra -Woverflow
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -pthread -Werror -g --coverage -fprofile-arcs -ftest-coverage")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -Werror --coverage -O0")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
 add_definitions(-D _RAMEN_CATCH_TESTING_)
 
