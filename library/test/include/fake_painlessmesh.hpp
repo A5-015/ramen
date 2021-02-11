@@ -84,7 +84,10 @@ class painlessMesh {
     }
 
     for(auto const& node : this->_nodes) {
-      this->sendSingle(node.node_id, data);
+      bool result = this->sendSingle(node.node_id, data);
+      if(result == false) {
+        return false;
+      }
     }
 
     return true;
@@ -112,7 +115,7 @@ class painlessMesh {
       if(node.node_id == destination_id) {
         // Insert the message into the target node
         // Here we use this node's id instead of the destination id because,
-        // it will serve as the from address on the destination node
+        // it will serve as the "from" address on the destination node
         node.message_buffer_ptr->push_back(
             std::make_pair(this->_node_id, data));
         printf(ANSI_COLOR_GREEN
