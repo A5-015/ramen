@@ -2,7 +2,7 @@
 #include "ramen.h"
 
 SCENARIO("Logging test") {
-  using namespace ramen::logger;
+  using namespace broth::logger;
   Logger logger;
 
   logger.setLogLevel(ERROR);

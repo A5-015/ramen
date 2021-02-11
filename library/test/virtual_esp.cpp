@@ -7,8 +7,8 @@
 
 #include "ramen.h"
 
-using namespace ramen::logger;
-using namespace ramen::server;
+using namespace broth::logger;
+using namespace broth::server;
 
 int main(int argc, char** argv) {
   cxxopts::Options options("ramen virtual test network",
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     // Initialize the node
     nodes.back()->init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
     // Override node's internal logging levels
-    nodes.back()->_logger.setLogLevel(ramen::logger::DEBUG);
+    nodes.back()->_logger.setLogLevel(broth::logger::DEBUG);
   }
 
   // Create the connections between nodes

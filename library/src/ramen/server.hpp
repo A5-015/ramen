@@ -14,11 +14,11 @@
 #include "ramen/log_holder.hpp"
 #include "ramen/logger.hpp"
 
-namespace ramen {
+namespace broth {
 namespace server {
-  using namespace ramen::dataqueue;
-  using namespace ramen::logholder;
-  using namespace ramen::logger;
+  using namespace broth::dataqueue;
+  using namespace broth::logholder;
+  using namespace broth::logger;
 
   typedef enum { FOLLOWER = 0, CANDIDATE = 1, LEADER = 2 } ServerState;
 
@@ -193,6 +193,6 @@ namespace server {
   };
 
 } // namespace server
-} // namespace ramen
+} // namespace broth
 
 #endif

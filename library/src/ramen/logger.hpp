@@ -10,7 +10,7 @@
 
 #include "ramen/configuration.hpp"
 
-namespace ramen {
+namespace broth {
 namespace logger {
 
   typedef enum {
@@ -85,9 +85,9 @@ namespace logger {
      * @brief Overloads the () operator to log messages.
      * Example usage:
      *
-     * ramen::Logger Log;
-     * Log.setLogLevel(ramen::ERROR);
-     * Log(ramen::ERROR, "This is the error message %u \n", 1);
+     * broth::Logger Log;
+     * Log.setLogLevel(broth::ERROR);
+     * Log(broth::ERROR, "This is the error message %u \n", 1);
      *
      * @param givenLevel Logging level
      * @param format The message itself
@@ -179,6 +179,6 @@ namespace logger {
   };
 
 } // namespace logger
-} // namespace ramen
+} // namespace broth
 
 #endif

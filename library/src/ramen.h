@@ -12,6 +12,6 @@
 #include "ramen/logger.hpp"
 #include "ramen/server.hpp"
 
-using ramenServer = ramen::server::Server;
+using ramen = broth::server::Server;
 
 #endif
