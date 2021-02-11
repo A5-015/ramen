@@ -200,11 +200,11 @@ if args.catch:
         + "&&"
         + "./bin/ramen_unit_test"
         + "&&"
-        + "gcovr -s -r . -f '/ramen/library/src/ramen/*'"
+        + "gcovr --print-summary --root='.' --filter='/ramen/library/src/ramen/*' --exclude='virtual_esp.*'"
         + "&&"
         + "echo '\n\033[96mGenerating the HTML version of the coverage report under docs/coverage-report\033[0m'"
         + "&&"
-        + "gcovr -d -r . -f '/ramen/library/src/ramen/*' --html --html-details -o ../docs/coverage-report/coverage.html"
+        + "gcovr --delete --root='.' --filter='/ramen/library/src/ramen/*' --exclude='virtual_esp.*' --html --html-details -o ../docs/coverage-report/coverage.html"
     )
 
 elif args.virtual:
@@ -226,7 +226,10 @@ elif args.virtual:
         + "&&"
         + "echo '\033[95m>> The white outputs are outputted by ramen\033[0m\n'"
         + "&&"
-        + "./bin/virtual_esp -t %s -n %s" % (args.t, args.n),
+        + "./bin/virtual_esp -t %s -n %s" % (args.t, args.n)
+        + "&&"
+        # Delete gcov files related to the simulator, we don't want them
+        + "gcovr --delete --root='.' --filter='virtual_esp.*' > /dev/null 2>&1"
     )
 
 elif args.shell:
