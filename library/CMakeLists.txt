@@ -12,6 +12,8 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov")
 add_definitions(-D _RAMEN_CATCH_TESTING_)
 
 file(GLOB TESTFILES test/catch_*.cpp)
+
+# Target ramen_unit_test
 add_executable(ramen_unit_test test/main.cpp "${PROJECT_BINARY_DIR}/test/include/fake_serial.cpp"
                                     "${PROJECT_BINARY_DIR}/test/include/scheduler.cpp"
                                     "${PROJECT_BINARY_DIR}/src/ramen/logger.hpp"
@@ -21,6 +23,21 @@ add_executable(ramen_unit_test test/main.cpp "${PROJECT_BINARY_DIR}/test/include
                                     ${TESTFILES})
 
 target_include_directories(ramen_unit_test PUBLIC "${PROJECT_BINARY_DIR}/src/"
+                                                  "${PROJECT_BINARY_DIR}/src/ramen/"
+                                                  "${PROJECT_BINARY_DIR}/test/"
+                                                  "${PROJECT_BINARY_DIR}/test/include/"
+                                                  "${PROJECT_BINARY_DIR}/test/TaskScheduler/src/"
+                                                  "${PROJECT_BINARY_DIR}/test/ArduinoJson/src/")
+
+# Target virtual_esp
+add_executable(virtual_esp test/virtual_esp.cpp "${PROJECT_BINARY_DIR}/test/include/fake_serial.cpp"
+                                                  "${PROJECT_BINARY_DIR}/test/include/scheduler.cpp"
+                                                  "${PROJECT_BINARY_DIR}/src/ramen/logger.hpp"
+                                                  "${PROJECT_BINARY_DIR}/src/ramen/data_queue.cpp"
+                                                  "${PROJECT_BINARY_DIR}/src/ramen/log_holder.cpp"
+                                                  "${PROJECT_BINARY_DIR}/src/ramen/server.cpp")
+
+target_include_directories(virtual_esp PUBLIC "${PROJECT_BINARY_DIR}/src/"
                                                   "${PROJECT_BINARY_DIR}/src/ramen/"
                                                   "${PROJECT_BINARY_DIR}/test/"
                                                   "${PROJECT_BINARY_DIR}/test/include/"

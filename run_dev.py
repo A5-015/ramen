@@ -15,6 +15,12 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--virtual",
+    action="store_true",
+    help="Runs the library in a simulated environment",
+)
+
+parser.add_argument(
     "--clean",
     action="store_true",
     help="Cleans the project folder by deleting the temporary files and other build artifacts",
@@ -176,7 +182,7 @@ if args.catch:
         + "&&"
         + "cmake ."
         + "&&"
-        + "make VERBOSE=1"
+        + "make ramen_unit_test"
         + "&&"
         + "echo '\n\033[96m===============================================================================\nRunning the tests:\033[0m\n'"
         + "&&"
@@ -187,6 +193,20 @@ if args.catch:
         + "echo '\n\033[96mGenerating the HTML version of the coverage report under docs/coverage-report\033[0m'"
         + "&&"
         + "gcovr -d -r . -f '/ramen/library/src/ramen/*' --html --html-details -o ../docs/coverage-report/coverage.html"
+    )
+
+elif args.virtual:
+    check_submodules()
+    run_command_in_docker(
+        "cd library"
+        + "&&"
+        + "cmake ."
+        + "&&"
+        + "make virtual_esp"
+        + "&&"
+        + "echo '\n\033[95m===============================================================================\nRunning the virtual network:\033[0m\n'"
+        + "&&"
+        + "./bin/virtual_esp"
     )
 
 elif args.shell:
