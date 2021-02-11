@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_EXPORT_COMPILE_COMMANDS True)
+# -Wall -Wextra -Woverflow
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -pthread -Werror -g --coverage -fprofile-arcs -ftest-coverage")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov")
 
 add_definitions(-D _RAMEN_CATCH_TESTING_)
 
@@ -23,6 +26,3 @@ target_include_directories(ramen_unit_test PUBLIC "${PROJECT_BINARY_DIR}/src/"
                                                   "${PROJECT_BINARY_DIR}/test/include/"
                                                   "${PROJECT_BINARY_DIR}/test/TaskScheduler/src/"
                                                   "${PROJECT_BINARY_DIR}/test/ArduinoJson/src/")
-
-# -Wall -Wextra -Woverflow
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -Werror")
