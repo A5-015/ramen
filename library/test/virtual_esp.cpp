@@ -1,7 +1,3 @@
-#define MESH_NAME     "ramen"
-#define MESH_PASSWORD "ramen123*"
-#define MESH_PORT     5555
-
 // #include <thread>
 // std::thread t1(&Server::update, &ramen_1);
 // t1.join();
