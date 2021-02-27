@@ -12,15 +12,13 @@ on:
 
 env:
   IMAGE_NAME: ramen-dev
-  TARGET_FILE: ./
+  TARGET_FILE: ./Dockerfile
 
 jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
     runs-on: ubuntu-16.04
-    if: github.event_name == 'push'
-
     steps:
       - uses: actions/checkout@v2
 
