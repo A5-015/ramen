@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     # Publish `master` as Docker `latest` image.
     branches:
-      - docker
+      - master
 
     # Publish `v1.2.3` tags as releases.
     tags:
