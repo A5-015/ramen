@@ -49,6 +49,8 @@ void _server::update() {
   }
 
   else if(this->_state == LEADER) {
+    this->_commit_index = this->_log.getMajorityCommitIndex();
+    this->broadcastRequestAppendEntries(" ");
   }
 };
 
@@ -260,7 +262,31 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   }
 };
 
-void _server::requestAppendEntries(uint32_t receiver, string_t data) {};
+void _server::requestAppendEntries(uint32_t receiver, string_t data) {
+  // Generate the message
+  MessageRequestAppendEntry message;
+
+  message.term = this->_term;
+  message.previous_log_index = this->_log.getNextIndex(receiver) - 1;
+  message.previous_log_term = this->_log.getLogTerm(message.previous_log_index);
+  message.entries = data;
+  message.commit_index = this->_commit_index;
+
+  this->_mesh.sendSingle(receiver, message.serialize());
+
+  // this->_logger(DEBUG, "Sent append entry request to %u\n", receiver);
+};
+
+void _server::broadcastRequestAppendEntries(string_t data) {
+  auto nodeList = this->_mesh.getNodeList(false);
+
+  for(auto it = nodeList.begin(); it != nodeList.end(); ++it) {
+    this->requestAppendEntries(*it, data);
+  }
+
+  this->_logger(DEBUG, "Broadcasted append entry request to everyone!\n");
+}
+
 void _server::handleAppendEntriesRequest(uint32_t sender, string_t data) {};
 void _server::handleAppendEntriesResponse() {};
 

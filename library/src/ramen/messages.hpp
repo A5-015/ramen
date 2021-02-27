@@ -74,8 +74,8 @@ class MessageRequestAppendEntry {
  public:
   MessageType type = REQUEST_APPEND_ENTRY;
   uint32_t term;
-  uint32_t previous_index;
-  uint32_t previous_term;
+  uint32_t previous_log_index;
+  uint32_t previous_log_term;
   string_t entries;
   uint32_t commit_index;
 
@@ -89,8 +89,8 @@ class MessageRequestAppendEntry {
     string_t serialized_payload;
     payload["type"] = type;
     payload["term"] = term;
-    payload["previousIndex"] = previous_index;
-    payload["previousTerm"] = previous_term;
+    payload["previousLogIndex"] = previous_log_index;
+    payload["previousLogTerm"] = previous_log_term;
     payload["entries"] = entries;
     payload["commitIndex"] = commit_index;
 

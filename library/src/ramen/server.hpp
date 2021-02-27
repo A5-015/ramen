@@ -43,6 +43,7 @@ namespace server {
     painlessMesh _mesh;
     Scheduler _scheduler;
     Task* _task_election_ptr;
+    uint32_t _commit_index;
 
    public:
     /**
@@ -154,6 +155,14 @@ namespace server {
      * @param data Data to send in JSON format
      */
     void requestAppendEntries(uint32_t receiver, string_t data);
+
+    /**
+     * @brief Parent function of requestAppendEntries
+     * Sends append entry request to all nodes in the network
+     *
+     * @param data
+     */
+    void broadcastRequestAppendEntries(string_t data);
 
     /**
      * @brief Handle the incoming request to append an entry as a follower
