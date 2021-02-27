@@ -27,8 +27,8 @@ void _server::init(string_t mesh_name,
   });
   this->_id = _mesh.getNodeId();
   this->_logger.setLoggerId(_mesh.getNodeId());
+  this->_previous_node_time = _mesh.getNodeTime();
   this->setElectionAlarmValue();
-
   this->_logger(DEBUG, "Just initialized painlessMesh\n");
 };
 
@@ -78,7 +78,12 @@ void _server::switchState(ServerState state, uint32_t term) {
 
 void _server::setElectionAlarmValue() {
   this->_election_alarm = (1 + (std::rand() % 10)) * ELECTION_TIMEOUT_FACTOR;
-  this->_logger(DEBUG, "Set the election timer to %u\n", this->_election_alarm);
+  this->_previous_node_time = _mesh.getNodeTime();
+  this->_logger(
+      DEBUG,
+      "Set the election alarm %u duration from now, which is %u @ mesh time\n",
+      this->_election_alarm,
+      _mesh.getNodeTime() + this->_election_alarm);
 };
 
 void _server::checkForElectionAlarmTimeout() {
@@ -93,6 +98,11 @@ void _server::checkForElectionAlarmTimeout() {
   } else {
     if((uint32_t)(current_node_time - this->_previous_node_time) >=
        this->_election_alarm) {
+      this->_logger(DEBUG,
+                    "Current time = %u, Previous time = %u, Difference = %u\n",
+                    current_node_time,
+                    this->_previous_node_time,
+                    (uint32_t)(current_node_time - this->_previous_node_time));
       // Start an election and restart the timer
       this->startNewElection();
       this->setElectionAlarmValue();
@@ -230,18 +240,19 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   // Update votes received map
   bool granted = data["granted"];
   if(this->_state == CANDIDATE && this->_term == data["term"]) {
-    this->_votes_received_ptr->emplace(sender, granted);
+    // Store received vote in votes received map
+    (*(this->_votes_received_ptr))[sender] = granted;
     this->_logger(INFO, "Saved vote from %u with %u vote\n", sender, granted);
-  }
 
-  // Check for vote
-  if(this->getElectionResults()) {
-    this->_logger(DEBUG, "Won the election at %u\n", _mesh.getNodeTime());
-    this->switchState(LEADER);
-  } else {
-    this->_logger(DEBUG,
-                  "Did not win the election at %u\n",
-                  _mesh.getNodeTime());
+    // Check for election results
+    if(this->getElectionResults()) {
+      this->_logger(DEBUG, "Won the election at %u\n", _mesh.getNodeTime());
+      this->switchState(LEADER);
+    } else {
+      this->_logger(DEBUG,
+                    "Did not win the election at %u\n",
+                    _mesh.getNodeTime());
+    }
   }
 };
 
