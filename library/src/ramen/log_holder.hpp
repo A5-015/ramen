@@ -126,6 +126,19 @@ namespace logholder {
      * @return uint32_t
      */
     uint32_t getMajorityCommitIndex();
+
+    /**
+     * @brief Pop last entry in _entries
+     *
+     */
+    void popEntry();
+
+    /**
+     * @brief Push a new entry into _entries
+     *
+     * @param new_entry
+     */
+    void pushEntry(std::pair<uint32_t, string_t> new_entry);
   };
 
 } // namespace logholder

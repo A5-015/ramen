@@ -136,7 +136,7 @@ namespace server {
      * @brief Handle incoming vote request as a follower
      *
      * @param sender Address of the sender node
-     * @param data Data received in JSON format
+     * @param data Data received in DynamicJsonDocument format
      */
     void handleVoteRequest(uint32_t sender, DynamicJsonDocument& data);
 
@@ -144,7 +144,7 @@ namespace server {
      * @brief Handle the response of a follower to the vote request
      *
      * @param sender Address of the sender node
-     * @param data Data received in JSON format
+     * @param data Data received in DynamicJsonDocument format
      */
     void handleVoteResponse(uint32_t sender, DynamicJsonDocument& data);
 
@@ -153,8 +153,11 @@ namespace server {
      *
      * @param receiver Address of the receiver node
      * @param data Data to send in JSON format
+     * @param heart_beat Sends a heart beat instead of the data
      */
-    void requestAppendEntries(uint32_t receiver, string_t data);
+    void requestAppendEntries(uint32_t receiver,
+                              string_t data,
+                              bool heart_beat = false);
 
     /**
      * @brief Parent function of requestAppendEntries
@@ -168,9 +171,9 @@ namespace server {
      * @brief Handle the incoming request to append an entry as a follower
      *
      * @param sender Address of the sender node
-     * @param data Data received in JSON format
+     * @param data Data received in DynamicJsonDocument format
      */
-    void handleAppendEntriesRequest(uint32_t sender, string_t data);
+    void handleAppendEntriesRequest(uint32_t sender, DynamicJsonDocument& data);
 
     /**
      * @brief Handle the response of a follower to append an entry

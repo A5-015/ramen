@@ -10,15 +10,13 @@ using namespace broth::logholder;
 LogHolder::LogHolder() {};
 
 uint32_t LogHolder::getMatchIndex(uint32_t address) {
-  uint32_t index = 1;
-  return index;
+  return (*(this->_match_index_ptr))[address];
 };
 
 void LogHolder::setMatchIndex(uint32_t address, uint32_t index) {};
 
 uint32_t LogHolder::getNextIndex(uint32_t address) {
-  uint32_t index = 1;
-  return index;
+  return (*(this->_next_index_ptr))[address];
 };
 
 void LogHolder::setNextIndex(uint32_t address, uint32_t index) {};
@@ -52,7 +50,11 @@ uint32_t LogHolder::getLastLogTerm() {
 }
 
 uint32_t LogHolder::getLogTerm(uint32_t log_index) {
-  return _entries[log_index].first;
+  if(log_index < 1 || log_index > this->_entries.size()) {
+    return 0;
+  } else {
+    return _entries[log_index].first;
+  }
 }
 
 uint32_t LogHolder::getMajorityCommitIndex() {
@@ -70,4 +72,12 @@ uint32_t LogHolder::getMajorityCommitIndex() {
 
   // Return majority
   return match_indices[match_indices.size() / 2];
+}
+
+void LogHolder::popEntry() {
+  this->_entries.pop_back();
+}
+
+void LogHolder::pushEntry(std::pair<uint32_t, string_t> new_entry) {
+  this->_entries.push_back(new_entry);
 }

@@ -50,7 +50,7 @@ void _server::update() {
 
   else if(this->_state == LEADER) {
     this->_commit_index = this->_log.getMajorityCommitIndex();
-    this->broadcastRequestAppendEntries(" ");
+    this->broadcastRequestAppendEntries(HEART_BEAT_MESSAGE);
   }
 };
 
@@ -181,6 +181,10 @@ void _server::receiveData(uint32_t from, string_t& data) {
       this->handleVoteResponse(from, payload);
       break;
 
+    case REQUEST_APPEND_ENTRY:
+      this->handleAppendEntriesRequest(from, payload);
+      break;
+
     default:
       break;
   }
@@ -262,14 +266,20 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   }
 };
 
-void _server::requestAppendEntries(uint32_t receiver, string_t data) {
+void _server::requestAppendEntries(uint32_t receiver,
+                                   string_t data,
+                                   bool heart_beat) {
   // Generate the message
   MessageRequestAppendEntry message;
 
   message.term = this->_term;
   message.previous_log_index = this->_log.getNextIndex(receiver) - 1;
   message.previous_log_term = this->_log.getLogTerm(message.previous_log_index);
-  message.entries = data;
+  if(heart_beat) {
+    message.entries = HEART_BEAT_MESSAGE;
+  } else {
+    message.entries = data;
+  }
   message.commit_index = this->_commit_index;
 
   this->_mesh.sendSingle(receiver, message.serialize());
@@ -287,7 +297,56 @@ void _server::broadcastRequestAppendEntries(string_t data) {
   this->_logger(DEBUG, "Broadcasted append entry request to everyone!\n");
 }
 
-void _server::handleAppendEntriesRequest(uint32_t sender, string_t data) {};
+void _server::handleAppendEntriesRequest(uint32_t sender,
+                                         DynamicJsonDocument& data) {
+  // TODO: Instantiate
+  std::vector<std::pair<uint32_t, string_t>> received_entries;
+
+  // Equalize term with sender if term is lower
+  if(this->_term <= data["term"]) {
+    this->switchState(FOLLOWER, data["term"]);
+  }
+
+  // Rename variables from payload data
+  auto previousLogIndex = data["previousLogIndex"];
+  auto previousLogTerm = data["previousLogTerm"];
+  auto leaderCommit = (uint32_t) data["commitIndex"];
+
+  // Default message parameters
+  MessageRespondAppendEntry message;
+  message.term = this->_term;
+  message.success = false;
+  message.match_index = 0;
+
+  if(data["entries"] == HEART_BEAT_MESSAGE) {
+    message.success = true;
+    message.match_index = this->_commit_index;
+  } else if(previousLogIndex == 0 ||
+            (previousLogIndex <= this->_log.getLogSize() &&
+             this->_log.getLogTerm(previousLogIndex) == previousLogTerm)) {
+    message.success = true;
+
+    auto loopIndex = previousLogIndex;
+
+    for(uint32_t i = 0; i < this->_log.getLogSize(); i++) {
+      if(this->_log.getLogTerm(loopIndex) != received_entries[i].first) {
+        while(this->_log.getLogSize() > loopIndex) {
+          this->_log.popEntry();
+        }
+        this->_log.pushEntry(received_entries[i]);
+      }
+    }
+
+    message.match_index = loopIndex;
+
+    if(leaderCommit > this->_commit_index) {
+      this->_commit_index = std::min(leaderCommit, this->_log.getLogSize() - 1);
+    }
+  }
+
+  this->_mesh.sendSingle(sender, message.serialize());
+  this->_logger(DEBUG, "Responded to append entry request from %u\n", sender);
+};
 void _server::handleAppendEntriesResponse() {};
 
 void _server::moveDataFromQueueToLog(DataQueue queue, LogHolder log) {};
