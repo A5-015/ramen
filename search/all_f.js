@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['send_5fvote_100',['SEND_VOTE',['../messages_8hpp.html#ac6606ebe91c8ac66a2c314c79f5ab013a0a021ea18de62f0347cc6bcc8c17a923',1,'messages.hpp']]],
+  ['senddata_101',['sendData',['../classbroth_1_1server_1_1Server.html#ac8bdf18b82e82bea74dc03ba98836043',1,'broth::server::Server']]],
+  ['sendlocalqueuedatatoleaderqueue_102',['sendLocalQueueDataToLeaderQueue',['../classbroth_1_1server_1_1Server.html#ae74e74ad87228762ecc3c01a7d7c5d11',1,'broth::server::Server']]],
+  ['serialize_103',['serialize',['../classMessageRequestVote.html#aa897867e1e0038f8f91f866055e481fc',1,'MessageRequestVote::serialize()'],['../classMessageSendVote.html#a3042d02a591a19dd25ecfbb8b3fd55a4',1,'MessageSendVote::serialize()'],['../classMessageRequestAppendEntry.html#a7cc5e53665e6e494b41a547170249407',1,'MessageRequestAppendEntry::serialize()'],['../classMessageRespondAppendEntry.html#ac9984fc4880cf69bbe4a1cdc4c8dfca0',1,'MessageRespondAppendEntry::serialize()']]],
+  ['server_104',['Server',['../classbroth_1_1server_1_1Server.html',1,'broth::server::Server'],['../classbroth_1_1server_1_1Server.html#a4796de4db66dfc8b82eeb9ddfdb5ad04',1,'broth::server::Server::Server()']]],
+  ['server_2ecpp_105',['server.cpp',['../server_8cpp.html',1,'']]],
+  ['server_2ehpp_106',['server.hpp',['../server_8hpp.html',1,'']]],
+  ['serverstate_107',['ServerState',['../namespacebroth_1_1server.html#a51973c78942fa1e16810c4bd4066d49e',1,'broth::server']]],
+  ['setelectionalarmvalue_108',['setElectionAlarmValue',['../classbroth_1_1server_1_1Server.html#a9d915304b0bf1426f4dc5c04c0f56a7d',1,'broth::server::Server']]],
+  ['setloggerid_109',['setLoggerId',['../classbroth_1_1logger_1_1Logger.html#ac64d48d623248570d9dc52cb216737eb',1,'broth::logger::Logger']]],
+  ['setloglevel_110',['setLogLevel',['../classbroth_1_1logger_1_1Logger.html#aa60e2c738eb36cdaac00b751b067a26a',1,'broth::logger::Logger']]],
+  ['setmatchindex_111',['setMatchIndex',['../classbroth_1_1logholder_1_1LogHolder.html#a4c04c1be4708266bacae0d77541b03e3',1,'broth::logholder::LogHolder']]],
+  ['setnextindex_112',['setNextIndex',['../classbroth_1_1logholder_1_1LogHolder.html#a5396ce83e17883092ae38113fb65f6ce',1,'broth::logholder::LogHolder']]],
+  ['startnewelection_113',['startNewElection',['../classbroth_1_1server_1_1Server.html#a5ac5e9d72058688d3e394d0dea5812e4',1,'broth::server::Server']]],
+  ['string_5ft_114',['string_t',['../configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef',1,'configuration.hpp']]],
+  ['success_115',['success',['../classMessageRespondAppendEntry.html#a72fbbd9e7cc4879216343572829c4730',1,'MessageRespondAppendEntry']]],
+  ['switchstate_116',['switchState',['../classbroth_1_1server_1_1Server.html#a3070d2d87bd23c7f0cab44210dd84e88',1,'broth::server::Server']]]
+];
