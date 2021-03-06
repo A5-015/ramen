@@ -1,4 +1,0 @@
-<map id="ramen::server::Server" name="ramen::server::Server">
-<area shape="rect" id="node4" href="$classramen_1_1logholder_1_1LogHolder.html" title="Holds the logs of the consensus for the given server. " alt="" coords="343,123,547,149"/>
-<area shape="rect" id="node7" href="$classramen_1_1logger_1_1Logger.html" title="The logger class for logging messages. Maximum message size is 200 characters. " alt="" coords="363,173,527,200"/>
-</map>
