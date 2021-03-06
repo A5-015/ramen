@@ -24,16 +24,25 @@ void _server::init(string_t mesh_name,
                    uint16_t mesh_port,
                    uint8_t logging_level) {
   this->_logger.setLogLevel(logging_level);
+
   // Initialize painlessMesh
   this->_mesh.init(mesh_name, mesh_password, &_scheduler, mesh_port);
+
+  // Set callbacks
   this->_mesh.onReceive([&](uint32_t from, string_t data) {
     this->receiveData(from, data);
   });
+
+  // Set node ID and time
   this->_id = _mesh.getNodeId();
   this->_logger.setLoggerId(_mesh.getNodeId());
   this->_previous_node_time = _mesh.getNodeTime();
+
+  // Set the election alarm
   this->setElectionAlarmValue();
-  this->_logger(DEBUG, "Just initialized painlessMesh\n");
+
+  // Let the user know that initialization was successful
+  this->_logger(DEBUG, "Just initialized the node!\n");
 };
 
 void _server::update() {
