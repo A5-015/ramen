@@ -25,6 +25,9 @@ int main(int argc, char** argv) {
 
   std::vector<Server*> nodes;
 
+  std::cout << "\n\033[95m>> Calling broth::server::Server::init() for all "
+               "nodes:\033[0m\n";
+
   // Generate the nodes
   for(uint8_t i = 0; i < result["nodes"].as<int>(); ++i) {
     // Generate node
@@ -32,12 +35,15 @@ int main(int argc, char** argv) {
     // Set node ID, start IDs from 1
     nodes.back()->_mesh.setNodeId(i + 1);
     // Initialize the node
-    nodes.back()->init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
-    // Override node's internal logging levels
-    nodes.back()->_logger.setLogLevel(broth::logger::DEBUG);
+    nodes.back()->init(MESH_NAME,
+                       MESH_PASSWORD,
+                       MESH_PORT,
+                       broth::logger::DEBUG);
+    // // Override node's internal logging levels
+    // nodes.back()->_logger.setLogLevel(broth::logger::DEBUG);
   }
 
-  // Create the connections between nodes
+  // Create the connections between nodes wihtin the virtual mesh network
   for(uint8_t i = 0; i < result["nodes"].as<int>(); ++i) {
     for(uint8_t j = 0; j < result["nodes"].as<int>(); ++j) {
       if(nodes[i]->_mesh._node_id != nodes[j]->_mesh._node_id) {
@@ -47,7 +53,8 @@ int main(int argc, char** argv) {
     }
   }
 
-  std::cout << "\n\033[95m>> Actual simulation loop starts here:\033[0m\n";
+  std::cout << "\n\033[95m>> Calling broth::server::Server::update() in a loop "
+               "for all nodes:\033[0m\n";
 
   // Simulates loop() from Arduino
   while(true) {

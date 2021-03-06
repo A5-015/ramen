@@ -13,13 +13,17 @@ using _logholder = broth::logholder::LogHolder;
 using namespace broth::logger;
 
 _server::Server() :
-    _state(FOLLOWER), _term(0), _received_new_append_entry_request(false) {
-  this->_logger.setLogLevel(INFO);
-};
+    _state(FOLLOWER),
+    _term(0),
+    _received_new_append_entry_request(false) {
+
+    };
 
 void _server::init(string_t mesh_name,
                    string_t mesh_password,
-                   uint16_t mesh_port) {
+                   uint16_t mesh_port,
+                   uint8_t logging_level) {
+  this->_logger.setLogLevel(logging_level);
   // Initialize painlessMesh
   this->_mesh.init(mesh_name, mesh_password, &_scheduler, mesh_port);
   this->_mesh.onReceive([&](uint32_t from, string_t data) {

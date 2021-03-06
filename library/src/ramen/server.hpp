@@ -56,7 +56,10 @@ namespace server {
      *
      * Add this to your setup() function.
      */
-    void init(string_t mesh_name, string_t mesh_password, uint16_t mesh_port);
+    void init(string_t mesh_name,
+              string_t mesh_password,
+              uint16_t mesh_port,
+              uint8_t logging_level = INFO);
 
     /**
      * @brief Perform crucial maintenance task.
