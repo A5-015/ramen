@@ -1,0 +1,12 @@
+<map id="/ramen/library/src/ramen/configuration.hpp" name="/ramen/library/src/ramen/configuration.hpp">
+<area shape="rect" id="node1" title="configuration.hpp" alt="" coords="276,5,461,47"/>
+<area shape="rect" id="node2" href="$data__queue_8hpp.html" title="data_queue.hpp" alt="" coords="45,95,221,136"/>
+<area shape="rect" id="node4" href="$server_8hpp.html" title="server.hpp" alt="" coords="347,184,487,225"/>
+<area shape="rect" id="node6" href="$ramen_8h.html" title="Main header file for the end user." alt="" coords="240,273,377,315"/>
+<area shape="rect" id="node7" href="$log__holder_8hpp.html" title="log_holder.hpp" alt="" coords="461,95,628,136"/>
+<area shape="rect" id="node9" href="$logger_8hpp.html" title="logger.hpp" alt="" coords="245,95,385,136"/>
+<area shape="rect" id="node10" href="$messages_8hpp.html" title="messages.hpp" alt="" coords="753,184,920,225"/>
+<area shape="rect" id="node3" href="$data__queue_8cpp.html" title="data_queue.cpp" alt="" coords="45,184,220,225"/>
+<area shape="rect" id="node5" href="$server_8cpp.html" title="server.cpp" alt="" coords="585,273,723,315"/>
+<area shape="rect" id="node8" href="$log__holder_8cpp.html" title="log_holder.cpp" alt="" coords="563,184,729,225"/>
+</map>

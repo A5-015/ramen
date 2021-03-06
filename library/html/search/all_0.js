@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['_5fcommit_5findex_0',['_commit_index',['../classbroth_1_1server_1_1Server.html#a225393a7e0024be24d9399869b8a622b',1,'broth::server::Server']]],
+  ['_5fdataqueue_1',['_dataqueue',['../server_8cpp.html#ac93044b924878e73491652b8562c9ed7',1,'server.cpp']]],
+  ['_5felection_5falarm_2',['_election_alarm',['../classbroth_1_1server_1_1Server.html#a661dba400780fd864bd1cad8e86b92e8',1,'broth::server::Server']]],
+  ['_5fentries_3',['_entries',['../classbroth_1_1dataqueue_1_1DataQueue.html#a24720fdf4ea4ccf3c929f36af4848dc0',1,'broth::dataqueue::DataQueue::_entries()'],['../classbroth_1_1logholder_1_1LogHolder.html#a3a03236d21a5ffe69b6d430d61637745',1,'broth::logholder::LogHolder::_entries()']]],
+  ['_5fid_4',['_id',['../classbroth_1_1server_1_1Server.html#a843e2262bd4a08efb34858bfeae005d0',1,'broth::server::Server']]],
+  ['_5flast_5fheart_5fbeat_5',['_last_heart_beat',['../classbroth_1_1server_1_1Server.html#a15ffc51cc427da793a0028d97c1cef96',1,'broth::server::Server']]],
+  ['_5flevel_6',['_level',['../classbroth_1_1logger_1_1Logger.html#a228fbec423eb60c62b3c28605b060e71',1,'broth::logger::Logger']]],
+  ['_5flog_7',['_log',['../classbroth_1_1server_1_1Server.html#a0853ba9b9affd71d514d83b32b3c2881',1,'broth::server::Server']]],
+  ['_5flogger_8',['_logger',['../classbroth_1_1server_1_1Server.html#ab252b4e7380e6b1d0209b547efe80f3e',1,'broth::server::Server']]],
+  ['_5flogholder_9',['_logholder',['../server_8cpp.html#a23dc62b69251eb1e7d48acb1bd628d9a',1,'server.cpp']]],
+  ['_5fmatch_5findex_5fptr_10',['_match_index_ptr',['../classbroth_1_1logholder_1_1LogHolder.html#a30da8f1968f225748fd2218bd3698d51',1,'broth::logholder::LogHolder']]],
+  ['_5fmesh_11',['_mesh',['../classbroth_1_1server_1_1Server.html#a4b54f81fa28b544f792a47b26f700569',1,'broth::server::Server']]],
+  ['_5fnext_5findex_5fptr_12',['_next_index_ptr',['../classbroth_1_1logholder_1_1LogHolder.html#abcc184e31325281a2fb1a7e87d3bf779',1,'broth::logholder::LogHolder']]],
+  ['_5fpeers_13',['_peers',['../classbroth_1_1server_1_1Server.html#a702461eb7324a81b346e561f91fd6853',1,'broth::server::Server']]],
+  ['_5fprevious_5fnode_5ftime_14',['_previous_node_time',['../classbroth_1_1server_1_1Server.html#a066b5b9e4143534e49fe1e42b6e45a4e',1,'broth::server::Server']]],
+  ['_5freceived_5fnew_5fappend_5fentry_5frequest_15',['_received_new_append_entry_request',['../classbroth_1_1server_1_1Server.html#a342b2563f44007620c48b0737414f9d7',1,'broth::server::Server']]],
+  ['_5fscheduler_16',['_scheduler',['../classbroth_1_1server_1_1Server.html#afc5b48b892fa1dc310156ac6470aff4d',1,'broth::server::Server']]],
+  ['_5fserver_17',['_server',['../server_8cpp.html#ac1bed28c60076e379769fb1bbc413cad',1,'server.cpp']]],
+  ['_5fstate_18',['_state',['../classbroth_1_1server_1_1Server.html#aa481d688ba9f5d272d1f645fdcf9a458',1,'broth::server::Server']]],
+  ['_5fstr_19',['_str',['../classbroth_1_1logger_1_1Logger.html#a52c0bb6b55e0597d217021af11d2c0b3',1,'broth::logger::Logger']]],
+  ['_5ftask_5felection_5fptr_20',['_task_election_ptr',['../classbroth_1_1server_1_1Server.html#a88051a17e8b56d4b28aa53a62b3ecb0c',1,'broth::server::Server']]],
+  ['_5fterm_21',['_term',['../classbroth_1_1server_1_1Server.html#a9f3e8bd4073192096ee532fb3f5c2d3c',1,'broth::server::Server']]],
+  ['_5fvoted_5ffor_22',['_voted_for',['../classbroth_1_1server_1_1Server.html#ac6b8fcb839ae279cd08fb5e80b7a3d4d',1,'broth::server::Server']]],
+  ['_5fvotes_5freceived_5fptr_23',['_votes_received_ptr',['../classbroth_1_1server_1_1Server.html#aebd334a43df7b0ec031929d8d932f425',1,'broth::server::Server']]]
+];
