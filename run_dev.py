@@ -74,11 +74,11 @@ parser.add_argument(
     help="Runs the Docker container in interactive mode and gives shell access",
 )
 
-parser.add_argument(
-    "--img",
-    action="store_true",
-    help="Builds a new Docker image from the Dockerfile",
-)
+# parser.add_argument(
+#     "--img",
+#     action="store_true",
+#     help="Builds a new Docker image from the Dockerfile",
+# )
 
 parser.add_argument(
     "--doc",
@@ -107,17 +107,17 @@ class bcolors:
     UNDERLINE = "\033[4m"
 
 
-def check_image():
-    """
-    Checks if the image exists locally and builds it if it doesn't exist
-    """
+# def check_image():
+#     """
+#     Checks if the image exists locally and builds it if it doesn't exist
+#     """
 
-    ramen_dev_image = subprocess.check_output(
-        ["docker", "images", "-q", "ramen-dev:latest"]
-    ).decode("utf-8")
+#     ramen_dev_image = subprocess.check_output(
+#         ["docker", "images", "-q", "ramen-dev:latest"]
+#     ).decode("utf-8")
 
-    if ramen_dev_image == "":
-        os.system("docker build -t ramen-dev .")
+#     if ramen_dev_image == "":
+#         os.system("docker build -t ramen-dev .")
 
 
 def check_root_access():
@@ -146,9 +146,9 @@ def run_command_in_docker(command, privileged=False):
         privileged_option = ""
 
     check_root_access()
-    check_image()
+    # check_image()
     os.system(
-        'docker run --user=1000 %s -t -v %s:/ramen -v %s:/.platformio ramen-dev /bin/bash -c "%s"'
+        'docker run --user=1000 %s -t -v %s:/ramen -v %s:/.platformio ghcr.io/a5-015/ramen/ramen-dev /bin/bash -c "%s"'
         % (
             privileged_option,
             project_path,
@@ -234,9 +234,9 @@ elif args.virtual:
 
 elif args.shell:
     check_root_access()
-    check_image()
+    # check_image()
     os.system(
-        "docker run --user=1000 -it -v %s:/ramen -v %s:/.platformio  ramen-dev"
+        "docker run --user=1000 -it -v %s:/ramen -v %s:/.platformio  ghcr.io/a5-015/ramen/ramen-dev"
         % (project_path, os.path.join(project_path, ".cache"))
     )
 
@@ -266,9 +266,9 @@ elif args.pbuild:
 elif args.doc:
     run_command_in_docker("cd docs && doxygen")
 
-elif args.img:
-    check_root_access()
-    os.system("docker build -t ramen-dev .")
+# elif args.img:
+#     check_root_access()
+#     os.system("docker build -t ramen-dev .")
 
 elif args.pupload:
     check_root_access()
