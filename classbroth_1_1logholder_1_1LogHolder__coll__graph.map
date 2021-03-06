@@ -1,5 +1,0 @@
-<map id="broth::logholder::LogHolder" name="broth::logholder::LogHolder">
-<area shape="rect" id="node1" title="Holds the logs of the consensus for the given server." alt="" coords="348,46,547,73"/>
-<area shape="rect" id="node2" title=" " alt="" coords="11,5,177,47"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,71,183,112"/>
-</map>
