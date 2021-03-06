@@ -132,25 +132,25 @@ class MessageRespondAppendEntry {
 };
 
 // TODO: Draft
-class MessageEntry {
- public:
-  MessageType type = ENTRY;
+// class MessageEntry {
+//  public:
+//   MessageType type = ENTRY;
 
-  string_t serialize(std::vector<std::pair<uint32_t, string_t>> entries) {
-#ifdef _RAMEN_CATCH_TESTING_
-    DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
-#else
-    DynamicJsonDocument payload(MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE);
-#endif
+//   string_t serialize(std::vector<std::pair<uint32_t, string_t>> entries) {
+// #ifdef _RAMEN_CATCH_TESTING_
+//     DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
+// #else
+//     DynamicJsonDocument payload(MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE);
+// #endif
 
-    string_t serialized_payload;
-    payload["type"] = type;
-    payload["entries"] = entries;
+//     string_t serialized_payload;
+//     payload["type"] = type;
+//     payload["entries"] = entries;
 
-    serializeJson(payload, serialized_payload);
+//     serializeJson(payload, serialized_payload);
 
-    return serialized_payload;
-  }
-};
+//     return serialized_payload;
+//   }
+// };
 
 #endif
