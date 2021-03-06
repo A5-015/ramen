@@ -50,16 +50,9 @@ namespace logger {
     void setLogLevel(uint8_t given_level) {
       _level = given_level;
 
-// clang-format off
-      // Print the id of the node while testing
-      #ifdef _RAMEN_CATCH_TESTING_
-      string_t s = std::to_string(this->id);
-      Serial.print(F("[ID:"));
-      Serial.print(s.c_str());
-      Serial.print(F("] "));
-      #endif
-      // clang-format on
-
+      // clang-format off
+      // Don't print 'logging level set to X' during testing
+      #ifndef _RAMEN_CATCH_TESTING_
       Serial.print(F("Logging level is set to: "));
 
       if(_level == DEBUG) {
@@ -79,6 +72,8 @@ namespace logger {
       }
 
       Serial.println();
+      #endif
+      // clang-format on
     };
 
     /**
