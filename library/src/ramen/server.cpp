@@ -10,6 +10,7 @@
 using _server = broth::server::Server;
 using _dataqueue = broth::dataqueue::DataQueue;
 using _logholder = broth::logholder::LogHolder;
+using _meshnetwork = broth::meshnetwork::MeshNetwork;
 using namespace broth::message;
 using namespace broth::logger;
 
@@ -34,7 +35,7 @@ void _server::init(string_t mesh_name,
                    logging_level);
 
   // Set callbacks
-  this->_mesh.onReceive([&](uint32_t from, string_t data) {
+  this->_mesh.onReceiveCallback([&](uint32_t from, string_t data) {
     this->receiveData(from, data);
   });
 

@@ -14,7 +14,7 @@ namespace meshnetwork {
   using namespace broth::logger;
 
   typedef enum { PAINLESSMESH = 0 } MeshNetworkType;
-  typedef std::function<void(uint32_t from, string_t &data)>
+  typedef std::function<void(uint32_t from, string_t& data)>
       received_callback_t;
 
   /**
@@ -23,6 +23,7 @@ namespace meshnetwork {
    */
   class MeshNetwork {
    private:
+    uint32_t _node_id;
     Scheduler _scheduler;
     Logger _logger;
     MeshNetworkType _selected_mesh_network_type;
@@ -77,6 +78,14 @@ namespace meshnetwork {
     uint32_t getNodeTime();
 
     /**
+     * @brief Get the current mesh time (if different than node time), as
+     * perceived by the mesh network
+     *
+     * @return uint32_t
+     */
+    uint32_t getMeshTime();
+
+    /**
      * @brief Get the current list of nodes in the network
      *
      * @param include_self Whether to include the current node to the list or
@@ -111,7 +120,53 @@ namespace meshnetwork {
      * @param on_receive A function that takes two arguments, you can use a
      * lambda function
      */
-    void onReceive(received_callback_t on_receive);
+    void onReceiveCallback(received_callback_t on_receive);
+
+    /////////////////////////////////////////////////
+    // Methods used only during testing
+    /////////////////////////////////////////////////
+
+#ifdef _RAMEN_CATCH_TESTING_
+
+    /**
+     * @brief Force set the mesh time to given value
+     * [NOTE: Used for testing purposes only]
+     *
+     * @param time
+     */
+    void setMeshTime(uint32_t time);
+
+    /**
+     * @brief Force increment the mesh time by given value
+     * [NOTE: Used for testing purposes only]
+     *
+     * @param time
+     */
+    void incrementMeshTimeBy(uint32_t time);
+
+    /**
+     * @brief Force set the current node's ID
+     * [NOTE: Used for testing purposes only]
+     *
+     * @param node_id
+     */
+    void setNodeId(uint32_t node_id);
+
+    /**
+     * @brief Force add a neighbour node to the current node
+     * [NOTE: Used for testing purposes only]
+     *
+     * @param neighbour_node
+     */
+    void addNeighbourNode(MeshNetwork& neighbour_node);
+
+    /**
+     * @brief Go through the message buffer and see if there is any new message
+     * [NOTE: Used for testing purposes only]
+     */
+    void checkForNewMessages();
+
+#endif
   };
 
 } // namespace meshnetwork
