@@ -5,11 +5,12 @@
  */
 #include "ramen/server.hpp"
 
-#include "ramen/messages.hpp"
+#include "ramen/message.hpp"
 
 using _server = broth::server::Server;
 using _dataqueue = broth::dataqueue::DataQueue;
 using _logholder = broth::logholder::LogHolder;
+using namespace broth::message;
 using namespace broth::logger;
 
 _server::Server() :

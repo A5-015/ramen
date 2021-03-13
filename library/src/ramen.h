@@ -10,6 +10,7 @@
 #include "ramen/data_queue.hpp"
 #include "ramen/log_holder.hpp"
 #include "ramen/logger.hpp"
+#include "ramen/message.hpp"
 #include "ramen/server.hpp"
 
 using ramen = broth::server::Server;
