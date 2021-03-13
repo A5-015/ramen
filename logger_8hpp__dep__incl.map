@@ -1,6 +1,8 @@
 <map id="/ramen/library/src/ramen/logger.hpp" name="/ramen/library/src/ramen/logger.hpp">
-<area shape="rect" id="node1" title="logger.hpp" alt="" coords="113,5,253,47"/>
-<area shape="rect" id="node2" href="$server_8hpp.html" title="server.hpp" alt="" coords="59,95,199,136"/>
-<area shape="rect" id="node4" href="$ramen_8h.html" title="Main header file for the end user." alt="" coords="169,184,306,225"/>
-<area shape="rect" id="node3" href="$server_8cpp.html" title="server.cpp" alt="" coords="5,184,144,225"/>
+<area shape="rect" id="node1" title="logger.hpp" alt="" coords="197,5,337,47"/>
+<area shape="rect" id="node2" href="$mesh__network_8hpp.html" title="mesh_network.hpp" alt="" coords="169,95,365,136"/>
+<area shape="rect" id="node4" href="$server_8hpp.html" title="server.hpp" alt="" coords="5,184,145,225"/>
+<area shape="rect" id="node6" href="$ramen_8h.html" title="Main header file for the end user." alt="" coords="333,273,471,315"/>
+<area shape="rect" id="node3" href="$mesh__network_8cpp.html" title="mesh_network.cpp" alt="" coords="170,184,365,225"/>
+<area shape="rect" id="node5" href="$server_8cpp.html" title="server.cpp" alt="" coords="6,273,145,315"/>
 </map>

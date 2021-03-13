@@ -1,0 +1,4 @@
+<map id="broth::meshnetwork::MeshNetwork" name="broth::meshnetwork::MeshNetwork">
+<area shape="rect" id="node1" title="Abstraction layer for the mesh network underneath." alt="" coords="7,95,161,136"/>
+<area shape="rect" id="node2" href="$classbroth_1_1logger_1_1Logger.html" title="The logger class for logging messages. Maximum message size is 200 characters." alt="" coords="5,5,163,32"/>
+</map>

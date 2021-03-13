@@ -8,7 +8,7 @@ var indexSectionsWithContent =
   5: "_cegilmpst",
   6: "_rs",
   7: "lms",
-  8: "cdefilrsw",
+  8: "cdefilprsw",
   9: "ehm"
 };
 

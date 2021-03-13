@@ -84,13 +84,14 @@ Collaboration diagram for broth::server::Server:</div>
 <div class="dyncontent">
 <div class="center"><img src="classbroth_1_1server_1_1Server__coll__graph.png" border="0" usemap="#broth_1_1server_1_1Server_coll__map" alt="Collaboration graph"/></div>
 <map name="broth_1_1server_1_1Server_coll__map" id="broth_1_1server_1_1Server_coll__map">
-<area shape="rect" title="Class that manages the consensus on the mesh network." alt="" coords="731,121,885,147"/>
-<area shape="rect" href="classbroth_1_1logholder_1_1LogHolder.html" title="Holds the logs of the consensus for the given server." alt="" coords="348,45,547,71"/>
-<area shape="rect" title=" " alt="" coords="11,5,177,47"/>
-<area shape="rect" title=" " alt="" coords="5,71,183,112"/>
-<area shape="rect" href="classbroth_1_1logger_1_1Logger.html" title="The logger class for logging messages. Maximum message size is 200 characters." alt="" coords="369,95,526,122"/>
-<area shape="rect" title=" " alt="" coords="360,146,535,173"/>
-<area shape="rect" title=" " alt="" coords="371,197,523,239"/>
+<area shape="rect" title="Class that manages the consensus on the mesh network." alt="" coords="731,121,885,148"/>
+<area shape="rect" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html" title="Abstraction layer for the mesh network underneath." alt="" coords="371,55,524,97"/>
+<area shape="rect" href="classbroth_1_1logger_1_1Logger.html" title="The logger class for logging messages. Maximum message size is 200 characters." alt="" coords="15,27,173,53"/>
+<area shape="rect" href="classbroth_1_1logholder_1_1LogHolder.html" title="Holds the logs of the consensus for the given server." alt="" coords="348,121,547,148"/>
+<area shape="rect" title=" " alt="" coords="11,106,177,147"/>
+<area shape="rect" title=" " alt="" coords="5,171,183,213"/>
+<area shape="rect" title=" " alt="" coords="360,172,535,199"/>
+<area shape="rect" title=" " alt="" coords="371,223,523,265"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -186,10 +187,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a15ffc51cc427da793a0028d97c1cef96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab252b4e7380e6b1d0209b547efe80f3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbroth_1_1logger_1_1Logger.html">Logger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1server_1_1Server.html#ab252b4e7380e6b1d0209b547efe80f3e">_logger</a></td></tr>
 <tr class="separator:ab252b4e7380e6b1d0209b547efe80f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b54f81fa28b544f792a47b26f700569"><td class="memItemLeft" align="right" valign="top">painlessMesh&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1server_1_1Server.html#a4b54f81fa28b544f792a47b26f700569">_mesh</a></td></tr>
-<tr class="separator:a4b54f81fa28b544f792a47b26f700569"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc5b48b892fa1dc310156ac6470aff4d"><td class="memItemLeft" align="right" valign="top">Scheduler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1server_1_1Server.html#afc5b48b892fa1dc310156ac6470aff4d">_scheduler</a></td></tr>
-<tr class="separator:afc5b48b892fa1dc310156ac6470aff4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b0855a008688b5a15f282e1bca6c297"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html">MeshNetwork</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1server_1_1Server.html#a8b0855a008688b5a15f282e1bca6c297">_mesh</a></td></tr>
+<tr class="separator:a8b0855a008688b5a15f282e1bca6c297"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88051a17e8b56d4b28aa53a62b3ecb0c"><td class="memItemLeft" align="right" valign="top">Task *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1server_1_1Server.html#a88051a17e8b56d4b28aa53a62b3ecb0c">_task_election_ptr</a></td></tr>
 <tr class="separator:a88051a17e8b56d4b28aa53a62b3ecb0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a225393a7e0024be24d9399869b8a622b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1server_1_1Server.html#a225393a7e0024be24d9399869b8a622b">_commit_index</a></td></tr>
@@ -198,7 +197,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class that manages the consensus on the mesh network. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00029">29</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00031">31</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4796de4db66dfc8b82eeb9ddfdb5ad04"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4796de4db66dfc8b82eeb9ddfdb5ad04">&#9670;&nbsp;</a></span>Server()</h2>
@@ -217,7 +216,7 @@ Private Attributes</h2></td></tr>
 
 <p>Construct a new <a class="el" href="classbroth_1_1server_1_1Server.html" title="Class that manages the consensus on the mesh network.">Server</a> object. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00015">15</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00017">17</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -246,7 +245,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00175">175</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00181">181</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -274,7 +273,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00299">299</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00305">305</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -295,7 +294,7 @@ Private Attributes</h2></td></tr>
 
 <p>Checks for whether the timeout interval has elapsed for an election. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00104">104</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00110">110</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -319,7 +318,7 @@ Private Attributes</h2></td></tr>
 <dd>
 false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00152">152</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00158">158</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -358,7 +357,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00309">309</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00315">315</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -379,7 +378,7 @@ false </dd></dl>
 
 <p>Handle the response of a follower to append an entry. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00359">359</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00365">365</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -407,7 +406,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00363">363</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00369">369</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -446,7 +445,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00215">215</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00221">221</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -485,7 +484,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00253">253</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00259">259</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -528,9 +527,20 @@ false </dd></dl>
 </div><div class="memdoc">
 
 <p>Initializes the raft consensus on the mesh network. </p>
-<p>Add this to your setup() function. </p>
+<p>Add this to your setup() function.</p>
+<p>Initializes the raft consensus on the mesh network</p>
+<p>Add this to your setup() function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mesh_name</td><td>Name of the mesh network </td></tr>
+    <tr><td class="paramname">mesh_password</td><td>Password for the mesh network </td></tr>
+    <tr><td class="paramname">mesh_port</td><td>Port for the mesh network </td></tr>
+    <tr><td class="paramname">logging_level</td><td>Logging level for the system messages </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00022">22</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00024">24</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -569,7 +579,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00361">361</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00367">367</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -602,7 +612,7 @@ false </dd></dl>
 <p>Handles incoming data string from the mesh network. </p>
 <dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00179">179</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00185">185</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -648,7 +658,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00278">278</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00284">284</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -669,7 +679,7 @@ false </dd></dl>
 
 <p>Request vote from a follower as a candidate. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00202">202</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00208">208</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -708,7 +718,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00177">177</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00183">183</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -736,7 +746,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00362">362</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00368">368</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -757,7 +767,7 @@ false </dd></dl>
 
 <p>Set the election alarm value. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00094">94</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00100">100</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -778,7 +788,7 @@ false </dd></dl>
 
 <p>Start a new election. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00129">129</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00135">135</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -817,7 +827,7 @@ false </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00066">66</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00072">72</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -839,7 +849,7 @@ false </dd></dl>
 <p>Perform crucial maintenance task. </p>
 <p>Add this to your loop() function. </p>
 
-<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00048">48</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00054">54</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 
 </div>
 </div>
@@ -864,7 +874,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00046">46</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00047">47</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -888,7 +898,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00037">37</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00039">39</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -912,7 +922,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00031">31</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00033">33</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -936,7 +946,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00041">41</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00043">43</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -960,7 +970,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00036">36</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00038">38</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -984,12 +994,12 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00042">42</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00044">44</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a4b54f81fa28b544f792a47b26f700569"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b54f81fa28b544f792a47b26f700569">&#9670;&nbsp;</a></span>_mesh</h2>
+<a id="a8b0855a008688b5a15f282e1bca6c297"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b0855a008688b5a15f282e1bca6c297">&#9670;&nbsp;</a></span>_mesh</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -998,7 +1008,7 @@ false </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">painlessMesh broth::server::Server::_mesh</td>
+          <td class="memname"><a class="el" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html">MeshNetwork</a> broth::server::Server::_mesh</td>
         </tr>
       </table>
   </td>
@@ -1008,7 +1018,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00043">43</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00045">45</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1032,7 +1042,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00032">32</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00034">34</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1056,7 +1066,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00038">38</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00040">40</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1080,31 +1090,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00039">39</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
-
-</div>
-</div>
-<a id="afc5b48b892fa1dc310156ac6470aff4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc5b48b892fa1dc310156ac6470aff4d">&#9670;&nbsp;</a></span>_scheduler</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Scheduler broth::server::Server::_scheduler</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00044">44</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00041">41</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1128,7 +1114,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00033">33</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00035">35</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1152,7 +1138,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00045">45</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00046">46</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1176,7 +1162,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00034">34</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00036">36</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1200,7 +1186,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00035">35</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00037">37</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>
@@ -1224,7 +1210,7 @@ false </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00040">40</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="server_8hpp_source.html#l00042">42</a> of file <a class="el" href="server_8hpp_source.html">server.hpp</a>.</p>
 
 </div>
 </div>

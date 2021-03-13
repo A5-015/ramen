@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['last_5flog_5findex_211',['last_log_index',['../classMessageRequestVote.html#a91c49847b65e09fe179311932ea0393e',1,'MessageRequestVote']]],
-  ['last_5flog_5fterm_212',['last_log_term',['../classMessageRequestVote.html#adbedef305b3cd2b66c23e11c8e34df2f',1,'MessageRequestVote']]]
+  ['last_5flog_5findex_248',['last_log_index',['../classbroth_1_1message_1_1MessageRequestVote.html#af2fe26cc4e15fe0d39ae5ca69485db04',1,'broth::message::MessageRequestVote']]],
+  ['last_5flog_5fterm_249',['last_log_term',['../classbroth_1_1message_1_1MessageRequestVote.html#aa368fbdb1734003a534e06aba6696af2',1,'broth::message::MessageRequestVote']]]
 ];

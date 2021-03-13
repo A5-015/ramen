@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['warning_239',['WARNING',['../namespacebroth_1_1logger.html#a7149e65bc8b9bbed208164658c064c54ad25fff062ea0096053f77a8568e250bb',1,'broth::logger']]]
+  ['send_5fvote_279',['SEND_VOTE',['../namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203a8429e1dfe534fbf675c3942f8e8eda13',1,'broth::message']]]
 ];

@@ -88,16 +88,23 @@ $(function() {
 : <a class="el" href="classbroth_1_1server_1_1Server.html#a0853ba9b9affd71d514d83b32b3c2881">broth::server::Server</a>
 </li>
 <li>_logger
-: <a class="el" href="classbroth_1_1server_1_1Server.html#ab252b4e7380e6b1d0209b547efe80f3e">broth::server::Server</a>
+: <a class="el" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html#abe3b2e50310f506c638e35e1964fd970">broth::meshnetwork::MeshNetwork</a>
+, <a class="el" href="classbroth_1_1server_1_1Server.html#ab252b4e7380e6b1d0209b547efe80f3e">broth::server::Server</a>
 </li>
 <li>_match_index_ptr
 : <a class="el" href="classbroth_1_1logholder_1_1LogHolder.html#a30da8f1968f225748fd2218bd3698d51">broth::logholder::LogHolder</a>
 </li>
 <li>_mesh
-: <a class="el" href="classbroth_1_1server_1_1Server.html#a4b54f81fa28b544f792a47b26f700569">broth::server::Server</a>
+: <a class="el" href="classbroth_1_1server_1_1Server.html#a8b0855a008688b5a15f282e1bca6c297">broth::server::Server</a>
 </li>
 <li>_next_index_ptr
 : <a class="el" href="classbroth_1_1logholder_1_1LogHolder.html#abcc184e31325281a2fb1a7e87d3bf779">broth::logholder::LogHolder</a>
+</li>
+<li>_node_id
+: <a class="el" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html#a0e61dd1218d3994e0496e274971a2420">broth::meshnetwork::MeshNetwork</a>
+</li>
+<li>_painless_mesh
+: <a class="el" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html#aec00daf1cd5ca75562bdbd4833d1ffbf">broth::meshnetwork::MeshNetwork</a>
 </li>
 <li>_peers
 : <a class="el" href="classbroth_1_1server_1_1Server.html#a702461eb7324a81b346e561f91fd6853">broth::server::Server</a>
@@ -105,11 +112,17 @@ $(function() {
 <li>_previous_node_time
 : <a class="el" href="classbroth_1_1server_1_1Server.html#a066b5b9e4143534e49fe1e42b6e45a4e">broth::server::Server</a>
 </li>
+<li>_printed_output
+: <a class="el" href="classbroth_1_1logger_1_1Logger.html#ac236d5df24b16ee8d3f290a234d80a50">broth::logger::Logger</a>
+</li>
 <li>_received_new_append_entry_request
 : <a class="el" href="classbroth_1_1server_1_1Server.html#a342b2563f44007620c48b0737414f9d7">broth::server::Server</a>
 </li>
 <li>_scheduler
-: <a class="el" href="classbroth_1_1server_1_1Server.html#afc5b48b892fa1dc310156ac6470aff4d">broth::server::Server</a>
+: <a class="el" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html#a16a6110e84de30d8163eb41c813196d9">broth::meshnetwork::MeshNetwork</a>
+</li>
+<li>_selected_mesh_network_type
+: <a class="el" href="classbroth_1_1meshnetwork_1_1MeshNetwork.html#ae2c4ddab57766901f074c447d3ca223d">broth::meshnetwork::MeshNetwork</a>
 </li>
 <li>_state
 : <a class="el" href="classbroth_1_1server_1_1Server.html#aa481d688ba9f5d272d1f645fdcf9a458">broth::server::Server</a>
@@ -134,21 +147,21 @@ $(function() {
 
 <h3><a id="index_c"></a>- c -</h3><ul>
 <li>commit_index
-: <a class="el" href="classMessageRequestAppendEntry.html#acb90d063caca9a1380141f446e3cdb88">MessageRequestAppendEntry</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestAppendEntry.html#a4787736913e702ae49c881726db51518">broth::message::MessageRequestAppendEntry</a>
 </li>
 </ul>
 
 
 <h3><a id="index_e"></a>- e -</h3><ul>
 <li>entries
-: <a class="el" href="classMessageRequestAppendEntry.html#a47de14d396df5d4f326446ae11344802">MessageRequestAppendEntry</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestAppendEntry.html#a8aa59a7208bfb235a5ff3342a152e0e3">broth::message::MessageRequestAppendEntry</a>
 </li>
 </ul>
 
 
 <h3><a id="index_g"></a>- g -</h3><ul>
 <li>granted
-: <a class="el" href="classMessageSendVote.html#ac3e2b47bfeb41d9ec27504b1b9968f71">MessageSendVote</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageSendVote.html#ab93a456311b0269064a76e9651502bcd">broth::message::MessageSendVote</a>
 </li>
 </ul>
 
@@ -162,50 +175,50 @@ $(function() {
 
 <h3><a id="index_l"></a>- l -</h3><ul>
 <li>last_log_index
-: <a class="el" href="classMessageRequestVote.html#a91c49847b65e09fe179311932ea0393e">MessageRequestVote</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestVote.html#af2fe26cc4e15fe0d39ae5ca69485db04">broth::message::MessageRequestVote</a>
 </li>
 <li>last_log_term
-: <a class="el" href="classMessageRequestVote.html#adbedef305b3cd2b66c23e11c8e34df2f">MessageRequestVote</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestVote.html#aa368fbdb1734003a534e06aba6696af2">broth::message::MessageRequestVote</a>
 </li>
 </ul>
 
 
 <h3><a id="index_m"></a>- m -</h3><ul>
 <li>match_index
-: <a class="el" href="classMessageRespondAppendEntry.html#a5244b0a424c6d608b6fed0cae3836407">MessageRespondAppendEntry</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRespondAppendEntry.html#a1179781e1fe10c6caeafc3fae822890a">broth::message::MessageRespondAppendEntry</a>
 </li>
 </ul>
 
 
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>previous_log_index
-: <a class="el" href="classMessageRequestAppendEntry.html#accad4fbb31420e04328d724d003183ad">MessageRequestAppendEntry</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestAppendEntry.html#a44adf8b266110d7419e1fdfd4caf2857">broth::message::MessageRequestAppendEntry</a>
 </li>
 <li>previous_log_term
-: <a class="el" href="classMessageRequestAppendEntry.html#aa1eb8c3d3be7f0deb096d2db6081ca26">MessageRequestAppendEntry</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestAppendEntry.html#a5e56ddfd79cc7c04537adec08d6c2768">broth::message::MessageRequestAppendEntry</a>
 </li>
 </ul>
 
 
 <h3><a id="index_s"></a>- s -</h3><ul>
 <li>success
-: <a class="el" href="classMessageRespondAppendEntry.html#a72fbbd9e7cc4879216343572829c4730">MessageRespondAppendEntry</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRespondAppendEntry.html#ab91b19720235e8efcd4ebe44d2c496d1">broth::message::MessageRespondAppendEntry</a>
 </li>
 </ul>
 
 
 <h3><a id="index_t"></a>- t -</h3><ul>
 <li>term
-: <a class="el" href="classMessageRequestAppendEntry.html#ae3cd1beb6be2e64ab94764f609005562">MessageRequestAppendEntry</a>
-, <a class="el" href="classMessageRequestVote.html#a09522f522db2791aad21ab5c67fa9026">MessageRequestVote</a>
-, <a class="el" href="classMessageRespondAppendEntry.html#a5b1b5f22ac40879c4e31738bf9eef2a5">MessageRespondAppendEntry</a>
-, <a class="el" href="classMessageSendVote.html#a8ece67ea5f758a346e96e0598d15a07f">MessageSendVote</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestAppendEntry.html#aa17b386bce41689a7cde40664825097c">broth::message::MessageRequestAppendEntry</a>
+, <a class="el" href="classbroth_1_1message_1_1MessageRequestVote.html#a5fa3bffe1022de8982a68083cb32b661">broth::message::MessageRequestVote</a>
+, <a class="el" href="classbroth_1_1message_1_1MessageRespondAppendEntry.html#a422451af94c3a074a8c06a966bd87ea0">broth::message::MessageRespondAppendEntry</a>
+, <a class="el" href="classbroth_1_1message_1_1MessageSendVote.html#aa35edb62b137a5ffe5b3e9e8a44f4c76">broth::message::MessageSendVote</a>
 </li>
 <li>type
-: <a class="el" href="classMessageRequestAppendEntry.html#a83e37801ecae6c18367f69951cd963bf">MessageRequestAppendEntry</a>
-, <a class="el" href="classMessageRequestVote.html#a6687c16975831784c1e117828c9c0aa6">MessageRequestVote</a>
-, <a class="el" href="classMessageRespondAppendEntry.html#adfd97284692cde37a58a51a4a4ebd693">MessageRespondAppendEntry</a>
-, <a class="el" href="classMessageSendVote.html#afc647ebe3f2e8417f67ef1f042b7652a">MessageSendVote</a>
+: <a class="el" href="classbroth_1_1message_1_1MessageRequestAppendEntry.html#a11ade6109e471078f88526daf53266c4">broth::message::MessageRequestAppendEntry</a>
+, <a class="el" href="classbroth_1_1message_1_1MessageRequestVote.html#a6c513222dd84287c5ffc43d713ecfa04">broth::message::MessageRequestVote</a>
+, <a class="el" href="classbroth_1_1message_1_1MessageRespondAppendEntry.html#adbd0fe10531de7d0e2218bd4bb207446">broth::message::MessageRespondAppendEntry</a>
+, <a class="el" href="classbroth_1_1message_1_1MessageSendVote.html#a9579cba1d47d83d458437aaa6b5d664f">broth::message::MessageSendVote</a>
 </li>
 </ul>
 </div><!-- contents -->
