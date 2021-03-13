@@ -5,8 +5,13 @@ SCENARIO("There is only one node in the network") {
   GIVEN("ramen init") {
     ramen network;
 
+    // Choose painlessMesh for testing
+    network._mesh._selected_mesh_network_type =
+        broth::meshnetwork::PAINLESSMESH;
+
     // Assign node id for testing
     uint32_t test_node_id = 12345;
+
     network._mesh.setNodeId(test_node_id);
 
     network.init(MESH_NAME, MESH_PASSWORD, MESH_PORT);
