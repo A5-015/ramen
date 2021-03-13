@@ -34,6 +34,10 @@ int main(int argc, char** argv) {
     // Generate node
     nodes.push_back(new Server());
 
+    // Choose painlessMesh for testing
+    nodes.back()->_mesh._selected_mesh_network_type =
+        broth::meshnetwork::PAINLESSMESH;
+
     // Set node ID, start IDs from 1
     nodes.back()->_mesh.setNodeId(i + 1);
 
@@ -42,9 +46,6 @@ int main(int argc, char** argv) {
                        MESH_PASSWORD,
                        MESH_PORT,
                        broth::logger::DEBUG);
-
-    // // Override node's internal logging levels
-    // nodes.back()->_logger.setLogLevel(broth::logger::DEBUG);
   }
 
   // Create the connections between nodes wihtin the virtual mesh network
