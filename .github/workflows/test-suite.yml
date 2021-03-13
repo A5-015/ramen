@@ -18,6 +18,23 @@ jobs:
       - name: Run the unit tests
         run: ./library/bin/ramen_unit_test
 
+  virtual-mesh-network:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/a5-015/ramen/ramen-dev
+    steps:  
+      - uses: actions/checkout@v1
+        with: 
+          submodules: true
+      - name: Prepare cmake
+        working-directory: ./library
+        run: cmake .
+      - name: Build ramen and virtual mesh network
+        working-directory: ./library
+        run: make virtual_esp
+      - name: Run the virtual mesh network with 10 nodes for 5 seconds
+        run: ./library/bin/virtual_esp -t 5 -n 10
+
   platformio-build:
     runs-on: ubuntu-latest
     container:
