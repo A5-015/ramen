@@ -31,6 +31,7 @@ namespace logger {
     uint8_t _level = 0;
     uint32_t id;
     char _str[200];
+    bool _printed_output = false;
 
    public:
     /**
@@ -128,6 +129,8 @@ namespace logger {
         // Print the message itself
         Serial.print(F(" "));
         Serial.print(_str);
+
+        this->_printed_output = true;
       }
 
       va_end(args);
@@ -169,6 +172,8 @@ namespace logger {
         // Print the message itself
         Serial.print(F(" "));
         Serial.print(message);
+
+        this->_printed_output = true;
       }
     }
   };
