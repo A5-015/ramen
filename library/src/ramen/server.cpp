@@ -27,7 +27,11 @@ void _server::init(string_t mesh_name,
   this->_logger.setLogLevel(logging_level);
 
   // Initialize painlessMesh
-  this->_mesh.init(mesh_name, mesh_password, &_scheduler, mesh_port);
+  this->_mesh.init(PAINLESSMESH,
+                   mesh_name,
+                   mesh_password,
+                   mesh_port,
+                   logging_level);
 
   // Set callbacks
   this->_mesh.onReceive([&](uint32_t from, string_t data) {
@@ -246,7 +250,7 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   message.term = this->_term;
   message.granted = granted;
 
-  this->_mesh.sendSingle(sender, message.serialize());
+  this->_mesh.sendMessageToNode(sender, message.serialize());
 
   this->_logger(INFO, "Replied to %u with %u vote\n", sender, message.granted);
 };
@@ -292,7 +296,7 @@ void _server::requestAppendEntries(uint32_t receiver,
   }
   message.commit_index = this->_commit_index;
 
-  this->_mesh.sendSingle(receiver, message.serialize());
+  this->_mesh.sendMessageToNode(receiver, message.serialize());
 
   // this->_logger(DEBUG, "Sent append entry request to %u\n", receiver);
 };
@@ -354,7 +358,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
     }
   }
 
-  this->_mesh.sendSingle(sender, message.serialize());
+  this->_mesh.sendMessageToNode(sender, message.serialize());
   this->_logger(DEBUG, "Responded to append entry request from %u\n", sender);
 };
 void _server::handleAppendEntriesResponse() {};

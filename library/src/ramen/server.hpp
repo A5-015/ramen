@@ -13,11 +13,13 @@
 #include "ramen/data_queue.hpp"
 #include "ramen/log_holder.hpp"
 #include "ramen/logger.hpp"
+#include "ramen/mesh_network.hpp"
 
 namespace broth {
 namespace server {
   using namespace broth::dataqueue;
   using namespace broth::logholder;
+  using namespace broth::meshnetwork;
   using namespace broth::logger;
 
   typedef enum { FOLLOWER = 0, CANDIDATE = 1, LEADER = 2 } ServerState;
@@ -40,8 +42,7 @@ namespace server {
     std::unordered_map<uint32_t, bool>* _votes_received_ptr = NULL;
     uint32_t _last_heart_beat;
     Logger _logger;
-    painlessMesh _mesh;
-    Scheduler _scheduler;
+    MeshNetwork _mesh;
     Task* _task_election_ptr;
     uint32_t _commit_index;
 
@@ -56,6 +57,17 @@ namespace server {
      * @brief Initializes the raft consensus on the mesh network
      *
      * Add this to your setup() function.
+     */
+
+    /**
+     * @brief Initializes the raft consensus on the mesh network
+     *
+     * Add this to your setup() function.
+     *
+     * @param mesh_name Name of the mesh network
+     * @param mesh_password Password for the mesh network
+     * @param mesh_port Port for the mesh network
+     * @param logging_level Logging level for the system messages
      */
     void init(string_t mesh_name,
               string_t mesh_password,

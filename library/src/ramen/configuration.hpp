@@ -8,8 +8,7 @@
 
     // Used for the actual library
     #ifndef _RAMEN_CONFIGURATION_HPP_
-    
-        #define _RAMEN_CONFIGURATION_HPP_
+    #define _RAMEN_CONFIGURATION_HPP_
 
         #include <Arduino.h>
 
