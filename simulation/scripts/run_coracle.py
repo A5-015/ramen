@@ -94,6 +94,37 @@ class Visualizer:
             self.statistics_dataframe.loc[key, :][0] = np.mean(value)
             self.statistics_dataframe.loc[key, :][1] = np.var(value)
 
+    def _generate_summary_table(self, fig):
+        fig.add_trace(
+            go.Table(
+                header=dict(
+                    values=list(["Attributes"])
+                    + list(self.statistics_dataframe.columns)
+                ),
+                cells=dict(
+                    values=[
+                        self.statistics_dataframe.index,
+                        self.statistics_dataframe.Mean,
+                        self.statistics_dataframe.Variance,
+                    ]
+                ),
+            ),
+            row=1,
+            col=1,
+        )
+
+    def _generate_packet_success_ratio_graph(self, fig):
+        fig.add_trace(
+            go.Scatter(
+                x=[i + 1 for i in range(len(self.raw_dictionary[self.psr]))],
+                y=self.raw_dictionary[self.psr],
+            ),
+            row=2,
+            col=1,
+        )
+        fig.update_xaxes(title_text="Run", tickformat="d", row=2, col=1)
+        fig.update_yaxes(title_text="Packet Success Ratio (%)", row=2, col=1)
+
     def initialize(self, all_runs):
         """
         Split the raw Coracle output by runs and iteratively parse
@@ -132,36 +163,11 @@ class Visualizer:
             ),
         )
 
-        # Add table
-        fig.add_trace(
-            go.Table(
-                header=dict(
-                    values=list(["Attributes"])
-                    + list(self.statistics_dataframe.columns)
-                ),
-                cells=dict(
-                    values=[
-                        self.statistics_dataframe.index,
-                        self.statistics_dataframe.Mean,
-                        self.statistics_dataframe.Variance,
-                    ]
-                ),
-            ),
-            row=1,
-            col=1,
-        )
+        # Add summary table
+        self._generate_summary_table(fig)
 
         # Add packet success plot
-        fig.add_trace(
-            go.Scatter(
-                x=[i + 1 for i in range(len(self.raw_dictionary[self.psr]))],
-                y=self.raw_dictionary[self.psr],
-            ),
-            row=2,
-            col=1,
-        )
-        fig.update_xaxes(title_text="Run", tickformat="d", row=2, col=1)
-        fig.update_yaxes(title_text="Packet Success Ratio (%)", row=2, col=1)
+        self._generate_packet_success_ratio_graph(fig)
 
         # Configure overall layout
         fig.update_layout(
