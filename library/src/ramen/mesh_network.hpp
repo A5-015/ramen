@@ -13,7 +13,16 @@ namespace broth {
 namespace meshnetwork {
   using namespace broth::logger;
 
+  /**
+   * @brief Holds the mesh network name mapping
+   *
+   */
   typedef enum { PAINLESSMESH = 0 } MeshNetworkType;
+
+  /**
+   * @brief Structure for defining the callback argument type
+   *
+   */
   typedef std::function<void(uint32_t from, string_t& data)>
       received_callback_t;
 

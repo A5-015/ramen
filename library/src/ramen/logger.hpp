@@ -13,6 +13,11 @@
 namespace broth {
 namespace logger {
 
+  /**
+   * @brief Types of messages that will be outputted to the user based on their
+   * severity levels
+   *
+   */
   typedef enum {
     DEBUG = 1,
     INFO = 2,
@@ -51,7 +56,7 @@ namespace logger {
     void setLogLevel(uint8_t given_level) {
       _level = given_level;
 
-      // clang-format off
+// clang-format off
       // Don't print 'logging level set to X' during testing
       #ifndef _RAMEN_CATCH_TESTING_
       Serial.print(F("Logging level is set to: "));
@@ -97,7 +102,7 @@ namespace logger {
       // Print the message if the logging level is equal or higher than the
       // set logging level
       if(given_level >= _level) {
-// clang-format off
+        // clang-format off
         // Print the id of the node while testing
         #ifdef _RAMEN_CATCH_TESTING_
         string_t s = std::to_string(this->id);
@@ -136,11 +141,24 @@ namespace logger {
       va_end(args);
     }
 
+    /**
+     * @brief Overloads the () operator to log messages.
+     * This function adds support for accepting string_t messages as well
+     *
+     * Example usage:
+     *
+     * broth::Logger Log;
+     * Log.setLogLevel(broth::ERROR);
+     * Log(broth::ERROR, "This is the error message %u \n", 1);
+     *
+     * @param givenLevel Logging level
+     * @param format The message itself
+     */
     void operator()(LogLevel given_level, string_t& message) {
       // Print the message if the logging level is equal or higher than the
       // set logging level
       if(given_level >= _level) {
-// clang-format off
+        // clang-format off
         // Print the id of the node while testing
         #ifdef _RAMEN_CATCH_TESTING_
         string_t s = std::to_string(this->id);

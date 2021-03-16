@@ -22,6 +22,10 @@ namespace server {
   using namespace broth::meshnetwork;
   using namespace broth::logger;
 
+  /**
+   * @brief Server state mapping
+   *
+   */
   typedef enum { FOLLOWER = 0, CANDIDATE = 1, LEADER = 2 } ServerState;
 
   /**
@@ -52,12 +56,6 @@ namespace server {
      *
      */
     Server();
-
-    /**
-     * @brief Initializes the raft consensus on the mesh network
-     *
-     * Add this to your setup() function.
-     */
 
     /**
      * @brief Initializes the raft consensus on the mesh network
