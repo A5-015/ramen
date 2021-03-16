@@ -4,8 +4,7 @@ on:
   workflow_dispatch:
     # Publish `master` as Docker `latest` image.
     branches:
-      - master
-
+      - graphs
     # Publish `v1.2.3` tags as releases.
     tags:
       - v*
@@ -17,10 +16,8 @@ env:
 jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
-  push:
+  build_and_push:
     runs-on: ubuntu-16.04
-    if: github.event_name == 'push'
-
     steps:
       - uses: actions/checkout@v2
 
