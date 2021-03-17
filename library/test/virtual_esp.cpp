@@ -1,8 +1,5 @@
-// #include <thread>
-// std::thread t1(&Server::update, &ramen_1);
-// t1.join();
-
 #include <cxxopts.hpp>
+#include <thread>
 #include <vector>
 
 #include "ramen.h"
@@ -91,6 +88,31 @@ int main(int argc, char** argv) {
     printed_output = false;
     iteration++;
   }
+
+  // auto run_node =
+  //     [](uint32_t node_id, std::vector<Server*> nodes, uint32_t target_time)
+  //     {
+  //       while(true) {
+  //         nodes[node_id]->update();
+
+  //         if(nodes[node_id]->_mesh.getMeshTime() > target_time) {
+  //           break;
+  //         }
+  //       }
+  //     };
+
+  // std::vector<std::thread> threads;
+
+  // for(uint32_t i = 0; i < result["nodes"].as<int>(); ++i) {
+  //   threads.push_back(std::thread(run_node,
+  //                                 i,
+  //                                 nodes,
+  //                                 (result["time"].as<float>() * 1000000)));
+  // }
+
+  // for(uint32_t i = 0; i < result["nodes"].as<int>(); ++i) {
+  //   threads[i].join();
+  // }
 
   return 0;
 }
