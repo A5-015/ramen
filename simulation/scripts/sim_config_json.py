@@ -344,12 +344,12 @@ def main(arguments):
     parser.add_argument(
         "--width",
         help="The x dimension (width) of the virtual simulation space.",
-        default=1000,
+        default=200,
     )
     parser.add_argument(
         "--length",
         help="The y dimension (length) of the virtual simulation space.",
-        default=1000,
+        default=200,
     )
     parser.add_argument(
         "--height",
