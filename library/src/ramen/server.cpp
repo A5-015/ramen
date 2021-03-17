@@ -207,10 +207,8 @@ void _server::receiveData(uint32_t from, string_t& data) {
 
 void _server::requestVote() {
   // Generate the message
-  MessageRequestVote message;
-  message.term = this->_term;
-  message.last_log_term = this->_log.getLastLogTerm();
-  message.last_log_index = this->_log.getLogSize();
+  Message message(REQUEST_VOTE, this->_term);
+  message.addFields(this->_log.getLastLogTerm(), this->_log.getLogSize());
 
   // Broadcast the message
   _mesh.sendBroadcast(message.serialize());
@@ -247,13 +245,12 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   // clang-format on
 
   // Generate the message
-  MessageSendVote message;
-  message.term = this->_term;
-  message.granted = granted;
+  Message message(SEND_VOTE, this->_term);
+  message.addFields(granted);
 
   this->_mesh.sendMessageToNode(sender, message.serialize());
 
-  this->_logger(INFO, "Replied to %u with %u vote\n", sender, message.granted);
+  this->_logger(INFO, "Replied to %u with %u vote\n", sender, granted);
 };
 
 void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
@@ -285,17 +282,21 @@ void _server::requestAppendEntries(uint32_t receiver,
                                    string_t data,
                                    bool heart_beat) {
   // Generate the message
-  MessageRequestAppendEntry message;
+  Message message(REQUEST_APPEND_ENTRY, this->_term);
 
-  message.term = this->_term;
-  message.previous_log_index = this->_log.getNextIndex(receiver) - 1;
-  message.previous_log_term = this->_log.getLogTerm(message.previous_log_index);
-  if(heart_beat) {
-    message.entries = HEART_BEAT_MESSAGE;
-  } else {
-    message.entries = data;
+  uint32_t previous_log_index = this->_log.getNextIndex(receiver) - 1;
+  uint32_t previous_log_term = this->_log.getLogTerm(previous_log_index);
+  string_t entries = HEART_BEAT_MESSAGE;
+  uint32_t commit_index = this->_commit_index;
+
+  if(!heart_beat) {
+    entries = data;
   }
-  message.commit_index = this->_commit_index;
+
+  message.addFields(previous_log_index,
+                    previous_log_term,
+                    entries,
+                    commit_index);
 
   this->_mesh.sendMessageToNode(receiver, message.serialize());
 
@@ -328,18 +329,18 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   auto leaderCommit = (uint32_t) data["commitIndex"];
 
   // Default message parameters
-  MessageRespondAppendEntry message;
-  message.term = this->_term;
-  message.success = false;
-  message.match_index = 0;
+  Message message(RESPOND_APPEND_ENTRY, this->_term);
+
+  bool message_success = false;
+  uint32_t message_match_index = 0;
 
   if(data["entries"] == HEART_BEAT_MESSAGE) {
-    message.success = true;
-    message.match_index = this->_commit_index;
+    message_success = true;
+    message_match_index = this->_commit_index;
   } else if(previousLogIndex == 0 ||
             (previousLogIndex <= this->_log.getLogSize() &&
              this->_log.getLogTerm(previousLogIndex) == previousLogTerm)) {
-    message.success = true;
+    message_success = true;
 
     auto loopIndex = previousLogIndex;
 
@@ -352,12 +353,14 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
       }
     }
 
-    message.match_index = loopIndex;
+    message_match_index = loopIndex;
 
     if(leaderCommit > this->_commit_index) {
       this->_commit_index = std::min(leaderCommit, this->_log.getLogSize() - 1);
     }
   }
+
+  message.addFields(message_success, message_match_index);
 
   this->_mesh.sendMessageToNode(sender, message.serialize());
   this->_logger(DEBUG, "Responded to append entry request from %u\n", sender);

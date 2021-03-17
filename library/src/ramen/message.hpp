@@ -6,19 +6,18 @@
 #ifndef _RAMEN_MESSAGE_HPP_
 #define _RAMEN_MESSAGE_HPP_
 
-#define MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE \
-  96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
-
-#define MESSAGE_RESPOND_APPEND_ENTRY_PAYLOAD_SIZE \
-  64 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+#include <cassert>
+#include <map>
 
 #include "ramen/configuration.hpp"
-
-// Check https://arduinojson.org/v6/assistant/ to figure out the right payload
-// buffer size
+#include "ramen/logger.hpp"
 
 namespace broth {
 namespace message {
+  /**
+   * @brief Message type mapping
+   *
+   */
   typedef enum {
     REQUEST_VOTE = 0,
     SEND_VOTE = 1,
@@ -27,134 +26,125 @@ namespace message {
     ENTRY = 4
   } MessageType;
 
-  class MessageRequestVote {
+  // Check https://arduinojson.org/v6/assistant/ to figure out the right payload
+  // buffer size
+
+  //   /**
+  //    * @brief Message fields available
+  //    *
+  //    */
+  //   enum {
+  //     LAST_LOG_TERM = 0,
+  //     LAST_LOG_INDEX = 1,
+  //     GRANTED = 2,
+  //     PREVIOUS_LOG_INDEX = 3,
+  //     PREVIOUS_LOG_TERM = 4,
+  //     ENTRIES = 5,
+  //     COMMIT_INDEX = 6,
+  //     SUCCESS = 7,
+  //     MATCH_INDEX = 8
+  //   } MessageFields;
+
+  /**
+   * @brief Holds the required message size mapping
+   *
+   */
+  typedef enum {
+    REQUEST_VOTE_SIZE = 64,
+    SEND_VOTE_SIZE = 48,
+    REQUEST_APPEND_ENTRY_SIZE = 96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE,
+    RESPOND_APPEND_ENTRY_SIZE = 64 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE,
+    ENTRY_SIZE = 100 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+  } MessageSize;
+
+  /**
+   * @brief Class that is used to create messages that will be sent between mesh
+   * nodes and serializing these messages
+   *
+   */
+  class Message {
+   private:
+    string_t _serialized_payload;
+    MessageType _message_type;
+    uint32_t _term;
+
+    std::map<string_t, uint32_t> _field_uint32_t;
+    std::map<string_t, bool> _field_bool;
+    std::map<string_t, string_t> _field_string_t;
+
    public:
-    MessageType type = REQUEST_VOTE;
-    uint32_t term;
-    uint32_t last_log_term;
-    uint32_t last_log_index;
+    /**
+     * @brief Construct a new Message object
+     *
+     * @param type Message type to initialize
+     * @param term Current term of the node
+     */
+    Message(MessageType type, uint32_t term);
 
-    string_t serialize() {
-#ifdef _RAMEN_CATCH_TESTING_
-      DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
-#else
-      DynamicJsonDocument payload(64);
-#endif
+    /**
+     * @brief MessageRequestVote
+     *
+     * @param last_log_term
+     * @param last_log_index
+     */
+    void addFields(uint32_t last_log_term, uint32_t last_log_index) {
+      assert(this->_message_type == REQUEST_VOTE);
+      // clang-format off
+      this->_field_uint32_t.insert(std::make_pair("lastLogTerm", last_log_term));
+      this->_field_uint32_t.insert(std::make_pair("lastLogIndex", last_log_index));
+      // clang-format on
+    };
 
-      string_t serialized_payload;
-      payload["type"] = type;
-      payload["term"] = term;
-      payload["lastLogTerm"] = last_log_term;
-      payload["lastLogIndex"] = last_log_index;
+    /**
+     * @brief MessageSendVote
+     *
+     * @param granted
+     */
+    void addFields(bool granted) {
+      assert(this->_message_type == SEND_VOTE);
+      this->_field_bool.insert(std::make_pair("granted", granted));
+    };
 
-      serializeJson(payload, serialized_payload);
+    /**
+     * @brief MessageRequestAppendEntry
+     *
+     * @param previous_log_index
+     * @param previous_log_term
+     * @param entries
+     * @param commit_index
+     */
+    void addFields(uint32_t previous_log_index,
+                   uint32_t previous_log_term,
+                   string_t entries,
+                   uint32_t commit_index) {
+      assert(this->_message_type == REQUEST_APPEND_ENTRY);
+      // clang-format off
+      this->_field_uint32_t.insert(std::make_pair("previousLogIndex", previous_log_index));
+      this->_field_uint32_t.insert(std::make_pair("previousLogTerm", previous_log_term));
+      this->_field_string_t.insert(std::make_pair("entries", entries));
+      this->_field_uint32_t.insert(std::make_pair("commitIndex", commit_index));
+      // clang-format on
+    };
 
-      return serialized_payload;
-    }
+    /**
+     * @brief MessageRespondAppendEntry
+     *
+     * @param success
+     * @param match_index
+     */
+    void addFields(bool success, uint32_t match_index) {
+      assert(this->_message_type == RESPOND_APPEND_ENTRY);
+      this->_field_bool.insert(std::make_pair("success", success));
+      this->_field_uint32_t.insert(std::make_pair("matchIndex", match_index));
+    };
+
+    /**
+     * @brief Serializes the current message object to a JSON string
+     *
+     * @return string_t
+     */
+    string_t serialize();
   };
-
-  class MessageSendVote {
-   public:
-    MessageType type = SEND_VOTE;
-    uint32_t term;
-    bool granted;
-
-    string_t serialize() {
-#ifdef _RAMEN_CATCH_TESTING_
-      DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
-#else
-      DynamicJsonDocument payload(48);
-#endif
-
-      string_t serialized_payload;
-      payload["type"] = type;
-      payload["term"] = term;
-      payload["granted"] = granted;
-
-      serializeJson(payload, serialized_payload);
-
-      return serialized_payload;
-    }
-  };
-
-  class MessageRequestAppendEntry {
-   public:
-    MessageType type = REQUEST_APPEND_ENTRY;
-    uint32_t term;
-    uint32_t previous_log_index;
-    uint32_t previous_log_term;
-    string_t entries;
-    uint32_t commit_index;
-
-    string_t serialize() {
-#ifdef _RAMEN_CATCH_TESTING_
-      DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
-#else
-      DynamicJsonDocument payload(MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE);
-#endif
-
-      string_t serialized_payload;
-      payload["type"] = type;
-      payload["term"] = term;
-      payload["previousLogIndex"] = previous_log_index;
-      payload["previousLogTerm"] = previous_log_term;
-      payload["entries"] = entries;
-      payload["commitIndex"] = commit_index;
-
-      serializeJson(payload, serialized_payload);
-
-      return serialized_payload;
-    }
-  };
-
-  class MessageRespondAppendEntry {
-   public:
-    MessageType type = RESPOND_APPEND_ENTRY;
-    uint32_t term;
-    bool success;
-    uint32_t match_index;
-
-    string_t serialize() {
-#ifdef _RAMEN_CATCH_TESTING_
-      DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
-#else
-      DynamicJsonDocument payload(MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE);
-#endif
-
-      string_t serialized_payload;
-      payload["type"] = type;
-      payload["term"] = term;
-      payload["success"] = success;
-      payload["match_index"] = match_index;
-
-      serializeJson(payload, serialized_payload);
-
-      return serialized_payload;
-    }
-  };
-
-  // TODO: Draft
-  // class MessageEntry {
-  //  public:
-  //   MessageType type = ENTRY;
-
-  //   string_t serialize(std::vector<std::pair<uint32_t, string_t>> entries) {
-  // #ifdef _RAMEN_CATCH_TESTING_
-  //     DynamicJsonDocument payload(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
-  // #else
-  //     DynamicJsonDocument payload(MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE);
-  // #endif
-
-  //     string_t serialized_payload;
-  //     payload["type"] = type;
-  //     payload["entries"] = entries;
-
-  //     serializeJson(payload, serialized_payload);
-
-  //     return serialized_payload;
-  //   }
-  // };
-
 } // namespace message
 } // namespace broth
 
