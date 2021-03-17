@@ -317,9 +317,7 @@ def main(arguments):
         type=int,
         required=True,
     )
-    parser.add_argument(
-        "--infile", help="Input file", type=argparse.FileType("r")
-    )
+    parser.add_argument("--infile", help="Input file", type=argparse.FileType("r"))
     parser.add_argument(
         "-o",
         "--outfile",
@@ -330,9 +328,7 @@ def main(arguments):
     parser.add_argument(
         "--termination", help="Termination time of simulation", default=1000
     )
-    parser.add_argument(
-        "--protocol", help="The consensus algorithm", default="raft"
-    )
+    parser.add_argument("--protocol", help="The consensus algorithm", default="raft")
     parser.add_argument(
         "--election_min",
         help="The minimum time for the election timeout",
@@ -343,25 +339,21 @@ def main(arguments):
         help="The minimum time for the election timeout",
         default=300,
     )
-    parser.add_argument(
-        "--heartbeat", help="The heartbeat interval", default=30
-    )
-    parser.add_argument(
-        "-t", "--topology", help="The network topology", default="mesh"
-    )
+    parser.add_argument("--heartbeat", help="The heartbeat interval", default=30)
+    parser.add_argument("-t", "--topology", help="The network topology", default="mesh")
     parser.add_argument(
         "--width",
-        help="The x dimension (width) of the virtual simulation space. Default is 5000m",
+        help="The x dimension (width) of the virtual simulation space.",
         default=1000,
     )
     parser.add_argument(
         "--length",
-        help="The y dimension (length) of the virtual simulation space. Default is 5000m",
+        help="The y dimension (length) of the virtual simulation space.",
         default=1000,
     )
     parser.add_argument(
         "--height",
-        help="The z dimension (height) of the virtual simulation space. Default is 0m",
+        help="The z dimension (height) of the virtual simulation space.",
         default=0,
     )
 

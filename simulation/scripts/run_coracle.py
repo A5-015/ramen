@@ -46,7 +46,8 @@ class Visualizer:
         self.raw_results = []
         self.raw_dictionary = defaultdict(list)
         # Define key
-        self.psr = "packet success ratio"
+        self.packet_success_ratio = "packet success ratio"
+        self.election_win_ratio = "election win ratio"
 
     def _parse(self, result):
         """
@@ -65,19 +66,30 @@ class Visualizer:
                 if key != "figures" and type(value) != str:
                     self.raw_dictionary[key].append(value)
 
+    def _calculate_new_ratio(self, dest, src1, src2):
+        # Insert packet success ratio into dictionary
+        self.raw_dictionary[dest] = [
+            a / b
+            for a, b in zip(
+                self.raw_dictionary[src1],
+                self.raw_dictionary[src2],
+            )
+        ]
+
     def _generate_statistics(self):
         """
         Generate statistics from Coracle results
         """
 
         # Insert packet success ratio into dictionary
-        self.raw_dictionary[self.psr] = [
-            r / d
-            for r, d in zip(
-                self.raw_dictionary["packets received"],
-                self.raw_dictionary["packets dispatched"],
-            )
-        ]
+        self._calculate_new_ratio(
+            self.packet_success_ratio, "packets received", "packets dispatched"
+        )
+
+        # Insert election win ratio into dictionary
+        self._calculate_new_ratio(
+            self.election_win_ratio, "elections won", "elections started"
+        )
 
         # Use dictionary length to inform dataframe size
         num_attributes = len(self.raw_dictionary)
@@ -113,17 +125,17 @@ class Visualizer:
             col=1,
         )
 
-    def _generate_packet_success_ratio_graph(self, fig):
+    def _generate_scatter_graph(self, fig, y_data, y_title, location):
         fig.add_trace(
             go.Scatter(
-                x=[i + 1 for i in range(len(self.raw_dictionary[self.psr]))],
-                y=self.raw_dictionary[self.psr],
+                x=[i + 1 for i in range(len(y_data))],
+                y=y_data,
             ),
-            row=2,
+            row=location,
             col=1,
         )
         fig.update_xaxes(title_text="Run", tickformat="d", row=2, col=1)
-        fig.update_yaxes(title_text="Packet Success Ratio (%)", row=2, col=1)
+        fig.update_yaxes(title_text=y_title, row=location, col=1)
 
     def initialize(self, all_runs):
         """
@@ -148,18 +160,21 @@ class Visualizer:
 
         # Frame the plots for data visualization
         fig = make_subplots(
-            rows=3,
+            rows=4,
             cols=1,
             column_widths=[1.0],
-            row_heights=[1.0, 1.0, 1.0],
+            row_heights=[4.0, 2.0, 2.0, 2.0],
             specs=[
                 [{"type": "table"}],
+                [{"type": "scatter"}],
                 [{"type": "scatter"}],
                 [{"type": "scatter"}],
             ],
             subplot_titles=(
                 "Summary of Statistics",
-                "Packet Success Ratio per Run",
+                "Percent Packet Success per Run",
+                "Percent Elections Won per Run",
+                "Average Latency",
             ),
         )
 
@@ -167,11 +182,30 @@ class Visualizer:
         self._generate_summary_table(fig)
 
         # Add packet success plot
-        self._generate_packet_success_ratio_graph(fig)
+        self._generate_scatter_graph(
+            fig, self.raw_dictionary["packet success ratio"], "Packet Success %", 2
+        )
+
+        # Add elections won plot
+        self._generate_scatter_graph(
+            fig, self.raw_dictionary["election win ratio"], "Elections Won %", 3
+        )
+
+        self._generate_scatter_graph(
+            fig, self.raw_dictionary["average latency"], "Average Latency", 4
+        )
 
         # Configure overall layout
         fig.update_layout(
-            height=2500, showlegend=False, title_text="Coracle Runs"
+            height=1500,
+            margin=dict(
+                t=30,
+                b=5,
+                l=10,
+                r=20,
+            ),
+            showlegend=False,
+            title_text="Coracle Runs",
         )
 
         fig.show()
@@ -196,7 +230,7 @@ def call_proc(command):
 
 def main(arguments):
 
-    default_docker_image = "ghcr.io/a5-015/ramen/ramen-sim:docker"
+    default_docker_image = "test_docker"
 
     # Argument parsing
     parser = argparse.ArgumentParser(
@@ -230,10 +264,9 @@ def main(arguments):
         encoded_json = base64.b64encode(json.dumps(data).encode()).decode()
 
     # Build the command for each process
-    command = (
-        "docker run %s /bin/bash -c 'python3 base64_to_json.py %s > network.json && ./coracle/coracle_sim.byte -f network.json && echo' "
-        % (args.docker, encoded_json)
-    )
+    # The Dockerfile has an entrypoint that accepts encoded_json as input
+    # To override the entrypoint use "--entrypoint" flag
+    command = "docker run %s %s" % (args.docker, encoded_json)
 
     # Run the simulation(s) process in parallel and append to processes list
     pool = ThreadPool(multiprocessing.cpu_count())
@@ -258,8 +291,34 @@ def main(arguments):
                 pool.join()
             except KeyboardInterrupt:
                 print("Terminating all simulation processes...")
-                for p in processes:
-                    p.kill()
+                # for p in processes:
+                #     p.kill()
+                # # Clean kill and cleanup all docker containers
+                # subprocess.run(
+                #     "docker stop $(docker ps -a -q)",
+                #     shell=True,
+                #     check=False,
+                #     stdout=subprocess.DEVNULL,
+                #     stderr=subprocess.DEVNULL,
+                # )
+                subprocess.run(
+                    "docker rm $(docker ps -a -q)",
+                    shell=True,
+                    check=False,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
+                print("Terminated!")
+                exit(1)
+
+    # Clean up all docker containers
+    subprocess.run(
+        "docker rm $(docker ps -a -q)",
+        shell=True,
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
 
     # Strip each result of a newline character using list comprehension
     simulation_results = [
