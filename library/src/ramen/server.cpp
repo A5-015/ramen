@@ -185,7 +185,7 @@ void _server::sendData(uint32_t receiver, string_t data) {};
 void _server::receiveData(uint32_t from, string_t& data) {
   DynamicJsonDocument payload(1024);
   deserializeJson(payload, data);
-  MessageType type = payload["type"];
+  MessageType type = payload[TYPE_FIELD_KEY];
 
   switch(type) {
     case REQUEST_VOTE:
@@ -218,8 +218,8 @@ void _server::requestVote() {
 
 void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   // Equalize term with sender if term is lower
-  if(this->_term < data["term"]) {
-    this->switchState(FOLLOWER, data["term"]);
+  if(this->_term < data[TERM_FIELD_KEY]) {
+    this->switchState(FOLLOWER, data[TERM_FIELD_KEY]);
   }
 
   // Default vote grant to false
@@ -228,13 +228,13 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   // If term is equal to sender && (haven't voted yet || voted for sender
   // before)
   // clang-format off
-  if(this->_term == data["term"] &&
+  if(this->_term == data[TERM_FIELD_KEY] &&
      (this->_voted_for == 0 || this->_voted_for == sender)) {
 
     // If log term and log size are greater than or equal to receiver's term and
     // size
-    if(data["lastLogTerm"] >= this->_log.getLastLogTerm() &&
-       data["lastLogIndex"] >= this->_log.getLogSize()) {
+    if(data[LAST_LOG_TERM_FIELD_KEY] >= this->_log.getLastLogTerm() &&
+       data[LAST_LOG_INDEX_FIELD_KEY] >= this->_log.getLogSize()) {
 
       // then vote for sender and reset alarm
       granted = true;
@@ -255,13 +255,13 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
 
 void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   // Equalize term with responder if term is lower
-  if(this->_term < data["term"]) {
-    this->switchState(FOLLOWER, data["term"]);
+  if(this->_term < data[TERM_FIELD_KEY]) {
+    this->switchState(FOLLOWER, data[TERM_FIELD_KEY]);
   }
 
   // Update votes received map
-  bool granted = data["granted"];
-  if(this->_state == CANDIDATE && this->_term == data["term"]) {
+  bool granted = data[GRANTED_FIELD_KEY];
+  if(this->_state == CANDIDATE && this->_term == data[TERM_FIELD_KEY]) {
     // Store received vote in votes received map
     (*(this->_votes_received_ptr))[sender] = granted;
     this->_logger(INFO, "Saved vote from %u with %u vote\n", sender, granted);
@@ -319,14 +319,14 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   std::vector<std::pair<uint32_t, string_t>> received_entries;
 
   // Equalize term with sender if term is lower
-  if(this->_term <= data["term"]) {
-    this->switchState(FOLLOWER, data["term"]);
+  if(this->_term <= data[TERM_FIELD_KEY]) {
+    this->switchState(FOLLOWER, data[TERM_FIELD_KEY]);
   }
 
   // Rename variables from payload data
-  auto previousLogIndex = data["previousLogIndex"];
-  auto previousLogTerm = data["previousLogTerm"];
-  auto leaderCommit = (uint32_t) data["commitIndex"];
+  auto previousLogIndex = data[PREVIOUS_LOG_INDEX_FIELD_KEY];
+  auto previousLogTerm = data[PREVIOUS_LOG_TERM_FIELD_KEY];
+  auto leaderCommit = (uint32_t) data[COMMIT_INDEX_FIELD_KEY];
 
   // Default message parameters
   Message message(RESPOND_APPEND_ENTRY, this->_term);
@@ -334,7 +334,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   bool message_success = false;
   uint32_t message_match_index = 0;
 
-  if(data["entries"] == HEART_BEAT_MESSAGE) {
+  if(data[ENTRIES_FIELD_KEY] == HEART_BEAT_MESSAGE) {
     message_success = true;
     message_match_index = this->_commit_index;
   } else if(previousLogIndex == 0 ||

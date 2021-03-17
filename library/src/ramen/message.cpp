@@ -18,8 +18,8 @@ string_t _message::serialize() {
   StaticJsonDocument<1000> payload;
 
   // Dump the common fields
-  payload["type"] = this->_message_type;
-  payload["term"] = this->_term;
+  payload[TYPE_FIELD_KEY] = this->_message_type;
+  payload[TERM_FIELD_KEY] = this->_term;
 
   // Dump integer fields
   for(auto it = this->_field_uint32_t.begin();

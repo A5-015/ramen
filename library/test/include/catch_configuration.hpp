@@ -41,10 +41,6 @@
     // ramen variables
     #define TASK_ELECTION_INTERVAL 1000
     #define TASK_ELECTION_MAXIMUM_SKIPPED_COIN_FLIPS 10
-    #define ELECTION_TIMEOUT_FACTOR 100000
-    #define MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE 100
-
-    #define HEART_BEAT_MESSAGE "__heart_beat__"
 
 #endif
 // clang-format on

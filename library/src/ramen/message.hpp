@@ -29,22 +29,6 @@ namespace message {
   // Check https://arduinojson.org/v6/assistant/ to figure out the right payload
   // buffer size
 
-  //   /**
-  //    * @brief Message fields available
-  //    *
-  //    */
-  //   enum {
-  //     LAST_LOG_TERM = 0,
-  //     LAST_LOG_INDEX = 1,
-  //     GRANTED = 2,
-  //     PREVIOUS_LOG_INDEX = 3,
-  //     PREVIOUS_LOG_TERM = 4,
-  //     ENTRIES = 5,
-  //     COMMIT_INDEX = 6,
-  //     SUCCESS = 7,
-  //     MATCH_INDEX = 8
-  //   } MessageFields;
-
   /**
    * @brief Holds the required message size mapping
    *
@@ -90,8 +74,8 @@ namespace message {
     void addFields(uint32_t last_log_term, uint32_t last_log_index) {
       assert(this->_message_type == REQUEST_VOTE);
       // clang-format off
-      this->_field_uint32_t.insert(std::make_pair("lastLogTerm", last_log_term));
-      this->_field_uint32_t.insert(std::make_pair("lastLogIndex", last_log_index));
+      this->_field_uint32_t.insert(std::make_pair(LAST_LOG_TERM_FIELD_KEY, last_log_term));
+      this->_field_uint32_t.insert(std::make_pair(LAST_LOG_INDEX_FIELD_KEY, last_log_index));
       // clang-format on
     };
 
@@ -102,7 +86,7 @@ namespace message {
      */
     void addFields(bool granted) {
       assert(this->_message_type == SEND_VOTE);
-      this->_field_bool.insert(std::make_pair("granted", granted));
+      this->_field_bool.insert(std::make_pair(GRANTED_FIELD_KEY, granted));
     };
 
     /**
@@ -119,10 +103,10 @@ namespace message {
                    uint32_t commit_index) {
       assert(this->_message_type == REQUEST_APPEND_ENTRY);
       // clang-format off
-      this->_field_uint32_t.insert(std::make_pair("previousLogIndex", previous_log_index));
-      this->_field_uint32_t.insert(std::make_pair("previousLogTerm", previous_log_term));
-      this->_field_string_t.insert(std::make_pair("entries", entries));
-      this->_field_uint32_t.insert(std::make_pair("commitIndex", commit_index));
+      this->_field_uint32_t.insert(std::make_pair(PREVIOUS_LOG_INDEX_FIELD_KEY, previous_log_index));
+      this->_field_uint32_t.insert(std::make_pair(PREVIOUS_LOG_TERM_FIELD_KEY, previous_log_term));
+      this->_field_string_t.insert(std::make_pair(ENTRIES_FIELD_KEY, entries));
+      this->_field_uint32_t.insert(std::make_pair(COMMIT_INDEX_FIELD_KEY, commit_index));
       // clang-format on
     };
 
@@ -134,8 +118,10 @@ namespace message {
      */
     void addFields(bool success, uint32_t match_index) {
       assert(this->_message_type == RESPOND_APPEND_ENTRY);
-      this->_field_bool.insert(std::make_pair("success", success));
-      this->_field_uint32_t.insert(std::make_pair("matchIndex", match_index));
+      // clang-format off
+      this->_field_bool.insert(std::make_pair(SUCCESS_FIELD_KEY, success));
+      this->_field_uint32_t.insert(std::make_pair(MATCH_INDEX_FIELD_KEY, match_index));
+      // clang-format on
     };
 
     /**
