@@ -273,9 +273,9 @@ def initialize_network_nominal(system_dict, args):
         temp["active"] = True
         links.append(temp)
 
-    for i in range(0, len(system_dict["network"]["nodes"])):
+    for n in system_dict["network"]["nodes"]:
         temp = {}
-        temp["id"] = i + 1
+        temp["id"] = n["id"]
         temp["active"] = True
         nodes.append(temp)
 
