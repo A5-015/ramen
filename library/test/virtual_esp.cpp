@@ -21,13 +21,19 @@ int main(int argc, char** argv) {
 
   auto result = options.parse(argc, argv);
 
+  uint32_t target_number_of_nodes = result["nodes"].as<int>();
+
   std::vector<Server*> nodes;
 
   std::cout << "\n\033[95m>> Calling broth::server::Server::init() for all "
                "nodes:\033[0m\n";
 
+  ////////////////////////////////////
+  // Simulates setup() from Arduino //
+  ////////////////////////////////////
+
   // Generate the nodes
-  for(uint32_t i = 0; i < result["nodes"].as<int>(); ++i) {
+  for(uint32_t i = 0; i < target_number_of_nodes; ++i) {
     // Generate node
     nodes.push_back(new Server());
 
@@ -46,8 +52,8 @@ int main(int argc, char** argv) {
   }
 
   // Create the connections between nodes wihtin the virtual mesh network
-  for(uint32_t i = 0; i < result["nodes"].as<int>(); ++i) {
-    for(uint32_t j = 0; j < result["nodes"].as<int>(); ++j) {
+  for(uint32_t i = 0; i < target_number_of_nodes; ++i) {
+    for(uint32_t j = 0; j < target_number_of_nodes; ++j) {
       if(nodes[i]->_mesh._node_id != nodes[j]->_mesh._node_id) {
         // Add neighbour nodes except the node itself
         nodes[i]->_mesh.addNeighbourNode(nodes[j]->_mesh);
@@ -56,21 +62,29 @@ int main(int argc, char** argv) {
   }
 
   std::cout << "\n\033[95m>> Calling broth::server::Server::update() in a "
-               "loop for all nodes:\033[0m\n";
+               "loop for all nodes at random order:\033[0m\n";
 
   uint32_t iteration = 0;
   bool printed_output = false;
 
-  // Simulates loop() from Arduino
+  ///////////////////////////////////
+  // Simulates loop() from Arduino //
+  ///////////////////////////////////
+
   while(true) {
-    for(uint32_t j = 0; j < result["nodes"].as<int>(); ++j) {
-      nodes[j]->update();
+    // Shuffle the order
+    std::random_shuffle(nodes.begin(), nodes.end());
+
+    // Iterate over the nodes based on the random order
+    for(auto it = nodes.begin(); it != nodes.end(); ++it) {
+      // Call the update() function of the node
+      (*it)->update();
 
       // Check if anything was outputted
-      printed_output = (printed_output || nodes[j]->_logger._printed_output);
+      printed_output = (printed_output || (*it)->_logger._printed_output);
 
-      // Reset the flag for the specific node
-      nodes[j]->_logger._printed_output = false;
+      // Reset the output flag for the specific node
+      (*it)->_logger._printed_output = false;
     }
 
     // Print the iteration number if anything was outputted to the terminal
@@ -80,6 +94,7 @@ int main(int argc, char** argv) {
                 << "\033[0m\n\n";
     }
 
+    // Decide to stop the simulation or not
     if(nodes.back()->_mesh.getMeshTime() >
        (result["time"].as<float>() * 1000000)) {
       break;
