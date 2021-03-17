@@ -24,10 +24,10 @@ SCENARIO(
       string_t serialized = message.serialize();
 
       // Check for JSON keys
-      REQUIRE_THAT(serialized, Contains("type"));
-      REQUIRE_THAT(serialized, Contains("term"));
-      REQUIRE_THAT(serialized, Contains("lastLogTerm"));
-      REQUIRE_THAT(serialized, Contains("lastLogIndex"));
+      REQUIRE_THAT(serialized, Contains(TYPE_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(TERM_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(LAST_LOG_TERM_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(LAST_LOG_INDEX_FIELD_KEY));
 
       // Check for the key values
       REQUIRE_THAT(serialized, Contains(std::to_string(REQUEST_VOTE)));
@@ -47,9 +47,9 @@ SCENARIO(
       string_t serialized = message.serialize();
 
       // Check for JSON keys
-      REQUIRE_THAT(serialized, Contains("type"));
-      REQUIRE_THAT(serialized, Contains("term"));
-      REQUIRE_THAT(serialized, Contains("granted"));
+      REQUIRE_THAT(serialized, Contains(TYPE_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(TERM_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(GRANTED_FIELD_KEY));
 
       // Check for the key values
       REQUIRE_THAT(serialized, Contains(std::to_string(SEND_VOTE)));
@@ -74,12 +74,12 @@ SCENARIO(
       string_t serialized = message.serialize();
 
       // Check for JSON keys
-      REQUIRE_THAT(serialized, Contains("type"));
-      REQUIRE_THAT(serialized, Contains("term"));
-      REQUIRE_THAT(serialized, Contains("previousLogIndex"));
-      REQUIRE_THAT(serialized, Contains("previousLogTerm"));
-      REQUIRE_THAT(serialized, Contains("entries"));
-      REQUIRE_THAT(serialized, Contains("commitIndex"));
+      REQUIRE_THAT(serialized, Contains(TYPE_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(TERM_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(PREVIOUS_LOG_INDEX_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(PREVIOUS_LOG_TERM_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(ENTRIES_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(COMMIT_INDEX_FIELD_KEY));
 
       // Check for the key values
       REQUIRE_THAT(serialized, Contains(std::to_string(REQUEST_APPEND_ENTRY)));
@@ -102,10 +102,10 @@ SCENARIO(
       string_t serialized = message.serialize();
 
       // Check for JSON keys
-      REQUIRE_THAT(serialized, Contains("type"));
-      REQUIRE_THAT(serialized, Contains("term"));
-      REQUIRE_THAT(serialized, Contains("success"));
-      REQUIRE_THAT(serialized, Contains("matchIndex"));
+      REQUIRE_THAT(serialized, Contains(TYPE_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(TERM_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(SUCCESS_FIELD_KEY));
+      REQUIRE_THAT(serialized, Contains(MATCH_INDEX_FIELD_KEY));
 
       // Check for the key values
       REQUIRE_THAT(serialized, Contains(std::to_string(RESPOND_APPEND_ENTRY)));
