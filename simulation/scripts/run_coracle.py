@@ -235,7 +235,7 @@ def main(arguments):
     # Argument parsing
     parser = argparse.ArgumentParser(
         description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("-i", "--infile", help="Input file", required=True)
     parser.add_argument(
