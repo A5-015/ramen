@@ -38,9 +38,7 @@
     // Variavles for testing
     #define RAMEN_CATCH_TESTING_PAYLOAD_SIZE 100000
 
-    // ramen variables
-    #define TASK_ELECTION_INTERVAL 1000
-    #define TASK_ELECTION_MAXIMUM_SKIPPED_COIN_FLIPS 10
+    // ramen variables to overwrite
 
 #endif
 // clang-format on

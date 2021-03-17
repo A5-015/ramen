@@ -8,9 +8,18 @@
 // Place constants here //
 // vvvvvvvvvvvvvvvvvvvv //
 
-#define ELECTION_TIMEOUT_FACTOR                100000
+#define ELECTION_TIMEOUT_FACTOR 100000
+#define HEART_BEAT_MESSAGE      "__heart_beat__"
+
+// Message buffer sizes
+// Check https://arduinojson.org/v6/assistant/ to figure out the right payload
+// buffer size
 #define MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE 100
-#define HEART_BEAT_MESSAGE                     "__heart_beat__"
+#define REQUEST_VOTE_SIZE                      64
+#define SEND_VOTE_SIZE                         48
+#define REQUEST_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+#define RESPOND_APPEND_ENTRY_SIZE              64 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+#define ENTRY_SIZE                             100 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
 
 // Text for message fields, these values will be used during JSON serialization
 #define TYPE_FIELD_KEY               "type"
