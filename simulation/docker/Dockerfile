@@ -72,6 +72,13 @@ ENV PERL5LIB="/root/.opam/system/lib/perl5"
 ENV OCAML_TOPLEVEL_PATH="/root/.opam/system/lib/toplevel"
 ENV PATH="/root/.opam/system/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin/sh:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
+# Copy the entrypoint bash script
+COPY entrypoint.sh /home/entrypoint.sh
+RUN ["chmod", "+x", "entrypoint.sh"]
+
+# Execute entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
+
 # Example ways to run each simulator
 # RUN eval `opam config env` && \
 #     ./ocaml-raft/cmdstart.byte -candidate "Uniform-11-22" -follower "Uniform-150-155" -leader "Fixed-75" -nodes 3 -delay "Fixed-7"
