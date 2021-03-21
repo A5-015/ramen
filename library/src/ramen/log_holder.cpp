@@ -57,6 +57,14 @@ uint32_t LogHolder::getLogTerm(uint32_t log_index) {
   }
 }
 
+string_t LogHolder::getLogData(uint32_t log_index) {
+  if(log_index < 1 || log_index > this->_entries.size()) {
+    return HEART_BEAT_MESSAGE;
+  } else {
+    return _entries[log_index].second;
+  }
+}
+
 uint32_t LogHolder::getMajorityCommitIndex() {
   std::vector<uint32_t> match_indices(_match_index_ptr->size());
   uint32_t i = 0;

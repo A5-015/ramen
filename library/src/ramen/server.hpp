@@ -55,6 +55,7 @@ namespace server {
     Timer _raft_timer;
     Timer _heart_beat_timer;
     Timer _request_vote_timer;
+    Timer _request_append_entry_timer;
 
    public:
     /**
@@ -178,7 +179,7 @@ namespace server {
      * @param receiver Address of the receiver node
      * @param data Data to send in JSON format
      */
-    void requestAppendEntries(uint32_t receiver, string_t data);
+    void requestAppendEntries(uint32_t receiver, bool heart_beat = true);
 
     /**
      * @brief Parent function of requestAppendEntries
@@ -186,7 +187,7 @@ namespace server {
      *
      * @param data
      */
-    void broadcastRequestAppendEntries(string_t data);
+    void broadcastRequestAppendEntries(bool heart_beat = true);
 
     /**
      * @brief Handle the incoming request to append an entry as a follower

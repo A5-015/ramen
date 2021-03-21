@@ -115,6 +115,15 @@ namespace logholder {
     uint32_t getLogTerm(uint32_t log_index);
 
     /**
+     * @brief Get the data in entries vector given the index.
+     * If the index does not exist, then return a heartbeat message.
+     *
+     * @param log_index
+     * @return string_t
+     */
+    string_t getLogData(uint32_t log_index);
+
+    /**
      * @brief Extract the index of last received log entries by all servers from
      * match_index_ptr and return the lowest index the majority of servers have
      * commmitted
