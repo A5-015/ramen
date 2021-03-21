@@ -13,6 +13,7 @@
 #include "ramen/mesh_network.hpp"
 #include "ramen/message.hpp"
 #include "ramen/server.hpp"
+#include "ramen/utils.hpp"
 
 using ramen = broth::server::Server;
 

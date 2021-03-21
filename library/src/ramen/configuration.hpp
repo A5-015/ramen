@@ -8,7 +8,8 @@
 // Place constants here //
 // vvvvvvvvvvvvvvvvvvvv //
 
-#define ELECTION_TIMEOUT_FACTOR 100000
+#define RAFT_TIMER_PERIOD       100000
+#define ELECTION_TIMEOUT_FACTOR 1000000
 #define HEART_BEAT_MESSAGE      "__heart_beat__"
 
 // Message buffer sizes

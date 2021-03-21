@@ -5,12 +5,11 @@
  */
 #include "ramen/server.hpp"
 
-#include "ramen/message.hpp"
-
 using _server = broth::server::Server;
 using _dataqueue = broth::dataqueue::DataQueue;
 using _logholder = broth::logholder::LogHolder;
 using _meshnetwork = broth::meshnetwork::MeshNetwork;
+using namespace broth::utils;
 using namespace broth::message;
 using namespace broth::logger;
 
@@ -49,23 +48,41 @@ void _server::init(string_t mesh_name,
 
   // Let the user know that initialization was successful
   this->_logger(DEBUG, "Just initialized the node!\n");
+
+  // Set raft timer's period to specified microseconds
+  this->_raft_timer.init(RAFT_TIMER_PERIOD);
 };
 
 void _server::update() {
-  _mesh.update();
+  // Update the mesh network all the time
+  this->_mesh.update();
 
-  if(this->_state == FOLLOWER) {
-    this->checkForElectionAlarmTimeout();
-  }
+  // Slow down the Raft implementation with the help of the timer
+  if(this->_raft_timer.check(this->_mesh.getNodeTime())) {
+    //////////////////////
+    // State => FOLLOWER
+    //////////////////////
+    if(this->_state == FOLLOWER) {
+      this->checkForElectionAlarmTimeout();
+    }
 
-  else if(this->_state == CANDIDATE) {
-    this->checkForElectionAlarmTimeout();
-    this->requestVote();
-  }
+    //////////////////////
+    // State => CANDIDATE
+    //////////////////////
+    else if(this->_state == CANDIDATE) {
+      this->checkForElectionAlarmTimeout();
+      // TODO: slow down
+      this->requestVote();
+    }
 
-  else if(this->_state == LEADER) {
-    this->_commit_index = this->_log.getMajorityCommitIndex();
-    this->broadcastRequestAppendEntries(HEART_BEAT_MESSAGE);
+    //////////////////////
+    // State => LEADER
+    //////////////////////
+    else if(this->_state == LEADER) {
+      this->_commit_index = this->_log.getMajorityCommitIndex();
+      // TODO: slow down
+      this->broadcastRequestAppendEntries(HEART_BEAT_MESSAGE);
+    }
   }
 };
 
@@ -218,8 +235,8 @@ void _server::requestVote() {
 
 void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   // Equalize term with sender if term is lower
-  if(this->_term < data[TERM_FIELD_KEY]) {
-    this->switchState(FOLLOWER, data[TERM_FIELD_KEY]);
+  if(this->_term < (uint32_t) data[TERM_FIELD_KEY]) {
+    this->switchState(FOLLOWER, (uint32_t) data[TERM_FIELD_KEY]);
   }
 
   // Default vote grant to false
@@ -228,13 +245,13 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   // If term is equal to sender && (haven't voted yet || voted for sender
   // before)
   // clang-format off
-  if(this->_term == data[TERM_FIELD_KEY] &&
+  if(this->_term == (uint32_t) data[TERM_FIELD_KEY] &&
      (this->_voted_for == 0 || this->_voted_for == sender)) {
 
     // If log term and log size are greater than or equal to receiver's term and
     // size
-    if(data[LAST_LOG_TERM_FIELD_KEY] >= this->_log.getLastLogTerm() &&
-       data[LAST_LOG_INDEX_FIELD_KEY] >= this->_log.getLogSize()) {
+    if((uint32_t) data[LAST_LOG_TERM_FIELD_KEY] >= this->_log.getLastLogTerm() &&
+       (uint32_t) data[LAST_LOG_INDEX_FIELD_KEY] >= this->_log.getLogSize()) {
 
       // then vote for sender and reset alarm
       granted = true;
@@ -250,18 +267,21 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
 
   this->_mesh.sendMessageToNode(sender, message.serialize());
 
+  uint32_t sender_term = (uint32_t) data[TERM_FIELD_KEY];
   this->_logger(INFO, "Replied to %u with %u vote\n", sender, granted);
 };
 
 void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   // Equalize term with responder if term is lower
-  if(this->_term < data[TERM_FIELD_KEY]) {
-    this->switchState(FOLLOWER, data[TERM_FIELD_KEY]);
+  if(this->_term < (uint32_t) data[TERM_FIELD_KEY]) {
+    this->switchState(FOLLOWER, (uint32_t) data[TERM_FIELD_KEY]);
   }
 
   // Update votes received map
   bool granted = data[GRANTED_FIELD_KEY];
-  if(this->_state == CANDIDATE && this->_term == data[TERM_FIELD_KEY]) {
+
+  if(this->_state == CANDIDATE &&
+     this->_term == (uint32_t) data[TERM_FIELD_KEY]) {
     // Store received vote in votes received map
     (*(this->_votes_received_ptr))[sender] = granted;
     this->_logger(INFO, "Saved vote from %u with %u vote\n", sender, granted);
@@ -319,13 +339,13 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   std::vector<std::pair<uint32_t, string_t>> received_entries;
 
   // Equalize term with sender if term is lower
-  if(this->_term <= data[TERM_FIELD_KEY]) {
-    this->switchState(FOLLOWER, data[TERM_FIELD_KEY]);
+  if(this->_term <= (uint32_t) data[TERM_FIELD_KEY]) {
+    this->switchState(FOLLOWER, (uint32_t) data[TERM_FIELD_KEY]);
   }
 
   // Rename variables from payload data
-  auto previousLogIndex = data[PREVIOUS_LOG_INDEX_FIELD_KEY];
-  auto previousLogTerm = data[PREVIOUS_LOG_TERM_FIELD_KEY];
+  auto previousLogIndex = (uint32_t) data[PREVIOUS_LOG_INDEX_FIELD_KEY];
+  auto previousLogTerm = (uint32_t) data[PREVIOUS_LOG_TERM_FIELD_KEY];
   auto leaderCommit = (uint32_t) data[COMMIT_INDEX_FIELD_KEY];
 
   // Default message parameters

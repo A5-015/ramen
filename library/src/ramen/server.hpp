@@ -14,6 +14,8 @@
 #include "ramen/log_holder.hpp"
 #include "ramen/logger.hpp"
 #include "ramen/mesh_network.hpp"
+#include "ramen/message.hpp"
+#include "ramen/utils.hpp"
 
 namespace broth {
 namespace server {
@@ -21,6 +23,7 @@ namespace server {
   using namespace broth::logholder;
   using namespace broth::meshnetwork;
   using namespace broth::logger;
+  using namespace broth::utils;
 
   /**
    * @brief Server state mapping
@@ -49,6 +52,7 @@ namespace server {
     MeshNetwork _mesh;
     Task* _task_election_ptr;
     uint32_t _commit_index;
+    Timer _raft_timer;
 
    public:
     /**
