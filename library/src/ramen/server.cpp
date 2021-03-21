@@ -336,7 +336,8 @@ void _server::requestAppendEntries(uint32_t receiver, bool heart_beat) {
   // Default to heart_beat message
   // Otherwise grab data from log
   string_t entries = HEART_BEAT_MESSAGE;
-  if(!heart_beat) {
+  if(!heart_beat &&
+     (this->_log.getNextIndex(receiver) <= this->_log.getLogSize())) {
     entries = this->_log.getLogData(next_index);
   }
 
@@ -362,9 +363,6 @@ void _server::broadcastRequestAppendEntries(bool heart_beat) {
 
 void _server::handleAppendEntriesRequest(uint32_t sender,
                                          DynamicJsonDocument& data) {
-  // TODO: Instantiate
-  std::vector<std::pair<uint32_t, string_t>> received_entries;
-
   // Equalize term with sender if term is lower
   if(this->_term <= (uint32_t) data[TERM_FIELD_KEY]) {
     this->switchState(FOLLOWER, (uint32_t) data[TERM_FIELD_KEY]);
@@ -374,6 +372,14 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   auto previousLogIndex = (uint32_t) data[PREVIOUS_LOG_INDEX_FIELD_KEY];
   auto previousLogTerm = (uint32_t) data[PREVIOUS_LOG_TERM_FIELD_KEY];
   auto leaderCommit = (uint32_t) data[COMMIT_INDEX_FIELD_KEY];
+
+  // TODO: Instantiate
+  std::vector<std::pair<uint32_t, string_t>> received_entries;
+
+  string_t entry_data = data[ENTRIES_FIELD_KEY];
+
+  received_entries.push_back(
+      std::make_pair((uint32_t) data[TERM_FIELD_KEY], entry_data));
 
   // Default message parameters
   Message message(RESPOND_APPEND_ENTRY, this->_term);
