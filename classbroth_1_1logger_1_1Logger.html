@@ -92,6 +92,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a315e09014e3d83ee11273b9eec3e9aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloads the () operator to log messages. Example usage:  <a href="classbroth_1_1logger_1_1Logger.html#a315e09014e3d83ee11273b9eec3e9aa6">More...</a><br /></td></tr>
 <tr class="separator:a315e09014e3d83ee11273b9eec3e9aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bd79702d4e728ea5b435b54f401e104"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1logger_1_1Logger.html#a5bd79702d4e728ea5b435b54f401e104">operator()</a> (<a class="el" href="namespacebroth_1_1logger.html#a7149e65bc8b9bbed208164658c064c54">LogLevel</a> given_level, <a class="el" href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">string_t</a> &amp;message)</td></tr>
+<tr class="memdesc:a5bd79702d4e728ea5b435b54f401e104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloads the () operator to log messages. This function adds support for accepting string_t messages as well.  <a href="classbroth_1_1logger_1_1Logger.html#a5bd79702d4e728ea5b435b54f401e104">More...</a><br /></td></tr>
 <tr class="separator:a5bd79702d4e728ea5b435b54f401e104"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -108,7 +109,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The logger class for logging messages. Maximum message size is 200 characters. </p>
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00029">29</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00034">34</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a315e09014e3d83ee11273b9eec3e9aa6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a315e09014e3d83ee11273b9eec3e9aa6">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
@@ -154,7 +155,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00091">91</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00096">96</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
 </div>
 </div>
@@ -192,7 +193,18 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00139">139</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p>Overloads the () operator to log messages. This function adds support for accepting string_t messages as well. </p>
+<p>Example usage:</p>
+<p>broth::Logger Log; Log.setLogLevel(broth::ERROR); Log(broth::ERROR, "This is the error message %u \n", 1);</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">givenLevel</td><td>Logging level </td></tr>
+    <tr><td class="paramname">format</td><td>The message itself </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00157">157</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
 </div>
 </div>
@@ -228,7 +240,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00042">42</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00047">47</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
 </div>
 </div>
@@ -264,7 +276,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00051">51</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00056">56</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
 </div>
 </div>
@@ -289,9 +301,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00031">31</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00036">36</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="logger_8hpp_source.html#l00091">operator()()</a>, and <a class="el" href="logger_8hpp_source.html#l00051">setLogLevel()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="logger_8hpp_source.html#l00096">operator()()</a>, and <a class="el" href="logger_8hpp_source.html#l00056">setLogLevel()</a>.</p>
 
 </div>
 </div>
@@ -315,7 +327,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00034">34</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00039">39</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
 </div>
 </div>
@@ -339,9 +351,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00033">33</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00038">38</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="logger_8hpp_source.html#l00091">operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="logger_8hpp_source.html#l00096">operator()()</a>.</p>
 
 </div>
 </div>
@@ -365,9 +377,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00032">32</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="logger_8hpp_source.html#l00037">37</a> of file <a class="el" href="logger_8hpp_source.html">logger.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="logger_8hpp_source.html#l00042">setLoggerId()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="logger_8hpp_source.html#l00047">setLoggerId()</a>.</p>
 
 </div>
 </div>

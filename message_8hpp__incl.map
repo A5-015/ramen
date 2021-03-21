@@ -1,6 +1,10 @@
 <map id="/ramen/library/src/ramen/message.hpp" name="/ramen/library/src/ramen/message.hpp">
-<area shape="rect" id="node1" title="message.hpp" alt="" coords="32,5,191,47"/>
-<area shape="rect" id="node2" href="$configuration_8hpp.html" title="configuration.hpp" alt="" coords="21,95,202,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,169,89,196"/>
-<area shape="rect" id="node4" title=" " alt="" coords="114,169,237,196"/>
+<area shape="rect" id="node1" title="message.hpp" alt="" coords="75,5,234,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,95,75,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="99,95,149,121"/>
+<area shape="rect" id="node4" href="$configuration_8hpp.html" title="configuration.hpp" alt="" coords="96,169,277,196"/>
+<area shape="rect" id="node7" href="$logger_8hpp.html" title="logger.hpp" alt="" coords="224,95,360,121"/>
+<area shape="rect" id="node5" title=" " alt="" coords="81,244,165,271"/>
+<area shape="rect" id="node6" title=" " alt="" coords="189,244,312,271"/>
+<area shape="rect" id="node8" title=" " alt="" coords="301,169,376,196"/>
 </map>

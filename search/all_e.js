@@ -1,14 +1,19 @@
 var searchData=
 [
-  ['ramen_107',['ramen',['../ramen_8h.html#a337acc9f09a40e41e23b74df41a88795',1,'ramen.h']]],
-  ['ramen_2eh_108',['ramen.h',['../ramen_8h.html',1,'']]],
-  ['received_5fcallback_5ft_109',['received_callback_t',['../namespacebroth_1_1meshnetwork.html#a60dafe9399586bc6846748ee3c040c8b',1,'broth::meshnetwork']]],
-  ['receivedata_110',['receiveData',['../classbroth_1_1server_1_1Server.html#af3119f618702f2d451a432f25812798d',1,'broth::server::Server']]],
-  ['request_5fappend_5fentry_111',['REQUEST_APPEND_ENTRY',['../namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203a8ac36c3fc259edcbb38bf783165b3adb',1,'broth::message']]],
-  ['request_5fvote_112',['REQUEST_VOTE',['../namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203ac9c6027dd084c32e9dcf9982b00e51b8',1,'broth::message']]],
-  ['requestappendentries_113',['requestAppendEntries',['../classbroth_1_1server_1_1Server.html#aced3296dc54d038040d5583fd5b7b425',1,'broth::server::Server']]],
-  ['requestvote_114',['requestVote',['../classbroth_1_1server_1_1Server.html#acfee2e919071d087acec7a312d5fcc96',1,'broth::server::Server']]],
-  ['resetmatchindexmap_115',['resetMatchIndexMap',['../classbroth_1_1logholder_1_1LogHolder.html#aca21fa6cca770750d47e796cd7ba6ef8',1,'broth::logholder::LogHolder']]],
-  ['resetnextindexmap_116',['resetNextIndexMap',['../classbroth_1_1logholder_1_1LogHolder.html#ae3bec1e0ad9f3e386e7f62eb78079113',1,'broth::logholder::LogHolder']]],
-  ['respond_5fappend_5fentry_117',['RESPOND_APPEND_ENTRY',['../namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203a8d7bd7fe466d29c35d499f28cfdecd98',1,'broth::message']]]
+  ['raft_5ftimer_5fperiod_122',['RAFT_TIMER_PERIOD',['../configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430',1,'configuration.hpp']]],
+  ['ramen_123',['ramen',['../ramen_8h.html#a337acc9f09a40e41e23b74df41a88795',1,'ramen.h']]],
+  ['ramen_2eh_124',['ramen.h',['../ramen_8h.html',1,'']]],
+  ['received_5fcallback_5ft_125',['received_callback_t',['../namespacebroth_1_1meshnetwork.html#a60dafe9399586bc6846748ee3c040c8b',1,'broth::meshnetwork']]],
+  ['receivedata_126',['receiveData',['../classbroth_1_1server_1_1Server.html#af3119f618702f2d451a432f25812798d',1,'broth::server::Server']]],
+  ['request_5fappend_5fentry_127',['REQUEST_APPEND_ENTRY',['../namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203a8ac36c3fc259edcbb38bf783165b3adb',1,'broth::message']]],
+  ['request_5fappend_5fentry_5fsize_128',['REQUEST_APPEND_ENTRY_SIZE',['../configuration_8hpp.html#a67df57ccfd6c20db8b4e452d9cb5a097',1,'configuration.hpp']]],
+  ['request_5fvote_129',['REQUEST_VOTE',['../namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203ac9c6027dd084c32e9dcf9982b00e51b8',1,'broth::message']]],
+  ['request_5fvote_5fsize_130',['REQUEST_VOTE_SIZE',['../configuration_8hpp.html#a13a305f92c2062e8594e739606b80f29',1,'configuration.hpp']]],
+  ['request_5fvote_5ftimer_5fperiod_131',['REQUEST_VOTE_TIMER_PERIOD',['../configuration_8hpp.html#a873ab090bb48ed68c51fc55834db96fa',1,'configuration.hpp']]],
+  ['requestappendentries_132',['requestAppendEntries',['../classbroth_1_1server_1_1Server.html#aced3296dc54d038040d5583fd5b7b425',1,'broth::server::Server']]],
+  ['requestvote_133',['requestVote',['../classbroth_1_1server_1_1Server.html#acfee2e919071d087acec7a312d5fcc96',1,'broth::server::Server']]],
+  ['resetmatchindexmap_134',['resetMatchIndexMap',['../classbroth_1_1logholder_1_1LogHolder.html#aca21fa6cca770750d47e796cd7ba6ef8',1,'broth::logholder::LogHolder']]],
+  ['resetnextindexmap_135',['resetNextIndexMap',['../classbroth_1_1logholder_1_1LogHolder.html#ae3bec1e0ad9f3e386e7f62eb78079113',1,'broth::logholder::LogHolder']]],
+  ['respond_5fappend_5fentry_136',['RESPOND_APPEND_ENTRY',['../namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203a8d7bd7fe466d29c35d499f28cfdecd98',1,'broth::message']]],
+  ['respond_5fappend_5fentry_5fsize_137',['RESPOND_APPEND_ENTRY_SIZE',['../configuration_8hpp.html#a2371462b21f72e095c6bec63cd949013',1,'configuration.hpp']]]
 ];

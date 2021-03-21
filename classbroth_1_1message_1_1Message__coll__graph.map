@@ -1,0 +1,6 @@
+<map id="broth::message::Message" name="broth::message::Message">
+<area shape="rect" id="node1" title="Class that is used to create messages that will be sent between mesh nodes and serializing these mess..." alt="" coords="300,78,489,105"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,152,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,71,152,112"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,136,152,177"/>
+</map>

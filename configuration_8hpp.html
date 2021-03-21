@@ -93,18 +93,21 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="configuration_8hpp__dep__incl.png" border="0" usemap="#_2ramen_2library_2src_2ramen_2configuration_8hppdep" alt=""/></div>
 <map name="_2ramen_2library_2src_2ramen_2configuration_8hppdep" id="_2ramen_2library_2src_2ramen_2configuration_8hppdep">
-<area shape="rect" title="configuration.hpp" alt="" coords="605,5,791,47"/>
-<area shape="rect" href="data__queue_8hpp.html" title="data_queue.hpp" alt="" coords="313,184,489,225"/>
-<area shape="rect" href="server_8hpp.html" title="server.hpp" alt="" coords="439,273,579,315"/>
-<area shape="rect" href="ramen_8h.html" title="Main header file for the end user." alt="" coords="739,363,876,404"/>
-<area shape="rect" href="log__holder_8hpp.html" title="log_holder.hpp" alt="" coords="615,184,781,225"/>
-<area shape="rect" href="logger_8hpp.html" title="logger.hpp" alt="" coords="761,95,901,136"/>
-<area shape="rect" href="mesh__network_8hpp.html" title="mesh_network.hpp" alt="" coords="895,184,1091,225"/>
-<area shape="rect" href="message_8hpp.html" title="message.hpp" alt="" coords="5,273,164,315"/>
-<area shape="rect" href="data__queue_8cpp.html" title="data_queue.cpp" alt="" coords="188,273,363,315"/>
-<area shape="rect" href="server_8cpp.html" title="server.cpp" alt="" coords="227,363,366,404"/>
-<area shape="rect" href="log__holder_8cpp.html" title="log_holder.cpp" alt="" coords="603,273,769,315"/>
-<area shape="rect" href="mesh__network_8cpp.html" title="mesh_network.cpp" alt="" coords="895,273,1090,315"/>
+<area shape="rect" title="configuration.hpp" alt="" coords="579,5,764,47"/>
+<area shape="rect" href="data__queue_8hpp.html" title="data_queue.hpp" alt="" coords="55,184,231,225"/>
+<area shape="rect" href="server_8hpp.html" title="server.hpp" alt="" coords="549,273,689,315"/>
+<area shape="rect" href="ramen_8h.html" title="Main header file for the end user." alt="" coords="795,363,932,404"/>
+<area shape="rect" href="log__holder_8hpp.html" title="log_holder.hpp" alt="" coords="428,184,595,225"/>
+<area shape="rect" href="logger_8hpp.html" title="logger.hpp" alt="" coords="796,95,936,136"/>
+<area shape="rect" href="mesh__network_8hpp.html" title="mesh_network.hpp" alt="" coords="721,184,917,225"/>
+<area shape="rect" href="message_8hpp.html" title="message.hpp" alt="" coords="1035,184,1193,225"/>
+<area shape="rect" href="utils_8hpp.html" title="utils.hpp" alt="" coords="1217,184,1355,225"/>
+<area shape="rect" href="data__queue_8cpp.html" title="data_queue.cpp" alt="" coords="5,273,180,315"/>
+<area shape="rect" href="server_8cpp.html" title="server.cpp" alt="" coords="550,363,689,404"/>
+<area shape="rect" href="log__holder_8cpp.html" title="log_holder.cpp" alt="" coords="307,273,473,315"/>
+<area shape="rect" href="mesh__network_8cpp.html" title="mesh_network.cpp" alt="" coords="714,273,909,315"/>
+<area shape="rect" href="message_8cpp.html" title="message.cpp" alt="" coords="1035,273,1193,315"/>
+<area shape="rect" href="utils_8cpp.html" title="utils.cpp" alt="" coords="1269,273,1407,315"/>
 </map>
 </div>
 </div>
@@ -112,12 +115,50 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a783cd9e2e1d62121894a361e9d937ccd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a783cd9e2e1d62121894a361e9d937ccd">ELECTION_TIMEOUT_FACTOR</a>&#160;&#160;&#160;100000</td></tr>
+<tr class="memitem:adf937f4adc54a899ad8aeaeaa29ce430"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">RAFT_TIMER_PERIOD</a>&#160;&#160;&#160;100000</td></tr>
+<tr class="separator:adf937f4adc54a899ad8aeaeaa29ce430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a873ab090bb48ed68c51fc55834db96fa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a873ab090bb48ed68c51fc55834db96fa">REQUEST_VOTE_TIMER_PERIOD</a>&#160;&#160;&#160;200000</td></tr>
+<tr class="separator:a873ab090bb48ed68c51fc55834db96fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad99adb15ea205409304849740ac5b7a1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ad99adb15ea205409304849740ac5b7a1">HEART_BEAT_TIMER_PERIOD</a>&#160;&#160;&#160;500000</td></tr>
+<tr class="separator:ad99adb15ea205409304849740ac5b7a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a783cd9e2e1d62121894a361e9d937ccd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a783cd9e2e1d62121894a361e9d937ccd">ELECTION_TIMEOUT_FACTOR</a>&#160;&#160;&#160;1000000</td></tr>
 <tr class="separator:a783cd9e2e1d62121894a361e9d937ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af687c7fa3d297f1c6093793c610a1ca9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a>&#160;&#160;&#160;100</td></tr>
-<tr class="separator:af687c7fa3d297f1c6093793c610a1ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9606607c9e4091b0fb1b6fe031a58d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#af9606607c9e4091b0fb1b6fe031a58d1">HEART_BEAT_MESSAGE</a>&#160;&#160;&#160;&quot;__heart_beat__&quot;</td></tr>
 <tr class="separator:af9606607c9e4091b0fb1b6fe031a58d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af687c7fa3d297f1c6093793c610a1ca9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a>&#160;&#160;&#160;100</td></tr>
+<tr class="separator:af687c7fa3d297f1c6093793c610a1ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a305f92c2062e8594e739606b80f29"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a13a305f92c2062e8594e739606b80f29">REQUEST_VOTE_SIZE</a>&#160;&#160;&#160;130</td></tr>
+<tr class="separator:a13a305f92c2062e8594e739606b80f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace3cefd50ecd5fe3856426925a8ca4ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ace3cefd50ecd5fe3856426925a8ca4ae">SEND_VOTE_SIZE</a>&#160;&#160;&#160;96</td></tr>
+<tr class="separator:ace3cefd50ecd5fe3856426925a8ca4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67df57ccfd6c20db8b4e452d9cb5a097"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a67df57ccfd6c20db8b4e452d9cb5a097">REQUEST_APPEND_ENTRY_SIZE</a>&#160;&#160;&#160;96 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td></tr>
+<tr class="separator:a67df57ccfd6c20db8b4e452d9cb5a097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2371462b21f72e095c6bec63cd949013"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a2371462b21f72e095c6bec63cd949013">RESPOND_APPEND_ENTRY_SIZE</a>&#160;&#160;&#160;96 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td></tr>
+<tr class="separator:a2371462b21f72e095c6bec63cd949013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84a55b954a9d270664ddcdf4c3780ff3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a84a55b954a9d270664ddcdf4c3780ff3">ENTRY_SIZE</a>&#160;&#160;&#160;200 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td></tr>
+<tr class="separator:a84a55b954a9d270664ddcdf4c3780ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70c9700d6e629e71e5a9bcb42a91cc41"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a70c9700d6e629e71e5a9bcb42a91cc41">TYPE_FIELD_KEY</a>&#160;&#160;&#160;&quot;type&quot;</td></tr>
+<tr class="separator:a70c9700d6e629e71e5a9bcb42a91cc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7daad6d05289718816582b3af5942ed1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a7daad6d05289718816582b3af5942ed1">TERM_FIELD_KEY</a>&#160;&#160;&#160;&quot;term&quot;</td></tr>
+<tr class="separator:a7daad6d05289718816582b3af5942ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae227ae3699f1e0fb507a80c858666556"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ae227ae3699f1e0fb507a80c858666556">LAST_LOG_TERM_FIELD_KEY</a>&#160;&#160;&#160;&quot;lastLogTerm&quot;</td></tr>
+<tr class="separator:ae227ae3699f1e0fb507a80c858666556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e2b2b56db6ec0bfc41361339f8134a4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a9e2b2b56db6ec0bfc41361339f8134a4">LAST_LOG_INDEX_FIELD_KEY</a>&#160;&#160;&#160;&quot;lastLogIndex&quot;</td></tr>
+<tr class="separator:a9e2b2b56db6ec0bfc41361339f8134a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aeec3be8e598e6a86a54671de00c9f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a4aeec3be8e598e6a86a54671de00c9f2">GRANTED_FIELD_KEY</a>&#160;&#160;&#160;&quot;granted&quot;</td></tr>
+<tr class="separator:a4aeec3be8e598e6a86a54671de00c9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6772406ceea954c214ef7ea134f28c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ae6772406ceea954c214ef7ea134f28c3">PREVIOUS_LOG_INDEX_FIELD_KEY</a>&#160;&#160;&#160;&quot;previousLogIndex&quot;</td></tr>
+<tr class="separator:ae6772406ceea954c214ef7ea134f28c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae897c49b1252abcb13d3b2b38f93ef89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ae897c49b1252abcb13d3b2b38f93ef89">PREVIOUS_LOG_TERM_FIELD_KEY</a>&#160;&#160;&#160;&quot;previousLogTerm&quot;</td></tr>
+<tr class="separator:ae897c49b1252abcb13d3b2b38f93ef89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7162678c15614a97e5f089f690e999ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a7162678c15614a97e5f089f690e999ad">ENTRIES_FIELD_KEY</a>&#160;&#160;&#160;&quot;entries&quot;</td></tr>
+<tr class="separator:a7162678c15614a97e5f089f690e999ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1c9ac3e51562b39f02ecb0e3212201b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ab1c9ac3e51562b39f02ecb0e3212201b">COMMIT_INDEX_FIELD_KEY</a>&#160;&#160;&#160;&quot;commitIndex&quot;</td></tr>
+<tr class="separator:ab1c9ac3e51562b39f02ecb0e3212201b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef414a4b05c9266603f47d664019960b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#aef414a4b05c9266603f47d664019960b">SUCCESS_FIELD_KEY</a>&#160;&#160;&#160;&quot;success&quot;</td></tr>
+<tr class="separator:aef414a4b05c9266603f47d664019960b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abff9d7589e278091dd13dc536af143ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#abff9d7589e278091dd13dc536af143ec">MATCH_INDEX_FIELD_KEY</a>&#160;&#160;&#160;&quot;matchIndex&quot;</td></tr>
+<tr class="separator:abff9d7589e278091dd13dc536af143ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -129,6 +170,22 @@ Typedefs</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ab1c9ac3e51562b39f02ecb0e3212201b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1c9ac3e51562b39f02ecb0e3212201b">&#9670;&nbsp;</a></span>COMMIT_INDEX_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COMMIT_INDEX_FIELD_KEY&#160;&#160;&#160;&quot;commitIndex&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00039">39</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a783cd9e2e1d62121894a361e9d937ccd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a783cd9e2e1d62121894a361e9d937ccd">&#9670;&nbsp;</a></span>ELECTION_TIMEOUT_FACTOR</h2>
 
@@ -136,12 +193,60 @@ Typedefs</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ELECTION_TIMEOUT_FACTOR&#160;&#160;&#160;100000</td>
+          <td class="memname">#define ELECTION_TIMEOUT_FACTOR&#160;&#160;&#160;1000000</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00022">22</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00015">15</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7162678c15614a97e5f089f690e999ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7162678c15614a97e5f089f690e999ad">&#9670;&nbsp;</a></span>ENTRIES_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENTRIES_FIELD_KEY&#160;&#160;&#160;&quot;entries&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00038">38</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a84a55b954a9d270664ddcdf4c3780ff3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84a55b954a9d270664ddcdf4c3780ff3">&#9670;&nbsp;</a></span>ENTRY_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENTRY_SIZE&#160;&#160;&#160;200 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00028">28</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4aeec3be8e598e6a86a54671de00c9f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4aeec3be8e598e6a86a54671de00c9f2">&#9670;&nbsp;</a></span>GRANTED_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GRANTED_FIELD_KEY&#160;&#160;&#160;&quot;granted&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00035">35</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -157,7 +262,71 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00025">25</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00017">17</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad99adb15ea205409304849740ac5b7a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad99adb15ea205409304849740ac5b7a1">&#9670;&nbsp;</a></span>HEART_BEAT_TIMER_PERIOD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HEART_BEAT_TIMER_PERIOD&#160;&#160;&#160;500000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00014">14</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a9e2b2b56db6ec0bfc41361339f8134a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e2b2b56db6ec0bfc41361339f8134a4">&#9670;&nbsp;</a></span>LAST_LOG_INDEX_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LAST_LOG_INDEX_FIELD_KEY&#160;&#160;&#160;&quot;lastLogIndex&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00034">34</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae227ae3699f1e0fb507a80c858666556"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae227ae3699f1e0fb507a80c858666556">&#9670;&nbsp;</a></span>LAST_LOG_TERM_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LAST_LOG_TERM_FIELD_KEY&#160;&#160;&#160;&quot;lastLogTerm&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00033">33</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="abff9d7589e278091dd13dc536af143ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abff9d7589e278091dd13dc536af143ec">&#9670;&nbsp;</a></span>MATCH_INDEX_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MATCH_INDEX_FIELD_KEY&#160;&#160;&#160;&quot;matchIndex&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00041">41</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -177,6 +346,182 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
+<a id="ae6772406ceea954c214ef7ea134f28c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6772406ceea954c214ef7ea134f28c3">&#9670;&nbsp;</a></span>PREVIOUS_LOG_INDEX_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PREVIOUS_LOG_INDEX_FIELD_KEY&#160;&#160;&#160;&quot;previousLogIndex&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00036">36</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae897c49b1252abcb13d3b2b38f93ef89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae897c49b1252abcb13d3b2b38f93ef89">&#9670;&nbsp;</a></span>PREVIOUS_LOG_TERM_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PREVIOUS_LOG_TERM_FIELD_KEY&#160;&#160;&#160;&quot;previousLogTerm&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00037">37</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="adf937f4adc54a899ad8aeaeaa29ce430"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf937f4adc54a899ad8aeaeaa29ce430">&#9670;&nbsp;</a></span>RAFT_TIMER_PERIOD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RAFT_TIMER_PERIOD&#160;&#160;&#160;100000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00012">12</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a67df57ccfd6c20db8b4e452d9cb5a097"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67df57ccfd6c20db8b4e452d9cb5a097">&#9670;&nbsp;</a></span>REQUEST_APPEND_ENTRY_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REQUEST_APPEND_ENTRY_SIZE&#160;&#160;&#160;96 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00026">26</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a13a305f92c2062e8594e739606b80f29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13a305f92c2062e8594e739606b80f29">&#9670;&nbsp;</a></span>REQUEST_VOTE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REQUEST_VOTE_SIZE&#160;&#160;&#160;130</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00024">24</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a873ab090bb48ed68c51fc55834db96fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a873ab090bb48ed68c51fc55834db96fa">&#9670;&nbsp;</a></span>REQUEST_VOTE_TIMER_PERIOD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REQUEST_VOTE_TIMER_PERIOD&#160;&#160;&#160;200000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00013">13</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2371462b21f72e095c6bec63cd949013"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2371462b21f72e095c6bec63cd949013">&#9670;&nbsp;</a></span>RESPOND_APPEND_ENTRY_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RESPOND_APPEND_ENTRY_SIZE&#160;&#160;&#160;96 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00027">27</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ace3cefd50ecd5fe3856426925a8ca4ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace3cefd50ecd5fe3856426925a8ca4ae">&#9670;&nbsp;</a></span>SEND_VOTE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEND_VOTE_SIZE&#160;&#160;&#160;96</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00025">25</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aef414a4b05c9266603f47d664019960b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef414a4b05c9266603f47d664019960b">&#9670;&nbsp;</a></span>SUCCESS_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SUCCESS_FIELD_KEY&#160;&#160;&#160;&quot;success&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00040">40</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7daad6d05289718816582b3af5942ed1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7daad6d05289718816582b3af5942ed1">&#9670;&nbsp;</a></span>TERM_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TERM_FIELD_KEY&#160;&#160;&#160;&quot;term&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00032">32</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a70c9700d6e629e71e5a9bcb42a91cc41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70c9700d6e629e71e5a9bcb42a91cc41">&#9670;&nbsp;</a></span>TYPE_FIELD_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TYPE_FIELD_KEY&#160;&#160;&#160;&quot;type&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00031">31</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ae28756a04902f373989ce7d11bfabfef"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae28756a04902f373989ce7d11bfabfef">&#9670;&nbsp;</a></span>string_t</h2>
@@ -190,7 +535,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00020">20</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00060">60</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>

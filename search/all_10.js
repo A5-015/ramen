@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['term_137',['term',['../classbroth_1_1message_1_1MessageRequestVote.html#a5fa3bffe1022de8982a68083cb32b661',1,'broth::message::MessageRequestVote::term()'],['../classbroth_1_1message_1_1MessageSendVote.html#aa35edb62b137a5ffe5b3e9e8a44f4c76',1,'broth::message::MessageSendVote::term()'],['../classbroth_1_1message_1_1MessageRequestAppendEntry.html#aa17b386bce41689a7cde40664825097c',1,'broth::message::MessageRequestAppendEntry::term()'],['../classbroth_1_1message_1_1MessageRespondAppendEntry.html#a422451af94c3a074a8c06a966bd87ea0',1,'broth::message::MessageRespondAppendEntry::term()']]],
-  ['type_138',['type',['../classbroth_1_1message_1_1MessageRequestVote.html#a6c513222dd84287c5ffc43d713ecfa04',1,'broth::message::MessageRequestVote::type()'],['../classbroth_1_1message_1_1MessageSendVote.html#a9579cba1d47d83d458437aaa6b5d664f',1,'broth::message::MessageSendVote::type()'],['../classbroth_1_1message_1_1MessageRequestAppendEntry.html#a11ade6109e471078f88526daf53266c4',1,'broth::message::MessageRequestAppendEntry::type()'],['../classbroth_1_1message_1_1MessageRespondAppendEntry.html#adbd0fe10531de7d0e2218bd4bb207446',1,'broth::message::MessageRespondAppendEntry::type()']]]
+  ['term_5ffield_5fkey_158',['TERM_FIELD_KEY',['../configuration_8hpp.html#a7daad6d05289718816582b3af5942ed1',1,'configuration.hpp']]],
+  ['timer_159',['Timer',['../classbroth_1_1utils_1_1Timer.html',1,'broth::utils::Timer'],['../classbroth_1_1utils_1_1Timer.html#a464e10970d41f443efcf08e8e11b2618',1,'broth::utils::Timer::Timer()']]],
+  ['type_5ffield_5fkey_160',['TYPE_FIELD_KEY',['../configuration_8hpp.html#a70c9700d6e629e71e5a9bcb42a91cc41',1,'configuration.hpp']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['update_218',['update',['../classbroth_1_1meshnetwork_1_1MeshNetwork.html#ad17ceb7efb53cd0d250b69a397447d21',1,'broth::meshnetwork::MeshNetwork::update()'],['../classbroth_1_1server_1_1Server.html#a93e41c54cb895a31b1fe2577b1a8eaa9',1,'broth::server::Server::update()']]]
+  ['timer_249',['Timer',['../classbroth_1_1utils_1_1Timer.html#a464e10970d41f443efcf08e8e11b2618',1,'broth::utils::Timer']]]
 ];

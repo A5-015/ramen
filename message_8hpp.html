@@ -69,7 +69,6 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">message.hpp File Reference</div>  </div>
@@ -78,16 +77,23 @@ $(function() {
 
 <p><a class="el" href="message_8hpp.html" title="message.hpp">message.hpp</a>  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="configuration_8hpp_source.html">ramen/configuration.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cassert&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
+<code>#include &quot;<a class="el" href="configuration_8hpp_source.html">ramen/configuration.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logger_8hpp_source.html">ramen/logger.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for message.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="message_8hpp__incl.png" border="0" usemap="#_2ramen_2library_2src_2ramen_2message_8hpp" alt=""/></div>
 <map name="_2ramen_2library_2src_2ramen_2message_8hpp" id="_2ramen_2library_2src_2ramen_2message_8hpp">
-<area shape="rect" title="message.hpp" alt="" coords="32,5,191,47"/>
-<area shape="rect" href="configuration_8hpp.html" title="configuration.hpp" alt="" coords="21,95,202,121"/>
-<area shape="rect" title=" " alt="" coords="5,169,89,196"/>
-<area shape="rect" title=" " alt="" coords="114,169,237,196"/>
+<area shape="rect" title="message.hpp" alt="" coords="75,5,234,47"/>
+<area shape="rect" title=" " alt="" coords="5,95,75,121"/>
+<area shape="rect" title=" " alt="" coords="99,95,149,121"/>
+<area shape="rect" href="configuration_8hpp.html" title="configuration.hpp" alt="" coords="96,169,277,196"/>
+<area shape="rect" href="logger_8hpp.html" title="logger.hpp" alt="" coords="224,95,360,121"/>
+<area shape="rect" title=" " alt="" coords="81,244,165,271"/>
+<area shape="rect" title=" " alt="" coords="189,244,312,271"/>
+<area shape="rect" title=" " alt="" coords="301,169,376,196"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -95,9 +101,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="message_8hpp__dep__incl.png" border="0" usemap="#_2ramen_2library_2src_2ramen_2message_8hppdep" alt=""/></div>
 <map name="_2ramen_2library_2src_2ramen_2message_8hppdep" id="_2ramen_2library_2src_2ramen_2message_8hppdep">
-<area shape="rect" title="message.hpp" alt="" coords="77,5,235,47"/>
-<area shape="rect" href="server_8cpp.html" title="server.cpp" alt="" coords="5,95,144,136"/>
-<area shape="rect" href="ramen_8h.html" title="Main header file for the end user." alt="" coords="169,95,306,136"/>
+<area shape="rect" title="message.hpp" alt="" coords="179,5,337,47"/>
+<area shape="rect" href="message_8cpp.html" title="message.cpp" alt="" coords="5,95,164,136"/>
+<area shape="rect" href="server_8hpp.html" title="server.hpp" alt="" coords="188,95,328,136"/>
+<area shape="rect" href="ramen_8h.html" title="Main header file for the end user." alt="" coords="297,184,435,225"/>
+<area shape="rect" href="server_8cpp.html" title="server.cpp" alt="" coords="134,184,273,225"/>
 </map>
 </div>
 </div>
@@ -105,13 +113,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1message_1_1MessageRequestVote.html">broth::message::MessageRequestVote</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1message_1_1MessageSendVote.html">broth::message::MessageSendVote</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1message_1_1MessageRequestAppendEntry.html">broth::message::MessageRequestAppendEntry</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1message_1_1MessageRespondAppendEntry.html">broth::message::MessageRespondAppendEntry</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1message_1_1Message.html">broth::message::Message</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that is used to create messages that will be sent between mesh nodes and serializing these messages.  <a href="classbroth_1_1message_1_1Message.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -120,13 +123,6 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacebroth_1_1message"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebroth_1_1message.html">broth::message</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a3a127a5625eeddc6fa45ff56005f4e70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8hpp.html#a3a127a5625eeddc6fa45ff56005f4e70">MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE</a>&#160;&#160;&#160;96 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td></tr>
-<tr class="separator:a3a127a5625eeddc6fa45ff56005f4e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54236c01c0601f893adf02fa99ce80b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8hpp.html#a54236c01c0601f893adf02fa99ce80b5">MESSAGE_RESPOND_APPEND_ENTRY_PAYLOAD_SIZE</a>&#160;&#160;&#160;64 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td></tr>
-<tr class="separator:a54236c01c0601f893adf02fa99ce80b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -139,46 +135,14 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203a3aed8b721d38681c0987e0c53d80e69c">broth::message::ENTRY</a> = 4
 <br />
  }</td></tr>
+<tr class="memdesc:ac35bfc0a797645101f62710627a80203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message type mapping.  <a href="namespacebroth_1_1message.html#ac35bfc0a797645101f62710627a80203">More...</a><br /></td></tr>
 <tr class="separator:ac35bfc0a797645101f62710627a80203"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="message_8hpp.html" title="message.hpp">message.hpp</a> </p>
 
 <p class="definition">Definition in file <a class="el" href="message_8hpp_source.html">message.hpp</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a3a127a5625eeddc6fa45ff56005f4e70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a127a5625eeddc6fa45ff56005f4e70">&#9670;&nbsp;</a></span>MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MESSAGE_REQUEST_APPEND_ENTRY_PAYLOAD_SIZE&#160;&#160;&#160;96 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="message_8hpp_source.html#l00009">9</a> of file <a class="el" href="message_8hpp_source.html">message.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a54236c01c0601f893adf02fa99ce80b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54236c01c0601f893adf02fa99ce80b5">&#9670;&nbsp;</a></span>MESSAGE_RESPOND_APPEND_ENTRY_PAYLOAD_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MESSAGE_RESPOND_APPEND_ENTRY_PAYLOAD_SIZE&#160;&#160;&#160;64 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="message_8hpp_source.html#l00012">12</a> of file <a class="el" href="message_8hpp_source.html">message.hpp</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

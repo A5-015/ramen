@@ -1,5 +1,7 @@
 <map id="/ramen/library/src/ramen/message.hpp" name="/ramen/library/src/ramen/message.hpp">
-<area shape="rect" id="node1" title="message.hpp" alt="" coords="77,5,235,47"/>
-<area shape="rect" id="node2" href="$server_8cpp.html" title="server.cpp" alt="" coords="5,95,144,136"/>
-<area shape="rect" id="node3" href="$ramen_8h.html" title="Main header file for the end user." alt="" coords="169,95,306,136"/>
+<area shape="rect" id="node1" title="message.hpp" alt="" coords="179,5,337,47"/>
+<area shape="rect" id="node2" href="$message_8cpp.html" title="message.cpp" alt="" coords="5,95,164,136"/>
+<area shape="rect" id="node3" href="$server_8hpp.html" title="server.hpp" alt="" coords="188,95,328,136"/>
+<area shape="rect" id="node5" href="$ramen_8h.html" title="Main header file for the end user." alt="" coords="297,184,435,225"/>
+<area shape="rect" id="node4" href="$server_8cpp.html" title="server.cpp" alt="" coords="134,184,273,225"/>
 </map>

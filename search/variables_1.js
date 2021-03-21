@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['commit_5findex_244',['commit_index',['../classbroth_1_1message_1_1MessageRequestAppendEntry.html#a4787736913e702ae49c881726db51518',1,'broth::message::MessageRequestAppendEntry']]]
+  ['id_288',['id',['../classbroth_1_1logger_1_1Logger.html#a339dc979cdf2d18b4c28250580ecbb5a',1,'broth::logger::Logger']]]
 ];
