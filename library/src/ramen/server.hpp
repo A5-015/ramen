@@ -177,11 +177,8 @@ namespace server {
      *
      * @param receiver Address of the receiver node
      * @param data Data to send in JSON format
-     * @param heart_beat Sends a heart beat instead of the data
      */
-    void requestAppendEntries(uint32_t receiver,
-                              string_t data,
-                              bool heart_beat = false);
+    void requestAppendEntries(uint32_t receiver, string_t data);
 
     /**
      * @brief Parent function of requestAppendEntries

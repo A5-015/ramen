@@ -313,20 +313,14 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   }
 };
 
-void _server::requestAppendEntries(uint32_t receiver,
-                                   string_t data,
-                                   bool heart_beat) {
+void _server::requestAppendEntries(uint32_t receiver, string_t data) {
   // Generate the message
   Message message(REQUEST_APPEND_ENTRY, this->_term);
 
   uint32_t previous_log_index = this->_log.getNextIndex(receiver) - 1;
   uint32_t previous_log_term = this->_log.getLogTerm(previous_log_index);
-  string_t entries = HEART_BEAT_MESSAGE;
+  string_t entries = data;
   uint32_t commit_index = this->_commit_index;
-
-  if(!heart_beat) {
-    entries = data;
-  }
 
   message.addFields(previous_log_index,
                     previous_log_term,
