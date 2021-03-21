@@ -54,6 +54,7 @@ void _server::init(string_t mesh_name,
   this->_raft_timer.init(RAFT_TIMER_PERIOD);
   this->_request_vote_timer.init(REQUEST_VOTE_TIMER_PERIOD);
   this->_heart_beat_timer.init(HEART_BEAT_TIMER_PERIOD);
+  this->_request_append_entry_timer.init(REQUEST_APPEND_ENTRY_PERIOD);
 };
 
 void _server::update() {
@@ -90,8 +91,18 @@ void _server::update() {
       this->_commit_index = this->_log.getMajorityCommitIndex();
 
       // Slow down with timer
-      if(this->_heart_beat_timer.check(current_time)) {
-        this->broadcastRequestAppendEntries(HEART_BEAT_MESSAGE);
+      bool heart_beat_timer = this->_heart_beat_timer.check(current_time);
+      bool request_append_entry_timer =
+          this->_request_append_entry_timer.check(current_time);
+
+      // If heart_beat_timer and request_append_entry_timer timeout together,
+      // send append entry request,
+      // otherwise send an hear beat
+      if(heart_beat_timer && request_append_entry_timer) {
+        // Boolean refers to sending heartbeat
+        this->broadcastRequestAppendEntries(false);
+      } else {
+        this->broadcastRequestAppendEntries(true);
       }
     }
   }
@@ -313,14 +324,21 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   }
 };
 
-void _server::requestAppendEntries(uint32_t receiver, string_t data) {
+void _server::requestAppendEntries(uint32_t receiver, bool heart_beat) {
   // Generate the message
   Message message(REQUEST_APPEND_ENTRY, this->_term);
 
-  uint32_t previous_log_index = this->_log.getNextIndex(receiver) - 1;
+  uint32_t next_index = this->_log.getNextIndex(receiver);
+  uint32_t previous_log_index = next_index - 1;
   uint32_t previous_log_term = this->_log.getLogTerm(previous_log_index);
-  string_t entries = data;
   uint32_t commit_index = this->_commit_index;
+
+  // Default to heart_beat message
+  // Otherwise grab data from log
+  string_t entries = HEART_BEAT_MESSAGE;
+  if(!heart_beat) {
+    entries = this->_log.getLogData(next_index);
+  }
 
   message.addFields(previous_log_index,
                     previous_log_term,
@@ -332,11 +350,11 @@ void _server::requestAppendEntries(uint32_t receiver, string_t data) {
   this->_logger(DEBUG, "Sent append entry request to %u\n", receiver);
 };
 
-void _server::broadcastRequestAppendEntries(string_t data) {
+void _server::broadcastRequestAppendEntries(bool heart_beat) {
   auto nodeList = this->_mesh.getNodeList(false);
 
   for(auto it = nodeList.begin(); it != nodeList.end(); ++it) {
-    this->requestAppendEntries(*it, data);
+    this->requestAppendEntries(*it, heart_beat);
   }
 
   this->_logger(DEBUG, "Broadcasted append entry request to everyone!\n");
