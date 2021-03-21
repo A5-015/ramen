@@ -8,9 +8,13 @@
 // Place constants here //
 // vvvvvvvvvvvvvvvvvvvv //
 
-#define RAFT_TIMER_PERIOD       100000
-#define ELECTION_TIMEOUT_FACTOR 1000000
-#define HEART_BEAT_MESSAGE      "__heart_beat__"
+// In microseconds
+#define RAFT_TIMER_PERIOD         100000
+#define REQUEST_VOTE_TIMER_PERIOD 200000
+#define HEART_BEAT_TIMER_PERIOD   500000
+#define ELECTION_TIMEOUT_FACTOR   1000000
+
+#define HEART_BEAT_MESSAGE "__heart_beat__"
 
 // Message buffer sizes
 // Check https://arduinojson.org/v6/assistant/ to figure out the right payload

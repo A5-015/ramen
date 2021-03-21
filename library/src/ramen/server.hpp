@@ -53,6 +53,8 @@ namespace server {
     Task* _task_election_ptr;
     uint32_t _commit_index;
     Timer _raft_timer;
+    Timer _heart_beat_timer;
+    Timer _request_vote_timer;
 
    public:
     /**

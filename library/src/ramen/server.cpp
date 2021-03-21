@@ -50,8 +50,10 @@ void _server::init(string_t mesh_name,
   // Let the user know that initialization was successful
   this->_logger(DEBUG, "Just initialized the node!\n");
 
-  // Set raft timer's period to specified microseconds
+  // Set timers' periods to specified periods
   this->_raft_timer.init(RAFT_TIMER_PERIOD);
+  this->_request_vote_timer.init(REQUEST_VOTE_TIMER_PERIOD);
+  this->_heart_beat_timer.init(HEART_BEAT_TIMER_PERIOD);
 };
 
 void _server::update() {
@@ -72,8 +74,11 @@ void _server::update() {
     //////////////////////
     else if(this->_state == CANDIDATE) {
       this->checkForElectionAlarmTimeout();
-      // TODO: slow down
-      this->requestVote();
+
+      // Slow down with timer
+      if(this->_request_vote_timer.check(this->_mesh.getNodeTime())) {
+        this->requestVote();
+      }
     }
 
     //////////////////////
@@ -81,8 +86,11 @@ void _server::update() {
     //////////////////////
     else if(this->_state == LEADER) {
       this->_commit_index = this->_log.getMajorityCommitIndex();
-      // TODO: slow down
-      this->broadcastRequestAppendEntries(HEART_BEAT_MESSAGE);
+
+      // Slow down with timer
+      if(this->_heart_beat_timer.check(this->_mesh.getNodeTime())) {
+        this->broadcastRequestAppendEntries(HEART_BEAT_MESSAGE);
+      }
     }
   }
 };
