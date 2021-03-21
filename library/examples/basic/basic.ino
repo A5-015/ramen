@@ -15,7 +15,7 @@ void setup() {
   consensus_on_mesh_server.init(MESH_NAME,
                                 MESH_PASSWORD,
                                 MESH_PORT,
-                                broth::message::DEBUG);
+                                broth::logger::DEBUG);
 
   // Set the builtin blue LED as output
   pinMode(2, OUTPUT);

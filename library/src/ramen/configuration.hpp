@@ -15,12 +15,13 @@
 // Message buffer sizes
 // Check https://arduinojson.org/v6/assistant/ to figure out the right payload
 // buffer size
+// MAKE SURE TO UN-CHECK "Assume keys are const char*"
 #define MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE 100
-#define REQUEST_VOTE_SIZE                      64
-#define SEND_VOTE_SIZE                         48
+#define REQUEST_VOTE_SIZE                      130
+#define SEND_VOTE_SIZE                         96
 #define REQUEST_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
-#define RESPOND_APPEND_ENTRY_SIZE              64 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
-#define ENTRY_SIZE                             100 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+#define RESPOND_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+#define ENTRY_SIZE                             200 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
 
 // Text for message fields, these values will be used during JSON serialization
 #define TYPE_FIELD_KEY               "type"
