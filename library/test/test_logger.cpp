@@ -1,11 +1,25 @@
 #include "catch2/catch.hpp"
-#include "ramen.h"
+#include "logger.hpp"
 
-SCENARIO("Logging test") {
+SCENARIO("Logging test all levels") {
+  using namespace broth::logger;
+  Logger logger;
+
+  logger.setLogLevel(DEBUG);
+
+  logger(DEBUG, "Debug level message\n");
+  logger(INFO, "Info level message\n");
+  logger(WARNING, "Warning level message\n");
+  logger(ERROR, "Error level message\n");
+  logger(CRITICAL, "Critical level message\n"); 
+}
+
+SCENARIO("Logging level test") {
   using namespace broth::logger;
   Logger logger;
 
   logger.setLogLevel(ERROR);
+  
   logger(
       ERROR,
       "This message should be visible and there shouldn't be a debug message "
