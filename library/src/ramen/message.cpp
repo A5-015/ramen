@@ -21,9 +21,9 @@ string_t _message::serialize() {
   // We need a larger buffer due to data type differences on a x86 computer, so
   // we need to redefine a quite large buffer instead of the default ones for
   // ESP8266
-#ifdef _RAMEN_CATCH_TESTING_
+#ifdef _RAMEN_UNIT_TESTING_
   delete this->_payload;
-  this->_payload = new DynamicJsonDocument(RAMEN_CATCH_TESTING_PAYLOAD_SIZE);
+  this->_payload = new DynamicJsonDocument(RAMEN_UNIT_TESTING_PAYLOAD_SIZE);
 #endif
 
   // Dump the common fields

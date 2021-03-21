@@ -177,7 +177,7 @@ void _meshnetwork::onReceiveCallback(received_callback_t on_receive) {
   // Methods used only during testing
   /////////////////////////////////////////////////
 
-#ifdef _RAMEN_CATCH_TESTING_
+#ifdef _RAMEN_UNIT_TESTING_
 
 void _meshnetwork::setMeshTime(uint32_t time) {
   switch(this->_selected_mesh_network_type) {

@@ -46,7 +46,7 @@
 //////////////////////////
 
 // clang-format off
-#ifndef _RAMEN_CATCH_TESTING_
+#ifndef _RAMEN_UNIT_TESTING_
 
     // Used for the actual library
     #ifndef _RAMEN_CONFIGURATION_HPP_

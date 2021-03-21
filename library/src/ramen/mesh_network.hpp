@@ -135,7 +135,7 @@ namespace meshnetwork {
     // Methods used only during testing
     /////////////////////////////////////////////////
 
-#ifdef _RAMEN_CATCH_TESTING_
+#ifdef _RAMEN_UNIT_TESTING_
 
     /**
      * @brief Force set the mesh time to given value

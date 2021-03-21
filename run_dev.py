@@ -9,9 +9,9 @@ project_path = pathlib.Path(__file__).parent.absolute()
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    "--catch",
+    "--test",
     action="store_true",
-    help="Runs the catch tests available in the library/test/catch folder",
+    help="Runs the unit tests available in the library/test folder",
 )
 
 parser.add_argument(
@@ -187,18 +187,18 @@ def chown_ttyUSB0_to_user():
     os.system("chown 1000:dialout /dev/ttyUSB0")
 
 
-if args.catch:
+if args.test:
     check_submodules()
     run_command_in_docker(
         "cd library"
         + "&&"
         + "cmake ."
         + "&&"
-        + "make ramen_unit_test"
+        + "make ramen_unit_tests"
         + "&&"
         + "echo '\n\033[96m===============================================================================\nRunning the tests:\033[0m\n'"
         + "&&"
-        + "./bin/ramen_unit_test"
+        + "./bin/ramen_unit_tests"
         + "&&"
         + "gcovr --print-summary --root='.' --filter='/ramen/library/src/ramen/*' --exclude='virtual_esp.*'"
         + "&&"
