@@ -7,6 +7,9 @@
 
 ramen consensus_on_mesh_server;
 
+unsigned long previousMillis = 0;
+const long interval = 1000;
+
 void setup() {
   // Initialize serial communication
   Serial.begin(115200);
@@ -30,5 +33,15 @@ void loop() {
     digitalWrite(2, LOW);
   } else {
     digitalWrite(2, HIGH);
+  }
+
+  unsigned long currentMillis = millis();
+
+  if(currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+
+    // Show remaining memory
+    Serial.print("Remaining memory: ");
+    Serial.println(ESP.getFreeHeap());
   }
 }
