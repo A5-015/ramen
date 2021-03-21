@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 
   // clang-format off
   options.add_options()
-    ("t,time", "simulation duration", cxxopts::value<float>()->default_value("0.5"))
+    ("t,time", "simulation duration", cxxopts::value<float>()->default_value("10"))
     ("n,nodes", "number of nodes", cxxopts::value<int>()->default_value("3"))
     ;
   // clang-format on
@@ -77,9 +77,18 @@ int main(int argc, char** argv) {
 
     // Iterate over the nodes based on the random order
     for(auto it = nodes.begin(); it != nodes.end(); ++it) {
+      // clang-format off
+      // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+      //////////////////////////////////////////////////////////////////////////
+
+
       // Call the update() function of the node
       (*it)->update();
 
+
+      //////////////////////////////////////////////////////////////////////////
+      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      // clang-format on
       // Check if anything was outputted
       printed_output = (printed_output || (*it)->_logger._printed_output);
 
