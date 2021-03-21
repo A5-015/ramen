@@ -40,9 +40,9 @@ void _server::init(string_t mesh_name,
   });
 
   // Set node ID and time
-  this->_id = _mesh.getNodeId();
-  this->_logger.setLoggerId(_mesh.getNodeId());
-  this->_previous_node_time = _mesh.getNodeTime();
+  this->_id = this->_mesh.getNodeId();
+  this->_logger.setLoggerId(this->_mesh.getNodeId());
+  this->_previous_node_time = this->_mesh.getNodeTime();
 
   // Set the election alarm
   this->setElectionAlarmValue();
@@ -60,8 +60,10 @@ void _server::update() {
   // Update the mesh network all the time
   this->_mesh.update();
 
+  uint32_t current_time = this->_mesh.getNodeTime();
+
   // Slow down the Raft implementation with the help of the timer
-  if(this->_raft_timer.check(this->_mesh.getNodeTime())) {
+  if(this->_raft_timer.check(current_time)) {
     //////////////////////
     // State => FOLLOWER
     //////////////////////
@@ -76,7 +78,7 @@ void _server::update() {
       this->checkForElectionAlarmTimeout();
 
       // Slow down with timer
-      if(this->_request_vote_timer.check(this->_mesh.getNodeTime())) {
+      if(this->_request_vote_timer.check(current_time)) {
         this->requestVote();
       }
     }
@@ -88,7 +90,7 @@ void _server::update() {
       this->_commit_index = this->_log.getMajorityCommitIndex();
 
       // Slow down with timer
-      if(this->_heart_beat_timer.check(this->_mesh.getNodeTime())) {
+      if(this->_heart_beat_timer.check(current_time)) {
         this->broadcastRequestAppendEntries(HEART_BEAT_MESSAGE);
       }
     }
@@ -134,7 +136,7 @@ void _server::setElectionAlarmValue() {
       DEBUG,
       "Set the election alarm %u duration from now, which is %u @ mesh time\n",
       this->_election_alarm,
-      _mesh.getNodeTime() + this->_election_alarm);
+      this->_mesh.getNodeTime() + this->_election_alarm);
 };
 
 void _server::checkForElectionAlarmTimeout() {
@@ -281,7 +283,7 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   this->_mesh.sendMessageToNode(sender, message.serialize());
 
   uint32_t sender_term = (uint32_t) data[TERM_FIELD_KEY];
-  this->_logger(INFO, "Replied to %u with %u vote\n", sender, granted);
+  this->_logger(DEBUG, "Replied to %u with %u vote\n", sender, granted);
 };
 
 void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
@@ -297,7 +299,7 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
      this->_term == (uint32_t) data[TERM_FIELD_KEY]) {
     // Store received vote in votes received map
     (*(this->_votes_received_ptr))[sender] = granted;
-    this->_logger(INFO, "Saved vote from %u with %u vote\n", sender, granted);
+    this->_logger(DEBUG, "Saved vote from %u with %u vote\n", sender, granted);
 
     // Check for election results
     if(this->getElectionResults()) {
@@ -306,7 +308,7 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
     } else {
       this->_logger(DEBUG,
                     "Did not win the election at %u\n",
-                    _mesh.getNodeTime());
+                    this->_mesh.getNodeTime());
     }
   }
 };
@@ -333,7 +335,7 @@ void _server::requestAppendEntries(uint32_t receiver,
 
   this->_mesh.sendMessageToNode(receiver, message.serialize());
 
-  // this->_logger(DEBUG, "Sent append entry request to %u\n", receiver);
+  this->_logger(DEBUG, "Sent append entry request to %u\n", receiver);
 };
 
 void _server::broadcastRequestAppendEntries(string_t data) {
