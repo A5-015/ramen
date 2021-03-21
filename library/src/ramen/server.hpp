@@ -92,6 +92,14 @@ namespace server {
     void switchState(ServerState state, uint32_t term = 0);
 
     /**
+     * @brief Provides access to current state of server in the Raft consensus
+     * (for example, follower, candidate, leader, etc)
+     *
+     * @return ServerState
+     */
+    ServerState getState();
+
+    /**
      * @brief Set the election alarm value
      *
      */

@@ -9,6 +9,7 @@ using _server = broth::server::Server;
 using _dataqueue = broth::dataqueue::DataQueue;
 using _logholder = broth::logholder::LogHolder;
 using _meshnetwork = broth::meshnetwork::MeshNetwork;
+using namespace broth::server;
 using namespace broth::utils;
 using namespace broth::message;
 using namespace broth::logger;
@@ -112,6 +113,10 @@ void _server::switchState(ServerState state, uint32_t term) {
     default:
       break;
   }
+};
+
+ServerState _server::getState() {
+  return this->_state;
 };
 
 void _server::setElectionAlarmValue() {
