@@ -14,9 +14,9 @@ jobs:
         run: cmake .
       - name: Build ramen and unit tests
         working-directory: ./library
-        run: make ramen_unit_test
+        run: make ramen_unit_tests
       - name: Run the unit tests
-        run: ./library/bin/ramen_unit_test
+        run: ./library/bin/ramen_unit_tests
 
   virtual-mesh-network:
     runs-on: ubuntu-latest

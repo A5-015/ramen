@@ -36,7 +36,7 @@
     #define private public
 
     // Variavles for testing
-    #define RAMEN_CATCH_TESTING_PAYLOAD_SIZE 100000
+    #define RAMEN_UNIT_TESTING_PAYLOAD_SIZE 100000
 
     // ramen variables to overwrite
 
