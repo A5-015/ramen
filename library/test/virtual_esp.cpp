@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
   ///////////////////////////////////
   // Simulates loop() from Arduino //
   ///////////////////////////////////
-
+  bool flag = true;
   while(true) {
     // Shuffle the order
     std::random_shuffle(nodes.begin(), nodes.end());
@@ -86,7 +86,12 @@ int main(int argc, char** argv) {
       (*it)->update();
 
 
-      (*it)->_log.pushEntry(std::make_pair(0, "bro time"));
+      if((*it)->_state == LEADER){
+        (*it)->_log.pushEntry(std::make_pair((*it)->_term, std::to_string((*it)->_mesh.getMeshTime())));
+        std::cout << (*it)->_log._entries.size() << std::endl;
+
+      }
+
 
 
       //////////////////////////////////////////////////////////////////////////
@@ -98,6 +103,8 @@ int main(int argc, char** argv) {
       // Reset the output flag for the specific node
       (*it)->_logger._printed_output = false;
     }
+
+    flag = false;
 
     // Print the iteration number if anything was outputted to the terminal
     if((printed_output) && (iteration > 0)) {
