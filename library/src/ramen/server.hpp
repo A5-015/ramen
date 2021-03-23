@@ -200,8 +200,11 @@ namespace server {
     /**
      * @brief Handle the response of a follower to append an entry
      *
+     * @param sender Address of the sender node
+     * @param data Data received in DynamicJsonDocument format
      */
-    void handleAppendEntriesResponse();
+    void handleAppendEntriesResponse(uint32_t sender,
+                                     DynamicJsonDocument& data);
 
     /**
      * @brief For a leader, move the data available in the queue to the

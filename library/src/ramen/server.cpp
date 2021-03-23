@@ -143,11 +143,11 @@ ServerState _server::getState() {
 void _server::setElectionAlarmValue() {
   this->_election_alarm = (1 + (std::rand() % 10)) * ELECTION_TIMEOUT_FACTOR;
   this->_previous_node_time = _mesh.getNodeTime();
-  this->_logger(
-      DEBUG,
-      "Set the election alarm %u duration from now, which is %u @ mesh time\n",
-      this->_election_alarm,
-      this->_mesh.getNodeTime() + this->_election_alarm);
+  this->_logger(DEBUG,
+                "Set the election alarm %u duration from now, which is %u @ "
+                "mesh time\n",
+                this->_election_alarm,
+                this->_mesh.getNodeTime() + this->_election_alarm);
 };
 
 void _server::checkForElectionAlarmTimeout() {
@@ -156,8 +156,8 @@ void _server::checkForElectionAlarmTimeout() {
   if(this->_received_new_append_entry_request) {
     // Reset the prev time for restarting the timer
     this->_previous_node_time = current_node_time;
-    // Assume that the no new append entry requests will be received (no leaders
-    // are available in the network)
+    // Assume that the no new append entry requests will be received (no
+    // leaders are available in the network)
     this->_received_new_append_entry_request = false;
   } else {
     if((uint32_t)(current_node_time - this->_previous_node_time) >=
@@ -209,11 +209,11 @@ bool _server::getElectionResults() {
     }
   }
 
-  this->_logger(
-      DEBUG,
-      "I have %u votes and more than %u votes is enough to win the election\n",
-      granted_votes,
-      this->_votes_received_ptr->size() / 2);
+  this->_logger(DEBUG,
+                "I have %u votes and more than %u votes is enough to win the "
+                "election\n",
+                granted_votes,
+                this->_votes_received_ptr->size() / 2);
 
   // Majority decides election win
   bool won_election = (granted_votes > (this->_votes_received_ptr->size() / 2));
@@ -230,6 +230,7 @@ void _server::receiveData(uint32_t from, string_t& data) {
   deserializeJson(payload, data);
   MessageType type = payload[TYPE_FIELD_KEY];
 
+  // router
   switch(type) {
     case REQUEST_VOTE:
       this->handleVoteRequest(from, payload);
@@ -241,6 +242,10 @@ void _server::receiveData(uint32_t from, string_t& data) {
 
     case REQUEST_APPEND_ENTRY:
       this->handleAppendEntriesRequest(from, payload);
+      break;
+
+    case RESPOND_APPEND_ENTRY:
+      this->handleAppendEntriesResponse(from, payload);
       break;
 
     default:
@@ -271,7 +276,7 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
   // If term is equal to sender && (haven't voted yet || voted for sender
   // before)
   // clang-format off
-  if(this->_term == (uint32_t) data[TERM_FIELD_KEY] &&
+  if((this->_term == (uint32_t) data[TERM_FIELD_KEY]) &&
      (this->_voted_for == 0 || this->_voted_for == sender)) {
 
     // If log term and log size are greater than or equal to receiver's term and
@@ -364,7 +369,7 @@ void _server::broadcastRequestAppendEntries(bool heart_beat) {
 void _server::handleAppendEntriesRequest(uint32_t sender,
                                          DynamicJsonDocument& data) {
   // Equalize term with sender if term is lower
-  if(this->_term <= (uint32_t) data[TERM_FIELD_KEY]) {
+  if(this->_term < (uint32_t) data[TERM_FIELD_KEY]) {
     this->switchState(FOLLOWER, (uint32_t) data[TERM_FIELD_KEY]);
   }
 
@@ -373,9 +378,9 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   auto previousLogTerm = (uint32_t) data[PREVIOUS_LOG_TERM_FIELD_KEY];
   auto leaderCommit = (uint32_t) data[COMMIT_INDEX_FIELD_KEY];
 
-  // TODO: If we want to be able to send multiple entries in the future, create
-  // a function that can deserialize the JSON string received in the entries
-  // field
+  // TODO: If we want to be able to send multiple entries in the future,
+  // create a function that can deserialize the JSON string received in the
+  // entries field
   std::vector<std::pair<uint32_t, string_t>> received_entries;
   string_t entry_data = data[ENTRIES_FIELD_KEY];
   received_entries.push_back(
@@ -398,6 +403,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
     auto loopIndex = previousLogIndex;
 
     for(uint32_t i = 0; i < received_entries.size(); i++) {
+      ++loopIndex;
       if(this->_log.getLogTerm(loopIndex) != received_entries[i].first) {
         while(this->_log.getLogSize() > loopIndex) {
           this->_log.popEntry();
@@ -418,7 +424,40 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   this->_mesh.sendMessageToNode(sender, message.serialize());
   this->_logger(DEBUG, "Responded to append entry request from %u\n", sender);
 };
-void _server::handleAppendEntriesResponse() {};
+
+void _server::handleAppendEntriesResponse(uint32_t sender,
+                                          DynamicJsonDocument& data) {
+  auto sender_term = (uint32_t) data[TERM_FIELD_KEY];
+  auto success = (bool) data[SUCCESS_FIELD_KEY];
+  auto sender_match_index = (uint32_t) data[MATCH_INDEX_FIELD_KEY];
+
+  // Equalize term with sender if term is lower
+  if(this->_term < sender_term) {
+    this->switchState(FOLLOWER, sender_term);
+  }
+
+  if(this->_term == sender_term) {
+    if(success) {
+      this->_log.setMatchIndex(sender, sender_match_index);
+      this->_log.setNextIndex(sender, sender_match_index + 1);
+      this->_logger(
+          DEBUG,
+          "Set follower %u match index to %u since append entry succeeded\n",
+          sender,
+          sender_match_index);
+
+    } else {
+      this->_log.setNextIndex(
+          sender,
+          std::max((uint32_t) 1, this->_log.getNextIndex(sender) - 1));
+      this->_logger(DEBUG,
+                    "Decremented follower %u next index to %u since append "
+                    "entry failed\n",
+                    sender,
+                    this->_log.getNextIndex(sender));
+    }
+  }
+};
 
 void _server::moveDataFromQueueToLog(DataQueue queue, LogHolder log) {};
 void _server::sendLocalQueueDataToLeaderQueue(string_t data) {};

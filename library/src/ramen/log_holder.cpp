@@ -13,13 +13,17 @@ uint32_t LogHolder::getMatchIndex(uint32_t address) {
   return (*(this->_match_index_ptr))[address];
 };
 
-void LogHolder::setMatchIndex(uint32_t address, uint32_t index) {};
+void LogHolder::setMatchIndex(uint32_t address, uint32_t index) {
+  (*(this->_match_index_ptr))[address] = index;
+};
 
 uint32_t LogHolder::getNextIndex(uint32_t address) {
   return (*(this->_next_index_ptr))[address];
 };
 
-void LogHolder::setNextIndex(uint32_t address, uint32_t index) {};
+void LogHolder::setNextIndex(uint32_t address, uint32_t index) {
+  (*(this->_next_index_ptr))[address] = index;
+};
 
 void LogHolder::advanceCommitIndex(uint32_t address) {};
 
@@ -53,7 +57,7 @@ uint32_t LogHolder::getLogTerm(uint32_t log_index) {
   if(log_index < 1 || log_index > this->_entries.size()) {
     return 0;
   } else {
-    return _entries[log_index].first;
+    return _entries[log_index - 1].first;
   }
 }
 
