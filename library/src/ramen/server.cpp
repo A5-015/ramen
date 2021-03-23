@@ -373,11 +373,11 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   auto previousLogTerm = (uint32_t) data[PREVIOUS_LOG_TERM_FIELD_KEY];
   auto leaderCommit = (uint32_t) data[COMMIT_INDEX_FIELD_KEY];
 
-  // TODO: Instantiate
+  // TODO: If we want to be able to send multiple entries in the future, create
+  // a function that can deserialize the JSON string received in the entries
+  // field
   std::vector<std::pair<uint32_t, string_t>> received_entries;
-
   string_t entry_data = data[ENTRIES_FIELD_KEY];
-
   received_entries.push_back(
       std::make_pair((uint32_t) data[TERM_FIELD_KEY], entry_data));
 
@@ -397,7 +397,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
 
     auto loopIndex = previousLogIndex;
 
-    for(uint32_t i = 0; i < this->_log.getLogSize(); i++) {
+    for(uint32_t i = 0; i < received_entries.size(); i++) {
       if(this->_log.getLogTerm(loopIndex) != received_entries[i].first) {
         while(this->_log.getLogSize() > loopIndex) {
           this->_log.popEntry();
