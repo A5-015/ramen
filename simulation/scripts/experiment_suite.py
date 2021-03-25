@@ -15,8 +15,52 @@ python environment
 """
 
 import subprocess
-from collections import OrderedDict 
+from collections import OrderedDict
 
-ordered_experiments = OrdereDict{
-    [""]
-}
+import numpy as np
+import plotly.graph_objects as go
+
+import run_coracle
+import sim_config_json
+
+filename = "test.json"
+num_simulations = "1"
+# num_nodes = ["5", "10", "20"]
+
+num_nodes = ["5", "10", "20", "50", "100", "150", "200"]
+
+packet_success_data = OrderedDict()
+
+for n in num_nodes:
+
+    print(
+        "Simulating {0} experiments with {1} nodes".format(num_simulations, n)
+    )
+    sim_config_json.main(["-o", filename, "-t", "mesh", "-n", n])
+    summary_table = run_coracle.main(
+        ["-i", filename, "-e", num_simulations, "--pdf", False]
+    )
+    packet_success_data[n] = summary_table["packet success ratio"][0]
+
+print(list(packet_success_data.keys()))
+print(list(packet_success_data.values()))
+
+fig = go.Figure()
+fig.add_trace(
+    go.Scatter(
+        x=list(packet_success_data.keys()),
+        y=list(packet_success_data.values()),
+        mode="markers",
+        marker=dict(
+            size=16,
+            colorscale="Viridis",  # one of plotly colorscales
+        ),
+    )
+)
+fig.update_layout(
+    title="Average Packet Success Ratio Against Number of Nodes in the Network",
+    xaxis_title="Average Packet Success Ratio",
+    yaxis_title="Number of Nodes",
+)
+
+fig.show()
