@@ -68,7 +68,7 @@ class painlessMesh {
 
   void update() {
     // Increment the mesh time
-    this->incrementMeshTimeBy(10000);
+    this->incrementMeshTimeBy(1);
     // Check if there is a new message and notify the node via onReceive
     // callback
     this->checkForNewMessages();
