@@ -126,11 +126,12 @@ class Visualizer:
         )
 
     def _generate_scatter_graph(self, fig, y_data, y_title, location):
+        trace = go.Scatter(
+            x=[i + 1 for i in range(len(y_data))],
+            y=y_data,
+        )
         fig.add_trace(
-            go.Scatter(
-                x=[i + 1 for i in range(len(y_data))],
-                y=y_data,
-            ),
+            trace,
             row=location,
             col=1,
         )
@@ -160,13 +161,12 @@ class Visualizer:
 
         # Frame the plots for data visualization
         fig = make_subplots(
-            rows=4,
+            rows=3,
             cols=1,
             column_widths=[1.0],
-            row_heights=[4.0, 2.0, 2.0, 2.0],
+            row_heights=[2.0, 1.0, 1.0],
             specs=[
                 [{"type": "table"}],
-                [{"type": "scatter"}],
                 [{"type": "scatter"}],
                 [{"type": "scatter"}],
             ],
@@ -174,7 +174,6 @@ class Visualizer:
                 "Summary of Statistics",
                 "Percent Packet Success per Run",
                 "Percent Elections Won per Run",
-                "Average Latency",
             ),
         )
 
@@ -183,18 +182,16 @@ class Visualizer:
 
         # Add packet success plot
         self._generate_scatter_graph(
-            fig, self.raw_dictionary["packet success ratio"], "Packet Success %", 2
+            fig,
+            self.raw_dictionary["packet success ratio"],
+            "Packet Success %",
+            2,
         )
 
         # Add elections won plot
         self._generate_scatter_graph(
             fig, self.raw_dictionary["election win ratio"], "Elections Won %", 3
         )
-
-        self._generate_scatter_graph(
-            fig, self.raw_dictionary["average latency"], "Average Latency", 4
-        )
-
         # Configure overall layout
         fig.update_layout(
             height=1500,
