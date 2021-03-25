@@ -101,7 +101,7 @@ void _server::update() {
       if(heart_beat_timer && request_append_entry_timer) {
         // Boolean refers to sending heartbeat
         this->broadcastRequestAppendEntries(false);
-      } else {
+      } else if(heart_beat_timer) {
         this->broadcastRequestAppendEntries(true);
       }
     }
