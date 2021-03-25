@@ -152,7 +152,7 @@ class Visualizer:
                     self.raw_results.append(value)
                     self._parse(value)
 
-    def generate_pdf(self):
+    def generate_pdf(self, generate_pdf):
         """
         Generate PDF with Plotly to visualize data
         """
@@ -205,7 +205,10 @@ class Visualizer:
             title_text="Coracle Runs",
         )
 
-        fig.show()
+        if generate_pdf:
+            fig.show()
+
+        return self.raw_dictionary
 
 
 def call_proc(command):
@@ -247,6 +250,9 @@ def main(arguments):
         help="Number of experiments to run",
         type=int,
         default=1,
+    )
+    parser.add_argument(
+        "--pdf", help="Generate PDF report for the run", type=bool, default=True
     )
     args = parser.parse_args(arguments)
 
@@ -327,7 +333,7 @@ def main(arguments):
 
     visualizer = Visualizer()
     visualizer.initialize(simulation_results)
-    visualizer.generate_pdf()
+    return visualizer.generate_pdf(args.pdf)
 
 
 if __name__ == "__main__":
