@@ -26,11 +26,13 @@ import run_coracle
 import sim_config_json
 
 filename = "test.json"
-num_simulations = 5
+num_simulations = 50
+down_time = 500
 
-areas = [20, 40, 100, 200]
-num_nodes = [5, 10, 20, 50, 100, 150, 200]
-# num_nodes = [5, 10, 20]
+# areas = [100, 200, 500, 700]
+areas = [100]
+num_nodes = [10, 20, 50, 100]
+
 
 packet_success_data = [None] * len(num_nodes)
 packet_success_error = [None] * len(num_nodes)
@@ -72,6 +74,8 @@ for a in areas:
                 str(a),
                 "--height",
                 str(a),
+                "--down_hub",
+                str(down_time),
             ]
         )
         summary_table = run_coracle.main(
@@ -142,6 +146,8 @@ for a in areas:
                 str(a),
                 "--height",
                 str(a),
+                "--down_hub",
+                str(down_time),
             ]
         )
         summary_table = run_coracle.main(

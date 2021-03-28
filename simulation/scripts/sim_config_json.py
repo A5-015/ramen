@@ -23,6 +23,7 @@ import argparse
 import json
 import os
 import sys
+import random
 
 from network_generator import Mesh, Star
 
@@ -83,8 +84,8 @@ def _build_mesh(network, num_nodes, width, length, height):
         n=num_nodes,
         max_range=350,
         min_range=300,
-        max_link_budget=8,
-        min_link_budget=4,
+        max_link_budget=4,
+        min_link_budget=3,
     )
 
     mesh.find_neighbors()
@@ -107,16 +108,37 @@ def _build_mesh(network, num_nodes, width, length, height):
         i += 1
         links.append(temp)
 
-    # store each node as server and append to node list
+    # store each node as hub and append to node list
     for node in mesh.node_list:
         temp = {}
-        temp["type"] = "server"
+        temp["type"] = "hub"
         temp["id"] = node
         nodes.append(temp)
+
+    # create a server node for each hub and link them bidirectionally
+    for node in mesh.node_list:
+        # initialize dicts
+        temp_node = {}
+        temp_link = {}
+
+        # create server nodes with ids picked up from hub nodes
+        temp_node["type"] = "server"
+        temp_node["id"] = node + list(mesh.node_list)[-1]
+        nodes.append(temp_node)
+
+        # create links between server and corresponding hub
+        temp_link["start"] = node
+        temp_link["end"] = node + list(mesh.node_list)[-1]
+        temp_link["id"] = i
+        temp_link["direction"] = "bi"
+
+        i += 1
+        links.append(temp_link)
 
     #  add node list and link list to network dictionary
     network["nodes"] = nodes
     network["links"] = links
+    # mesh.draw()
 
 
 def _build_star(network, num_nodes, width, length, height):
@@ -287,6 +309,82 @@ def initialize_network_nominal(system_dict, args):
     # configure everything to start at time 0
 
 
+def down_hub_event(system_dict, down_hub_time, termination_time):
+    """Creates a Coracle event to bring down a hub, which is eventually brought back up 200
+    units of time later.
+
+    :param system_dict: Dictionary that holds all configuration
+    :type system_dict: dict
+    :param down_hub_time: The time at which to bring down a hub
+    :type down_hub_time: int
+    :param termination_time: The termination time of the Coracle simulation
+    :type termination_time: int
+    """
+
+    if down_hub_time + 200 > termination_time:
+        return
+
+    down_event = {}
+    down_event["time"] = down_hub_time
+
+    links = list()
+    nodes = list()
+
+    # find a hub
+    hubs = []
+    for n in system_dict["network"]["nodes"]:
+        temp = {}
+        temp["id"] = n["id"]
+        temp["active"] = True
+        if n["type"] == "hub":
+            hubs.append(n["id"])
+        nodes.append(temp)
+    hub_id = random.choice(hubs)
+
+    # cut all links of that hub
+    for i in range(0, len(system_dict["network"]["links"])):
+        temp = {}
+        temp["id"] = i + 1
+        temp["type"] = "s"
+
+        if (
+            system_dict["network"]["links"][i]["start"] == hub_id
+            or system_dict["network"]["links"][i]["end"] == hub_id
+        ):
+            temp["active"] = False
+        else:
+            temp["active"] = True
+        links.append(temp)
+
+    down_event["links"] = links
+    down_event["nodes"] = nodes
+    system_dict["network"]["events"].append(down_event)
+
+    # Bring all links back
+    up_event = {}
+    up_event["time"] = down_hub_time + 200
+
+    links = list()
+    nodes = list()
+
+    for n in system_dict["network"]["nodes"]:
+        temp = {}
+        temp["id"] = n["id"]
+        temp["active"] = True
+        nodes.append(temp)
+
+    for i in range(0, len(system_dict["network"]["links"])):
+        temp = {}
+        temp["id"] = i + 1
+        temp["type"] = "s"
+        temp["active"] = True
+        links.append(temp)
+
+    up_event["links"] = links
+    up_event["nodes"] = nodes
+    system_dict["network"]["events"].append(up_event)
+
+
 def write_json(output_arg, system_dict):
     """
     Writes json file given a dictionary
@@ -359,6 +457,12 @@ def main(arguments):
         help="The z dimension (height) of the virtual simulation space.",
         default=0,
     )
+    parser.add_argument(
+        "--down_hub",
+        help="Down a hub at given time. If value is 0, then no hub will be downed.",
+        type=int,
+        default=0,
+    )
 
     args = parser.parse_args(arguments)
 
@@ -371,6 +475,9 @@ def main(arguments):
 
     # initialize network
     initialize_network_nominal(system_dict, args)
+
+    if args.down_hub:
+        down_hub_event(system_dict, args.down_hub, args.termination)
 
     # write to JSON
     write_json(args.outfile, system_dict)
