@@ -343,16 +343,19 @@ def main(arguments):
     parser.add_argument("-t", "--topology", help="The network topology", default="mesh")
     parser.add_argument(
         "--width",
+        type=float,
         help="The x dimension (width) of the virtual simulation space.",
         default=200,
     )
     parser.add_argument(
         "--length",
+        type=float,
         help="The y dimension (length) of the virtual simulation space.",
         default=200,
     )
     parser.add_argument(
         "--height",
+        type=float,
         help="The z dimension (height) of the virtual simulation space.",
         default=0,
     )

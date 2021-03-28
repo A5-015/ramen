@@ -104,7 +104,9 @@ class Visualizer:
         # Calculate the mean and variance values
         for key, value in self.raw_dictionary.items():
             self.statistics_dataframe.loc[key, :][0] = np.mean(value)
-            self.statistics_dataframe.loc[key, :][1] = np.var(value)
+            self.statistics_dataframe.loc[key, :][1] = np.std(value) / np.sqrt(
+                np.size(value)
+            )
 
     def _generate_summary_table(self, fig):
         fig.add_trace(
@@ -208,7 +210,7 @@ class Visualizer:
         if generate_pdf:
             fig.show()
 
-        return self.raw_dictionary
+        return self.statistics_dataframe
 
 
 def call_proc(command):
