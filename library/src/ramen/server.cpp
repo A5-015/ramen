@@ -141,8 +141,9 @@ ServerState _server::getState() {
   return this->_state;
 };
 
-void _server::setElectionAlarmValue() {
-  this->_election_alarm = (1 + (std::rand() % 10)) * ELECTION_TIMEOUT_FACTOR;
+void _server::setElectionAlarmValue(uint32_t min_val) {
+  this->_election_alarm =
+      (min_val + (std::rand() % 10)) * ELECTION_TIMEOUT_FACTOR;
   this->_previous_node_time = _mesh.getNodeTime();
   this->_logger(DEBUG,
                 "Set the election alarm %u duration from now, which is %u @ "
@@ -397,6 +398,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
     this->_commit_index = std::max(leaderCommit, this->_commit_index);
     message_success = true;
     message_match_index = this->_commit_index;
+    this->setElectionAlarmValue(5);
   } else if(previousLogIndex == 0 ||
             (previousLogIndex <= this->_log.getLogSize() &&
              this->_log.getLogTerm(previousLogIndex) == previousLogTerm)) {
