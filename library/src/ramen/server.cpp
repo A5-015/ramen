@@ -88,7 +88,8 @@ void _server::update() {
     // State => LEADER
     //////////////////////
     else if(this->_state == LEADER) {
-      this->_commit_index = this->_log.getMajorityCommitIndex();
+      this->_commit_index =
+          std::max(this->_commit_index, this->_log.getMajorityCommitIndex());
 
       // Slow down with timer
       bool heart_beat_timer = this->_heart_beat_timer.check(current_time);
@@ -393,6 +394,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
   uint32_t message_match_index = 0;
 
   if(data[ENTRIES_FIELD_KEY] == HEART_BEAT_MESSAGE) {
+    this->_commit_index = std::max(leaderCommit, this->_commit_index);
     message_success = true;
     message_match_index = this->_commit_index;
   } else if(previousLogIndex == 0 ||
@@ -414,9 +416,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
 
     message_match_index = loopIndex;
 
-    if(leaderCommit > this->_commit_index) {
-      this->_commit_index = std::min(leaderCommit, this->_log.getLogSize() - 1);
-    }
+    this->_commit_index = std::max(leaderCommit, this->_commit_index);
   }
 
   message.addFields(message_success, message_match_index);

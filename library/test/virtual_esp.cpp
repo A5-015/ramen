@@ -86,8 +86,8 @@ int main(int argc, char** argv) {
       (*it)->update();
 
 
-      if((flag < 10) && (*it)->_state == LEADER){
-        (*it)->_log.pushEntry(std::make_pair((*it)->_term, std::to_string((*it)->_mesh.getMeshTime())));
+      if((flag < 5) && (*it)->_state == LEADER){
+        (*it)->_log.pushEntry(std::make_pair((*it)->_term, std::to_string(iteration)));
         flag++;
         // std::cout << (*it)->_log._entries.size() << std::endl;
 
