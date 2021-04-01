@@ -105,8 +105,9 @@ namespace server {
     /**
      * @brief Set the election alarm value
      *
+     * @param min_val Defaults to 1
      */
-    void setElectionAlarmValue();
+    void setElectionAlarmValue(uint32_t min_val = 1);
 
     /**
      * @brief Checks for whether the timeout interval has elapsed for an
