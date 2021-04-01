@@ -65,7 +65,7 @@ string_t LogHolder::getLogData(uint32_t log_index) {
   if(log_index < 1 || log_index > this->_entries.size()) {
     return HEART_BEAT_MESSAGE;
   } else {
-    return _entries[log_index].second;
+    return _entries[log_index - 1].second;
   }
 }
 
