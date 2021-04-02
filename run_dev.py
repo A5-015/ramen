@@ -52,7 +52,7 @@ parser.add_argument(
 parser.add_argument(
     "-e",
     type=str,
-    help="The example to build, enter its name without the ino extension. For example 'basic'. Needs to be used in combination with --pbuild or --pupload",
+    help="The example to build, enter its name without the ino extension. For example 'basic'. Needs to be used in combination with --pupload",
 )
 
 parser.add_argument(
@@ -64,7 +64,7 @@ parser.add_argument(
 parser.add_argument(
     "--pbuild",
     action="store_true",
-    help="Builds the 'basic.ino' example",
+    help="Builds the 'basic.ino' example only to make sure that there are no compilation errors in the library",
 )
 
 parser.add_argument(
@@ -158,28 +158,29 @@ class RunDev:
             if args.e is None:
                 print("Please specify which example to build with -e argument")
                 self.exit_code()
-            self.module_upload(args.e)
+            self.module_upload(example=args.e)
 
         elif args.pmonitor:
-            # if args.p is None:
-            #     print("Please specify which USB port to use with -p argument")
-            #     self.exit_code()
-            self.module_monitor()
+            if args.e is None:
+                print("Please specify which example is currently running with -e argument")
+                print("^ this is needed for stack tracing and error decoding")
+                self.exit_code()
+            self.module_monitor(example=args.e)
 
         elif args.pum:
             if args.e is None:
                 print("Please specify which example to build with -e argument")
                 self.exit_code()
-            self.module_upload(args.e)
-            self.module_monitor()
+            self.module_upload(example=args.e)
+            self.module_monitor(example=args.e)
 
         elif args.init:
             self.module_init()
 
-    def module_monitor(self, port=0):
+    def module_monitor(self, example="basic", port=0):
         self.chown_ttyUSBX_to_user(port)
         self.run_command_in_docker(
-            "platformio device monitor --baud 115200", True
+            f"cd library/examples/{example} && platformio device monitor --baud 115200 --filter esp8266_exception_decoder", True
         )
 
     def module_upload(self, example="basic", port=0):
