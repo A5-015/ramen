@@ -5,7 +5,6 @@ import os
 import pathlib
 import subprocess
 
-project_path = pathlib.Path(__file__).parent.absolute()
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
@@ -30,6 +29,18 @@ parser.add_argument(
     "-t",
     type=float,
     help="Duration of the simulation in the simulated environment in seconds. You can specify float values like 0.1 seconds. Needs to be used in combination with --virtual",
+)
+
+parser.add_argument(
+    "-p",
+    type=int,
+    help="The USB port to use, enter a number starting from 0. Needs to be used in combination with --pupload",
+)
+
+parser.add_argument(
+    "-e",
+    type=str,
+    help="The example to build, enter its name without the ino extension. For example 'basic'. Needs to be used in combination with --pbuild or --pupload",
 )
 
 parser.add_argument(
@@ -63,25 +74,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--plist",
-    action="store_true",
-    help="Lists plugged development boards",
-)
-
-parser.add_argument(
     "--shell",
     action="store_true",
     help="Runs the Docker container in interactive mode and gives shell access",
 )
 
-# parser.add_argument(
-#     "--img",
-#     action="store_true",
-#     help="Builds a new Docker image from the Dockerfile",
-# )
-
 parser.add_argument(
-    "--doc",
+    "--docs",
     action="store_true",
     help="Generates documentation from the doxygen comments",
 )
@@ -92,238 +91,271 @@ parser.add_argument(
     help="Initialize and setup the repository for development",
 )
 
-args = parser.parse_args()
 
+class RunDev:
+    def __init__(self, args):
+        self.project_path = pathlib.Path(__file__).parent.absolute()
 
-class bcolors:
-    HEADER = "\033[95m"
-    OKBLUE = "\033[94m"
-    OKCYAN = "\033[96m"
-    OKGREEN = "\033[92m"
-    WARNING = "\033[93m"
-    FAIL = "\033[91m"
-    ENDC = "\033[0m"
-    BOLD = "\033[1m"
-    UNDERLINE = "\033[4m"
+        self.submodules = ["ArduinoJson", "TaskScheduler"]
 
+        self.color = {
+            "HEADER": "\033[95m",
+            "OKBLUE": "\033[94m",
+            "OKCYAN": "\033[96m",
+            "OKGREEN": "\033[92m",
+            "WARNING": "\033[93m",
+            "FAIL": "\033[91m",
+            "ENDC": "\033[0m",
+            "BOLD": "\033[1m",
+            "UNDERLINE": "\033[4m",
+        }
 
-# def check_image():
-#     """
-#     Checks if the image exists locally and builds it if it doesn't exist
-#     """
+        self.check_submodules()
 
-#     ramen_dev_image = subprocess.check_output(
-#         ["docker", "images", "-q", "ramen-dev:latest"]
-#     ).decode("utf-8")
+        if args.test:
+            self.module_test()
 
-#     if ramen_dev_image == "":
-#         os.system("docker build -t ramen-dev .")
+        elif args.virtual:
+            if args.t is None or args.n is None:
+                print(
+                    "Please specify the number of nodes with -n and time in seconds with -t argument"
+                )
+                self.exit_code()
+            self.module_virtual(args.t, args.n)
 
+        elif args.shell:
+            self.module_shell()
 
-def check_root_access():
-    """
-    Checks if the script has root privileges
-    """
+        elif args.clean:
+            self.module_clean()
 
-    if os.geteuid() != 0:
-        print("Please run me with sudo or give me root access somehow")
-        exit()
+        elif args.docs:
+            self.module_docs()
 
+        elif args.pbuild:
+            # if args.e is None:
+            #     print("Please specify which example to build with -e argument")
+            #     self.exit_code()
+            self.module_build()
 
-def run_command_in_docker(command, privileged=False):
-    """
-    Runs the given command in the docker container
+        elif args.pupload:
+            if args.e is None:
+                print("Please specify which example to build with -e argument")
+                self.exit_code()
+            self.module_upload(args.e)
 
-    :param command: Command to run
-    :type command: str
-    :param privileged: Option to run the container in privileged mode, defaults to False
-    :type privileged: bool, optional
-    """
+        elif args.pmonitor:
+            # if args.p is None:
+            #     print("Please specify which USB port to use with -p argument")
+            #     self.exit_code()
+            self.module_monitor()
 
-    if privileged:
-        privileged_option = "--privileged"
-    else:
-        privileged_option = ""
+        elif args.pum:
+            if args.e is None is None:
+                print("Please specify which example to build with -e argument")
+                self.exit_code()
+            self.module_upload(args.e)
+            self.module_monitor()
 
-    check_root_access()
-    # check_image()
-    os.system(
-        'docker run --user=1000 %s -t -v %s:/ramen -v %s:/.platformio ghcr.io/a5-015/ramen/ramen-dev /bin/bash -c "%s"'
-        % (
-            privileged_option,
-            project_path,
-            os.path.join(project_path, ".cache"),
-            command,
+        elif args.init:
+            self.module_init()
+
+    def module_monitor(self, port=0):
+        self.chown_ttyUSBX_to_user(port)
+        self.run_command_in_docker(
+            "platformio device monitor --baud 115200", True
         )
-    )
 
+    def module_upload(self, example="basic", port=0):
+        self.chown_ttyUSBX_to_user(port)
+        print(
+            self.color["OKCYAN"]
+            + ">> 'Uploading %s example'" % example
+            + self.color["ENDC"]
+        )
+        self.run_command_in_docker(
+            f"cd library/examples/{example} && pio run --target upload", True
+        )
 
-def check_submodules():
-    """
-    Checks if the submodules are initialized
-    """
+    def module_build(self, example="basic"):
+        print(
+            self.color["OKCYAN"]
+            + ">> 'Building %s example'" % example
+            + self.color["ENDC"]
+        )
+        self.run_command_in_docker(
+            "platformio lib --global install painlessMesh 'Adafruit BusIO' 'Adafruit GFX Library' 'Adafruit SSD1306' PCA9635"
+            + "&&"
+            + "cd library"
+            + "&&"
+            + f'platformio ci --lib="." --board=nodemcuv2 examples/{example}/{example}.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
+        )
 
-    submodules = ["ArduinoJson", "TaskScheduler"]
+    def module_docs(self):
+        self.run_command_in_docker("cd docs && doxygen")
 
-    for module in submodules:
-        if os.listdir(os.path.join(project_path, "library/test", module)) == []:
-            print(
-                "Initialize submodules first with 'git submodule update --init --recursive'"
+    def module_clean(self):
+        os.system("cd library && make clean")
+        os.system(
+            "cd library"
+            + "&&"
+            + "find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete"
+        )
+        os.system("rm -rf library/Makefile")
+        os.system("rm -rf library/compile_commands.json")
+        os.system("rm -rf library/bin")
+        os.system("rm -rf library/.pio")
+        os.system("rm -rf docs/html")
+        print(self.color["OKGREEN"] + "Cleaned!" + self.color["ENDC"])
+
+    def module_shell(self):
+        self.check_root_access()
+        os.system(
+            "docker run --user=1000 -it -v %s:/ramen -v %s:/.platformio  ghcr.io/a5-015/ramen/ramen-dev"
+            % (self.project_path, os.path.join(self.project_path, ".cache"))
+        )
+
+    def module_virtual(self, t, n):
+        self.run_command_in_docker(
+            "cd library"
+            + "&&"
+            + "cmake ."
+            + "&&"
+            + "make virtual_esp"
+            + "&&"
+            + "echo '\n\033[95m===============================================================================\nRunning the virtual network:\033[0m'"
+            + "&&"
+            + "echo '\033[95m>> The colorful outputs are outputted by the virtual network\033[0m'"
+            + "&&"
+            + "echo '\033[95m>> The white outputs are outputted by ramen\033[0m\n'"
+            + "&&"
+            + "./bin/virtual_esp -t %s -n %s" % (t, n)
+            + "&&"
+            # Delete gcov files related to the simulator, we don't want them
+            + "gcovr --delete --root='.' --filter='virtual_esp.*' > /dev/null 2>&1"
+        )
+
+    def module_test(self):
+        self.run_command_in_docker(
+            "cd library"
+            + "&&"
+            + "cmake ."
+            + "&&"
+            + "make ramen_unit_tests"
+            + "&&"
+            + "echo '\n\033[96m===============================================================================\nRunning the tests:\033[0m\n'"
+            + "&&"
+            + "./bin/ramen_unit_tests"
+            + "&&"
+            + "gcovr --print-summary --root='.' --filter='/ramen/library/src/ramen/*' --exclude='virtual_esp.*'"
+            + "&&"
+            + "echo '\n\033[96mGenerating the HTML version of the coverage report under docs/coverage-report\033[0m'"
+            + "&&"
+            + "gcovr --delete --root='.' --filter='/ramen/library/src/ramen/*' --exclude='virtual_esp.*' --html --html-details -o ../docs/coverage-report/coverage.html"
+        )
+
+    def module_init(self):
+        self.check_root_access()
+
+        print(
+            self.color["OKGREEN"]
+            + ">> Installing required system packages"
+            + self.color["ENDC"]
+        )
+        os.system("apt install -y -qq docker clang clang-format clang-tidy")
+
+        print(
+            self.color["OKGREEN"]
+            + ">> Installing required python packages"
+            + self.color["ENDC"]
+        )
+        os.system("pip3 install -U platformio black pylint")
+
+        print(
+            self.color["OKGREEN"]
+            + ">> Initialing the submodules"
+            + self.color["ENDC"]
+        )
+        os.system("git submodule update --init --recursive")
+
+        print(
+            self.color["OKGREEN"]
+            + ">> Checking out the correct version of the submodules"
+            + self.color["ENDC"]
+        )
+        os.system(
+            "cd library/test/TaskScheduler"
+            + "&&"
+            + "git checkout b36cc818db89430b7564d1c56a668937f6dae6ec"
+        )
+
+        print(self.color["OKGREEN"] + ">> DONE <<" + self.color["ENDC"])
+
+    def run_command_in_docker(self, command, privileged=False):
+        """
+        Runs the given command in the docker container
+        """
+
+        if privileged:
+            privileged_option = "--privileged"
+        else:
+            privileged_option = ""
+
+        self.check_root_access()
+
+        os.system(
+            'docker run --user=1000 %s -t -v %s:/ramen -v %s:/.platformio ghcr.io/a5-015/ramen/ramen-dev /bin/bash -c "%s"'
+            % (
+                privileged_option,
+                self.project_path,
+                os.path.join(self.project_path, ".cache"),
+                command,
             )
-            exit()
+        )
 
+    def check_root_access(self):
+        """
+        Checks if the script has root privileges
+        """
 
-def chown_ttyUSB0_to_user():
-    """
-    Applies chown 1000:dialout to /dev/ttyUSB0 in order to upload code to the board
-    """
+        if os.geteuid() != 0:
+            print("Please run me with sudo or give me root access somehow")
+            self.exit_code()
 
-    check_root_access()
-    print(
-        bcolors.OKCYAN
-        + ">> 'sudo chown 1000:dialout /dev/ttyUSB0'"
-        + bcolors.ENDC
-    )
-    os.system("chown 1000:dialout /dev/ttyUSB0")
+    def check_submodules(self):
+        """
+        Checks if the submodules are initialized
+        """
 
+        for module in self.submodules:
+            if (
+                os.listdir(
+                    os.path.join(self.project_path, "library/test", module)
+                )
+                == []
+            ):
+                print(
+                    "Initialize submodules first with 'git submodule update --init --recursive'"
+                )
+                self.exit_code()
 
-if args.test:
-    check_submodules()
-    run_command_in_docker(
-        "cd library"
-        + "&&"
-        + "cmake ."
-        + "&&"
-        + "make ramen_unit_tests"
-        + "&&"
-        + "echo '\n\033[96m===============================================================================\nRunning the tests:\033[0m\n'"
-        + "&&"
-        + "./bin/ramen_unit_tests"
-        + "&&"
-        + "gcovr --print-summary --root='.' --filter='/ramen/library/src/ramen/*' --exclude='virtual_esp.*'"
-        + "&&"
-        + "echo '\n\033[96mGenerating the HTML version of the coverage report under docs/coverage-report\033[0m'"
-        + "&&"
-        + "gcovr --delete --root='.' --filter='/ramen/library/src/ramen/*' --exclude='virtual_esp.*' --html --html-details -o ../docs/coverage-report/coverage.html"
-    )
+    def chown_ttyUSBX_to_user(self, port="0"):
+        """
+        Applies chown 1000:dialout to /dev/ttyUSB0 in order to upload code to the board
+        """
 
-elif args.virtual:
-    if args.t is None or args.n is None:
-        print("Please specify the -n and/or -t arguments")
+        self.check_root_access()
+        print(
+            self.color["OKCYAN"]
+            + ">> 'sudo chown 1000:dialout /dev/ttyUSB%s'" % port
+            + self.color["ENDC"]
+        )
+        os.system("chown 1000:dialout /dev/ttyUSB%s" % port)
+
+    def exit_code(self):
         exit()
 
-    check_submodules()
-    run_command_in_docker(
-        "cd library"
-        + "&&"
-        + "cmake ."
-        + "&&"
-        + "make virtual_esp"
-        + "&&"
-        + "echo '\n\033[95m===============================================================================\nRunning the virtual network:\033[0m'"
-        + "&&"
-        + "echo '\033[95m>> The colorful outputs are outputted by the virtual network\033[0m'"
-        + "&&"
-        + "echo '\033[95m>> The white outputs are outputted by ramen\033[0m\n'"
-        + "&&"
-        + "./bin/virtual_esp -t %s -n %s" % (args.t, args.n)
-        + "&&"
-        # Delete gcov files related to the simulator, we don't want them
-        + "gcovr --delete --root='.' --filter='virtual_esp.*' > /dev/null 2>&1"
-    )
 
-elif args.shell:
-    check_root_access()
-    # check_image()
-    os.system(
-        "docker run --user=1000 -it -v %s:/ramen -v %s:/.platformio  ghcr.io/a5-015/ramen/ramen-dev"
-        % (project_path, os.path.join(project_path, ".cache"))
-    )
-
-elif args.clean:
-    os.system("cd library && make clean")
-    os.system(
-        "cd library"
-        + "&&"
-        + "find . -iwholename '*cmake*' -not -name CMakeLists.txt -delete"
-    )
-    os.system("rm -rf library/Makefile")
-    os.system("rm -rf library/compile_commands.json")
-    os.system("rm -rf library/bin")
-    os.system("rm -rf library/.pio")
-    os.system("rm -rf docs/html")
-    print(bcolors.OKGREEN + "Cleaned!" + bcolors.ENDC)
-
-elif args.pbuild:
-    run_command_in_docker(
-        "platformio lib --global install painlessMesh"
-        + "&&"
-        + "cd library"
-        + "&&"
-        + 'platformio ci --lib="." --board=nodemcuv2 examples/basic/basic.ino -O "build_flags = -Wall -Wextra -Wno-unused-parameter"'
-    )
-
-elif args.doc:
-    run_command_in_docker("cd docs && doxygen")
-
-# elif args.img:
-#     check_root_access()
-#     os.system("docker build -t ramen-dev .")
-
-elif args.pupload:
-    check_root_access()
-    chown_ttyUSB0_to_user()
-    run_command_in_docker(
-        "cd library/examples/basic && pio run --target upload", True
-    )
-
-elif args.pmonitor:
-    check_root_access()
-    chown_ttyUSB0_to_user()
-    run_command_in_docker("platformio device monitor --baud 115200", True)
-
-elif args.pum:
-    check_root_access()
-    chown_ttyUSB0_to_user()
-    run_command_in_docker(
-        "cd library/examples/basic && pio run --target upload", True
-    )
-    run_command_in_docker("platformio device monitor --baud 115200", True)
-
-elif args.plist:
-    check_root_access()
-    chown_ttyUSB0_to_user()
-    run_command_in_docker("platformio device list", True)
-
-elif args.init:
-    check_root_access()
-
-    print(
-        bcolors.OKGREEN
-        + ">> Installing required system packages"
-        + bcolors.ENDC
-    )
-    os.system("apt install -y -qq docker clang clang-format clang-tidy")
-
-    print(
-        bcolors.OKGREEN
-        + ">> Installing required python packages"
-        + bcolors.ENDC
-    )
-    os.system("pip3 install -U platformio black pylint")
-
-    print(bcolors.OKGREEN + ">> Initialing the submodules" + bcolors.ENDC)
-    os.system("git submodule update --init --recursive")
-
-    print(
-        bcolors.OKGREEN
-        + ">> Checking out the correct version of the submodules"
-        + bcolors.ENDC
-    )
-    os.system(
-        "cd library/test/TaskScheduler"
-        + "&&"
-        + "git checkout b36cc818db89430b7564d1c56a668937f6dae6ec"
-    )
-
-    print(bcolors.OKGREEN + ">> DONE <<" + bcolors.ENDC)
+if __name__ == "__main__":
+    args = parser.parse_args()
+    run_dev = RunDev(args)
