@@ -16,12 +16,16 @@ int main(int argc, char** argv) {
   options.add_options()
     ("t,time", "simulation duration", cxxopts::value<float>()->default_value("10"))
     ("n,nodes", "number of nodes", cxxopts::value<int>()->default_value("3"))
+    ("l,log_length", "number of logs to append", cxxopts::value<int>()->default_value("5"))
+    ("r,random", "run nodes in the random order", cxxopts::value<bool>()->default_value("false"))
     ;
   // clang-format on
 
   auto result = options.parse(argc, argv);
 
   uint32_t target_number_of_nodes = result["nodes"].as<int>();
+  bool random_enabled = result["random"].as<bool>();
+  uint32_t target_number_of_logs = result["log_length"].as<int>();
 
   std::vector<Server*> nodes;
 
@@ -61,6 +65,15 @@ int main(int argc, char** argv) {
     }
   }
 
+  if(random_enabled) {
+    std::cout << "\n\033[95m>> Running in randomized mode\033[0m\n";
+  } else {
+    std::cout << "\n\033[95m>> Running in non-randomized mode\033[0m\n";
+  }
+
+  std::cout << "\033[95m>> Will append " << target_number_of_logs
+            << " logs to the first leader\033[0m\n";
+
   std::cout << "\n\033[95m>> Calling broth::server::Server::update() in a "
                "loop for all nodes at random order:\033[0m\n";
 
@@ -73,31 +86,21 @@ int main(int argc, char** argv) {
   int flag = 0;
   while(true) {
     // Shuffle the order
-    // std::random_shuffle(nodes.begin(), nodes.end());
+    if(random_enabled) {
+      std::random_shuffle(nodes.begin(), nodes.end());
+    }
 
     // Iterate over the nodes based on the random order
     for(auto it = nodes.begin(); it != nodes.end(); ++it) {
-      // clang-format off
-      // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-      //////////////////////////////////////////////////////////////////////////
-
-
       // Call the update() function of the node
       (*it)->update();
 
-
-      if((flag < 5) && (*it)->_state == LEADER){
-        (*it)->_log.pushEntry(std::make_pair((*it)->_term, std::to_string(iteration)));
+      if((flag < target_number_of_logs) && (*it)->_state == LEADER) {
+        (*it)->_log.pushEntry(
+            std::make_pair((*it)->_term, std::to_string(flag)));
         flag++;
-        // std::cout << (*it)->_log._entries.size() << std::endl;
-
       }
 
-
-
-      //////////////////////////////////////////////////////////////////////////
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // clang-format on
       // Check if anything was outputted
       printed_output = (printed_output || (*it)->_logger._printed_output);
 
