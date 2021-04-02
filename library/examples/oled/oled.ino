@@ -19,7 +19,7 @@ PCA9635 ledArray(PCA9635_ADDR);
 #define MESH_NAME     "ramen"
 #define MESH_PASSWORD "ramen123*"
 #define MESH_PORT     5555
-ramen ramen_server;
+ramen server;
 
 unsigned long previousMillis = 0;
 const long interval = 1000;
@@ -37,7 +37,7 @@ void setup() {
   display.setTextColor(WHITE);
 
   // Initialize ramen
-  ramen_server.init(MESH_NAME, MESH_PASSWORD, MESH_PORT, broth::logger::DEBUG);
+  server.init(MESH_NAME, MESH_PASSWORD, MESH_PORT, broth::logger::DEBUG);
 
   bool connected_one = ledArray.begin(4, 5);
 
@@ -60,7 +60,7 @@ void setup() {
 }
 
 void loop() {
-  ramen_server.update();
+  server.update();
 
   unsigned long currentMillis = millis();
 
@@ -70,7 +70,7 @@ void loop() {
     display.clearDisplay();
     display.setCursor(0, 10);
 
-    switch(ramen_server.getState()) {
+    switch(server.getState()) {
       case 0:
         display.println("FOLLOWER");
         ledArray.write3(0, 5, 0, 0); // R
