@@ -122,7 +122,8 @@ class RunDev:
             "UNDERLINE": "\033[4m",
         }
 
-        self.check_submodules()
+        if not args.init:
+            self.check_submodules()
 
         if args.test:
             self.module_test()
