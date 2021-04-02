@@ -32,6 +32,18 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-l",
+    type=int,
+    help="Number of logs to append to the leader. Needs to be used in combination with --virtual",
+)
+
+parser.add_argument(
+    "-r",
+    action="store_true",
+    help="Randomizes the order of nodes while running the simulation. Needs to be used in combination with --virtual",
+)
+
+parser.add_argument(
     "-p",
     type=int,
     help="The USB port to use, enter a number starting from 0. Needs to be used in combination with --pupload",
@@ -116,12 +128,15 @@ class RunDev:
             self.module_test()
 
         elif args.virtual:
-            if args.t is None or args.n is None:
+            if (args.t is None) or (args.n is None) or (args.l is None):
+                print("Please specify: ")
+                print("> Number of nodes with -n")
+                print("> Time in seconds with -t argument")
                 print(
-                    "Please specify the number of nodes with -n and time in seconds with -t argument"
+                    "> Number of logs to append to the leader with -l argument"
                 )
                 self.exit_code()
-            self.module_virtual(args.t, args.n)
+            self.module_virtual(args.t, args.n, args.r, args.l)
 
         elif args.shell:
             self.module_shell()
@@ -151,7 +166,7 @@ class RunDev:
             self.module_monitor()
 
         elif args.pum:
-            if args.e is None is None:
+            if args.e is None:
                 print("Please specify which example to build with -e argument")
                 self.exit_code()
             self.module_upload(args.e)
@@ -215,7 +230,14 @@ class RunDev:
             % (self.project_path, os.path.join(self.project_path, ".cache"))
         )
 
-    def module_virtual(self, t, n):
+    def module_virtual(self, t, n, r, l):
+        command = ""
+
+        if r:
+            command = "./bin/virtual_esp -t %s -n %s -l %s -r" % (t, n, l)
+        else:
+            command = "./bin/virtual_esp -t %s -n %s -l %s" % (t, n, l)
+
         self.run_command_in_docker(
             "cd library"
             + "&&"
@@ -229,7 +251,7 @@ class RunDev:
             + "&&"
             + "echo '\033[95m>> The white outputs are outputted by ramen\033[0m\n'"
             + "&&"
-            + "./bin/virtual_esp -t %s -n %s" % (t, n)
+            + command
             + "&&"
             # Delete gcov files related to the simulator, we don't want them
             + "gcovr --delete --root='.' --filter='virtual_esp.*' > /dev/null 2>&1"
