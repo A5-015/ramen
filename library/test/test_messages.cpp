@@ -39,6 +39,14 @@ SCENARIO(
     WHEN("SEND_VOTE is used properly") {
       bool granted = random() % 2;
 
+      string_t granted_string = "";
+
+      if(granted) {
+        granted_string = "true";
+      } else {
+        granted_string = "false";
+      }
+
       // Create the message
       Message message(SEND_VOTE, term);
       message.addFields(granted);
@@ -54,7 +62,7 @@ SCENARIO(
       // Check for the key values
       REQUIRE_THAT(serialized, Contains(std::to_string(SEND_VOTE)));
       REQUIRE_THAT(serialized, Contains(std::to_string(term)));
-      REQUIRE_THAT(serialized, Contains(std::to_string(granted)));
+      REQUIRE_THAT(serialized, Contains(granted_string));
     }
 
     WHEN("REQUEST_APPEND_ENTRY is used properly") {
