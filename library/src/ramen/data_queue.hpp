@@ -15,13 +15,13 @@ namespace broth {
 namespace dataqueue {
 
   /**
-   * @brief Stores the data received from a client until it is moved to the log
-   * holder
+   * @brief Stores the data received from a client until it is moved to the
+   * consensus leader's log holder
    *
    */
   class DataQueue {
    private:
-    std::queue<std::tuple<uint32_t, string_t>> _entries;
+    std::queue<string_t> _entries;
 
    public:
     /**
@@ -31,19 +31,25 @@ namespace dataqueue {
     DataQueue();
 
     /**
-     * @brief
+     * @brief Pop the oldest data in the queue to send to consensus leader
      *
-     * @param address
      */
-    void pop(uint32_t address);
+    void pop();
 
     /**
-     * @brief
+     * @brief Push new data in the queue to eventually send to consensus leader
      *
-     * @param address
      * @param data
      */
-    void push(uint32_t address, string_t data);
+    void push(string_t data);
+
+    /**
+     * @brief Checks if there is data in the queue
+     *
+     * @return true
+     * @return false
+     */
+    bool checkEmpty();
   };
 
 } // namespace dataqueue
