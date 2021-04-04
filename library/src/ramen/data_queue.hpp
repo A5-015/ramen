@@ -34,7 +34,7 @@ namespace dataqueue {
      * @brief Pop the oldest data in the queue to send to consensus leader
      *
      */
-    void pop();
+    string_t pop();
 
     /**
      * @brief Push new data in the queue to eventually send to consensus leader

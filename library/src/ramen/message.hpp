@@ -23,7 +23,9 @@ namespace message {
     SEND_VOTE = 1,
     REQUEST_APPEND_ENTRY = 2,
     RESPOND_APPEND_ENTRY = 3,
-    ENTRY = 4
+    ENTRY = 4,
+    DISTRIBUTE_ENTRY = 5,
+    DISTRIBUTE_ENTRY_ACK = 6,
   } MessageType;
 
   /**
@@ -129,6 +131,39 @@ namespace message {
       // clang-format off
       this->_field_bool.insert(std::make_pair(SUCCESS_FIELD_KEY, success));
       this->_field_uint32_t.insert(std::make_pair(MATCH_INDEX_FIELD_KEY, match_index));
+      // clang-format on
+    };
+
+    /**
+     * @brief DistributeEntry
+     *
+     * @param data
+     */
+    void addFields(string_t data, bool ack) {
+      assert(this->_message_type == DISTRIBUTE_ENTRY);
+
+      // Initialize the correct size
+      this->_payload = new DynamicJsonDocument(DISTRIBUTE_ENTRY_SIZE);
+
+      // clang-format off
+      this->_field_string_t.insert(std::make_pair(DISTRIBUTE_ENTRY_KEY, data));
+      this->_field_bool.insert(std::make_pair(DISTRIBUTE_ENTRY_SEND_ACK_KEY, ack));
+      // clang-format on
+    };
+
+    /**
+     * @brief DistributeEntryAck
+     *
+     * @param ack
+     */
+    void addFields(uint32_t message_id, bool ack) {
+      assert(this->_message_type == DISTRIBUTE_ENTRY_ACK);
+
+      // Initialize the correct size
+      this->_payload = new DynamicJsonDocument(DISTRIBUTE_ENTRY_ACK_SIZE);
+
+      // clang-format off
+      this->_field_bool.insert(std::make_pair(DISTRIBUTE_ENTRY_ACK_KEY, ack));
       // clang-format on
     };
 

@@ -106,6 +106,8 @@ void _server::update() {
         this->broadcastRequestAppendEntries(true);
       }
     }
+
+    this->sendLocalQueueDataToLeaderQueue();
   }
 };
 
@@ -250,6 +252,14 @@ void _server::receiveData(uint32_t from, string_t& data) {
       this->handleAppendEntriesResponse(from, payload);
       break;
 
+    case DISTRIBUTE_ENTRY:
+      this->moveDataFromQueueToLog(from, payload);
+      break;
+
+    case DISTRIBUTE_ENTRY_ACK:
+      this->handleAckFromLeaderQueue(from, payload);
+      break;
+
     default:
       break;
   }
@@ -300,7 +310,6 @@ void _server::handleVoteRequest(uint32_t sender, DynamicJsonDocument& data) {
 
   this->_mesh.sendMessageToNode(sender, message.serialize());
 
-  uint32_t sender_term = (uint32_t) data[TERM_FIELD_KEY];
   this->_logger(DEBUG, "Replied to %u with %u vote\n", sender, granted);
 };
 
@@ -399,6 +408,7 @@ void _server::handleAppendEntriesRequest(uint32_t sender,
     message_success = true;
     message_match_index = this->_commit_index;
     this->setElectionAlarmValue(5);
+    this->_last_known_leader = sender;
   } else if(previousLogIndex == 0 ||
             (previousLogIndex <= this->_log.getLogSize() &&
              this->_log.getLogTerm(previousLogIndex) == previousLogTerm)) {
@@ -461,6 +471,69 @@ void _server::handleAppendEntriesResponse(uint32_t sender,
   }
 };
 
-void _server::moveDataFromQueueToLog(DataQueue queue, LogHolder log) {};
-void _server::sendLocalQueueDataToLeaderQueue(string_t data) {};
-void _server::handleNewData(string_t data) {};
+bool _server::distribute(string_t data, bool ack) {
+  bool success = false;
+
+  // TODO: Check for ack and push ack into the queue
+  this->_data_queue.push(data);
+
+  this->_logger(DEBUG, "I called distribute to share: \n");
+  this->_logger(DEBUG, data);
+  this->_logger(DEBUG, "\n");
+
+  return ((ack == false) ? true : success);
+};
+
+void _server::moveDataFromQueueToLog(uint32_t sender,
+                                     DynamicJsonDocument& data) {
+  string_t received_data = data[DISTRIBUTE_ENTRY_KEY];
+  bool send_ack = data[DISTRIBUTE_ENTRY_SEND_ACK_KEY];
+
+  // Use leader's term instead of sender term
+  this->_log.pushEntry(std::make_pair(this->_term, received_data));
+
+  if(send_ack) {
+    // Generate the message
+    Message message(DISTRIBUTE_ENTRY_ACK, this->_term);
+    // TODO: Grab real message id once we have it
+    message.addFields(666, true);
+    this->_mesh.sendMessageToNode(sender, message.serialize());
+  }
+
+  this->_logger(DEBUG, "I moved data from my queue to  my log: \n");
+  this->_logger(DEBUG, received_data);
+  this->_logger(DEBUG, "\n");
+};
+
+void _server::sendLocalQueueDataToLeaderQueue() {
+  // Pop from data queue only if it is not empty
+  if(!(this->_data_queue.checkEmpty())) {
+    if(this->_state == LEADER) {
+      string_t data = this->_data_queue.pop();
+
+      // Push to own log
+      this->_log.pushEntry(std::make_pair(this->_term, data));
+      this->_logger(DEBUG,
+                    "I sent data from my local queue to my own log, since I'm "
+                    "the beloved leader\n");
+    } else if(this->_last_known_leader != INFINITY) {
+      string_t data = this->_data_queue.pop();
+
+      // Generate the message
+      Message message(DISTRIBUTE_ENTRY, this->_term);
+      // TODO: read ack/nack from data queue
+      message.addFields(data, false);
+      this->_mesh.sendMessageToNode(this->_last_known_leader,
+                                    message.serialize());
+      this->_logger(
+          DEBUG,
+          "I sent data from my local queue to my beloved leader's queue\n");
+    }
+  }
+};
+
+void _server::handleAckFromLeaderQueue(uint32_t sender,
+                                       DynamicJsonDocument& data) {
+  // TODO: parse the message and then send ack/nack result to callback
+  // function
+}

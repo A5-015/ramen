@@ -9,8 +9,10 @@ using namespace broth::dataqueue;
 
 DataQueue::DataQueue() {};
 
-void DataQueue::pop() {
-  return this->_entries.pop();
+string_t DataQueue::pop() {
+  string_t data = this->_entries.front();
+  this->_entries.pop();
+  return data;
 };
 
 void DataQueue::push(string_t data) {

@@ -96,8 +96,8 @@ int main(int argc, char** argv) {
       (*it)->update();
 
       if((flag < target_number_of_logs) && (*it)->_state == LEADER) {
-        (*it)->_log.pushEntry(
-            std::make_pair((*it)->_term, std::to_string(flag)));
+        std::cout << ">> Pushed data to my beloved leader" << std::endl;
+        (*it)->distribute(std::to_string(flag), false);
         flag++;
       }
 

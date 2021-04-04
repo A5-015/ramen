@@ -28,19 +28,24 @@
 #define REQUEST_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
 #define RESPOND_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
 #define ENTRY_SIZE                             200 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+#define DISTRIBUTE_ENTRY_SIZE                  100 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE
+#define DISTRIBUTE_ENTRY_ACK_SIZE              96
 
 // Text for message fields, these values will be used during JSON serialization
-#define TYPE_FIELD_KEY               "type"
-#define TERM_FIELD_KEY               "term"
-#define LAST_LOG_TERM_FIELD_KEY      "lastLogTerm"
-#define LAST_LOG_INDEX_FIELD_KEY     "lastLogIndex"
-#define GRANTED_FIELD_KEY            "granted"
-#define PREVIOUS_LOG_INDEX_FIELD_KEY "previousLogIndex"
-#define PREVIOUS_LOG_TERM_FIELD_KEY  "previousLogTerm"
-#define ENTRIES_FIELD_KEY            "entries"
-#define COMMIT_INDEX_FIELD_KEY       "commitIndex"
-#define SUCCESS_FIELD_KEY            "success"
-#define MATCH_INDEX_FIELD_KEY        "matchIndex"
+#define TYPE_FIELD_KEY                "type"
+#define TERM_FIELD_KEY                "term"
+#define LAST_LOG_TERM_FIELD_KEY       "lastLogTerm"
+#define LAST_LOG_INDEX_FIELD_KEY      "lastLogIndex"
+#define GRANTED_FIELD_KEY             "granted"
+#define PREVIOUS_LOG_INDEX_FIELD_KEY  "previousLogIndex"
+#define PREVIOUS_LOG_TERM_FIELD_KEY   "previousLogTerm"
+#define ENTRIES_FIELD_KEY             "entries"
+#define COMMIT_INDEX_FIELD_KEY        "commitIndex"
+#define SUCCESS_FIELD_KEY             "success"
+#define MATCH_INDEX_FIELD_KEY         "matchIndex"
+#define DISTRIBUTE_ENTRY_KEY          "distrib"
+#define DISTRIBUTE_ENTRY_SEND_ACK_KEY "distribSendAck"
+#define DISTRIBUTE_ENTRY_ACK_KEY      "distribAck"
 
 // ^^^^^^^^^^^^^^^^^^^^ //
 //////////////////////////
