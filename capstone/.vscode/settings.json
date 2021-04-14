@@ -1,6 +1,0 @@
-{
-    "beautify.onSave": true,
-    "editor.formatOnSave": true,
-    "editor.formatOnType": true,
-    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google}"
-}

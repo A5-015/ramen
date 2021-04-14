@@ -143,3 +143,13 @@ cython_debug/
 # Custom
 *.json
 *.pdf
+
+!library.json
+
+DartConfiguration.tcl
+docs/html
+docs/latex
+
+!.vscode/settings.json
+!.vscode/extensions.json
+!.cache
