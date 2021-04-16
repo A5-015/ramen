@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['match_5findex_5ffield_5fkey_325',['MATCH_INDEX_FIELD_KEY',['../configuration_8hpp.html#abff9d7589e278091dd13dc536af143ec',1,'configuration.hpp']]],
-  ['message_5frequest_5fappend_5fdata_5fentry_5fsize_326',['MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE',['../configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9',1,'configuration.hpp']]]
+  ['last_5flog_5findex_5ffield_5fkey_350',['LAST_LOG_INDEX_FIELD_KEY',['../configuration_8hpp.html#a9e2b2b56db6ec0bfc41361339f8134a4',1,'configuration.hpp']]],
+  ['last_5flog_5fterm_5ffield_5fkey_351',['LAST_LOG_TERM_FIELD_KEY',['../configuration_8hpp.html#ae227ae3699f1e0fb507a80c858666556',1,'configuration.hpp']]]
 ];

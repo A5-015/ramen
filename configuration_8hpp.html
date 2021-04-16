@@ -117,10 +117,12 @@ This graph shows which files directly or indirectly include this file:</div>
 Macros</h2></td></tr>
 <tr class="memitem:adf937f4adc54a899ad8aeaeaa29ce430"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">RAFT_TIMER_PERIOD</a>&#160;&#160;&#160;100000</td></tr>
 <tr class="separator:adf937f4adc54a899ad8aeaeaa29ce430"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a873ab090bb48ed68c51fc55834db96fa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a873ab090bb48ed68c51fc55834db96fa">REQUEST_VOTE_TIMER_PERIOD</a>&#160;&#160;&#160;200000</td></tr>
+<tr class="memitem:a873ab090bb48ed68c51fc55834db96fa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a873ab090bb48ed68c51fc55834db96fa">REQUEST_VOTE_TIMER_PERIOD</a>&#160;&#160;&#160;<a class="el" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">RAFT_TIMER_PERIOD</a> * 2</td></tr>
 <tr class="separator:a873ab090bb48ed68c51fc55834db96fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad99adb15ea205409304849740ac5b7a1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ad99adb15ea205409304849740ac5b7a1">HEART_BEAT_TIMER_PERIOD</a>&#160;&#160;&#160;500000</td></tr>
+<tr class="memitem:ad99adb15ea205409304849740ac5b7a1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ad99adb15ea205409304849740ac5b7a1">HEART_BEAT_TIMER_PERIOD</a>&#160;&#160;&#160;<a class="el" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">RAFT_TIMER_PERIOD</a> * 5</td></tr>
 <tr class="separator:ad99adb15ea205409304849740ac5b7a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5709bfc5904b15f211c26e76f49dbdd9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a5709bfc5904b15f211c26e76f49dbdd9">REQUEST_APPEND_ENTRY_PERIOD</a>&#160;&#160;&#160;<a class="el" href="configuration_8hpp.html#ad99adb15ea205409304849740ac5b7a1">HEART_BEAT_TIMER_PERIOD</a> * 3</td></tr>
+<tr class="separator:a5709bfc5904b15f211c26e76f49dbdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a783cd9e2e1d62121894a361e9d937ccd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a783cd9e2e1d62121894a361e9d937ccd">ELECTION_TIMEOUT_FACTOR</a>&#160;&#160;&#160;1000000</td></tr>
 <tr class="separator:a783cd9e2e1d62121894a361e9d937ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9606607c9e4091b0fb1b6fe031a58d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#af9606607c9e4091b0fb1b6fe031a58d1">HEART_BEAT_MESSAGE</a>&#160;&#160;&#160;&quot;__heart_beat__&quot;</td></tr>
@@ -137,6 +139,10 @@ Macros</h2></td></tr>
 <tr class="separator:a2371462b21f72e095c6bec63cd949013"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84a55b954a9d270664ddcdf4c3780ff3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a84a55b954a9d270664ddcdf4c3780ff3">ENTRY_SIZE</a>&#160;&#160;&#160;200 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td></tr>
 <tr class="separator:a84a55b954a9d270664ddcdf4c3780ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37d4b46351dbe44061fb3fc98a47a7c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a37d4b46351dbe44061fb3fc98a47a7c6">DISTRIBUTE_ENTRY_SIZE</a>&#160;&#160;&#160;100 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td></tr>
+<tr class="separator:a37d4b46351dbe44061fb3fc98a47a7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af638c826479c7b16db92e2e77fe15a30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#af638c826479c7b16db92e2e77fe15a30">DISTRIBUTE_ENTRY_ACK_SIZE</a>&#160;&#160;&#160;96</td></tr>
+<tr class="separator:af638c826479c7b16db92e2e77fe15a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70c9700d6e629e71e5a9bcb42a91cc41"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a70c9700d6e629e71e5a9bcb42a91cc41">TYPE_FIELD_KEY</a>&#160;&#160;&#160;&quot;type&quot;</td></tr>
 <tr class="separator:a70c9700d6e629e71e5a9bcb42a91cc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7daad6d05289718816582b3af5942ed1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a7daad6d05289718816582b3af5942ed1">TERM_FIELD_KEY</a>&#160;&#160;&#160;&quot;term&quot;</td></tr>
@@ -159,6 +165,12 @@ Macros</h2></td></tr>
 <tr class="separator:aef414a4b05c9266603f47d664019960b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abff9d7589e278091dd13dc536af143ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#abff9d7589e278091dd13dc536af143ec">MATCH_INDEX_FIELD_KEY</a>&#160;&#160;&#160;&quot;matchIndex&quot;</td></tr>
 <tr class="separator:abff9d7589e278091dd13dc536af143ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5130d87d96302c3a863b5c489fa4158f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a5130d87d96302c3a863b5c489fa4158f">DISTRIBUTE_ENTRY_KEY</a>&#160;&#160;&#160;&quot;distrib&quot;</td></tr>
+<tr class="separator:a5130d87d96302c3a863b5c489fa4158f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab484392e5fab69d18a38d50605f2a9c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#ab484392e5fab69d18a38d50605f2a9c9">DISTRIBUTE_ENTRY_SEND_ACK_KEY</a>&#160;&#160;&#160;&quot;distribSendAck&quot;</td></tr>
+<tr class="separator:ab484392e5fab69d18a38d50605f2a9c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a2747b59ff801879cdf501fba40843e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="configuration_8hpp.html#a6a2747b59ff801879cdf501fba40843e">DISTRIBUTE_ENTRY_ACK_KEY</a>&#160;&#160;&#160;&quot;distribAck&quot;</td></tr>
+<tr class="separator:a6a2747b59ff801879cdf501fba40843e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -182,7 +194,87 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00039">39</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00043">43</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a6a2747b59ff801879cdf501fba40843e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a2747b59ff801879cdf501fba40843e">&#9670;&nbsp;</a></span>DISTRIBUTE_ENTRY_ACK_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISTRIBUTE_ENTRY_ACK_KEY&#160;&#160;&#160;&quot;distribAck&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00048">48</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af638c826479c7b16db92e2e77fe15a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af638c826479c7b16db92e2e77fe15a30">&#9670;&nbsp;</a></span>DISTRIBUTE_ENTRY_ACK_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISTRIBUTE_ENTRY_ACK_SIZE&#160;&#160;&#160;96</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00032">32</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5130d87d96302c3a863b5c489fa4158f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5130d87d96302c3a863b5c489fa4158f">&#9670;&nbsp;</a></span>DISTRIBUTE_ENTRY_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISTRIBUTE_ENTRY_KEY&#160;&#160;&#160;&quot;distrib&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00046">46</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab484392e5fab69d18a38d50605f2a9c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab484392e5fab69d18a38d50605f2a9c9">&#9670;&nbsp;</a></span>DISTRIBUTE_ENTRY_SEND_ACK_KEY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISTRIBUTE_ENTRY_SEND_ACK_KEY&#160;&#160;&#160;&quot;distribSendAck&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00047">47</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a37d4b46351dbe44061fb3fc98a47a7c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37d4b46351dbe44061fb3fc98a47a7c6">&#9670;&nbsp;</a></span>DISTRIBUTE_ENTRY_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DISTRIBUTE_ENTRY_SIZE&#160;&#160;&#160;100 + <a class="el" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00031">31</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -198,7 +290,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00015">15</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00017">17</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -214,7 +306,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00038">38</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00042">42</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -230,7 +322,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00028">28</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00030">30</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -246,7 +338,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00035">35</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00039">39</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -262,7 +354,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00017">17</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00019">19</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -273,7 +365,7 @@ Typedefs</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HEART_BEAT_TIMER_PERIOD&#160;&#160;&#160;500000</td>
+          <td class="memname">#define HEART_BEAT_TIMER_PERIOD&#160;&#160;&#160;<a class="el" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">RAFT_TIMER_PERIOD</a> * 5</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -294,7 +386,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00034">34</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00038">38</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -310,7 +402,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00033">33</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00037">37</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -326,7 +418,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00041">41</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00045">45</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +434,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00023">23</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00025">25</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -358,7 +450,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00036">36</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00040">40</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -374,7 +466,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00037">37</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00041">41</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -394,6 +486,22 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
+<a id="a5709bfc5904b15f211c26e76f49dbdd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5709bfc5904b15f211c26e76f49dbdd9">&#9670;&nbsp;</a></span>REQUEST_APPEND_ENTRY_PERIOD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REQUEST_APPEND_ENTRY_PERIOD&#160;&#160;&#160;<a class="el" href="configuration_8hpp.html#ad99adb15ea205409304849740ac5b7a1">HEART_BEAT_TIMER_PERIOD</a> * 3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00015">15</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a67df57ccfd6c20db8b4e452d9cb5a097"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a67df57ccfd6c20db8b4e452d9cb5a097">&#9670;&nbsp;</a></span>REQUEST_APPEND_ENTRY_SIZE</h2>
 
@@ -406,7 +514,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00026">26</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00028">28</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -422,7 +530,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00024">24</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00026">26</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -433,7 +541,7 @@ Typedefs</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define REQUEST_VOTE_TIMER_PERIOD&#160;&#160;&#160;200000</td>
+          <td class="memname">#define REQUEST_VOTE_TIMER_PERIOD&#160;&#160;&#160;<a class="el" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">RAFT_TIMER_PERIOD</a> * 2</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -454,7 +562,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00027">27</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00029">29</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -470,7 +578,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00025">25</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00027">27</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -486,7 +594,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00040">40</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00044">44</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -502,7 +610,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00032">32</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00036">36</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -518,7 +626,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00031">31</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00035">35</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>
@@ -535,7 +643,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00060">60</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="configuration_8hpp_source.html#l00067">67</a> of file <a class="el" href="configuration_8hpp_source.html">configuration.hpp</a>.</p>
 
 </div>
 </div>

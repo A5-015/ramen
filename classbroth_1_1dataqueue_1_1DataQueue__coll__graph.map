@@ -1,4 +1,4 @@
 <map id="broth::dataqueue::DataQueue" name="broth::dataqueue::DataQueue">
-<area shape="rect" id="node1" title="Stores the data received from a client until it is moved to the log holder." alt="" coords="5,109,220,136"/>
-<area shape="rect" id="node2" title=" " alt="" coords="24,5,201,47"/>
+<area shape="rect" id="node1" title="Stores the data received from a client until it is moved to the consensus leader&#39;s log holder." alt="" coords="5,95,220,121"/>
+<area shape="rect" id="node2" title=" " alt="" coords="28,5,197,32"/>
 </map>

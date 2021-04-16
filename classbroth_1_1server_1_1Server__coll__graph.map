@@ -1,11 +1,13 @@
 <map id="broth::server::Server" name="broth::server::Server">
-<area shape="rect" id="node1" title="Class that manages the consensus on the mesh network." alt="" coords="731,155,885,181"/>
-<area shape="rect" id="node2" href="$classbroth_1_1meshnetwork_1_1MeshNetwork.html" title="Abstraction layer for the mesh network underneath." alt="" coords="371,63,524,105"/>
-<area shape="rect" id="node3" href="$classbroth_1_1logger_1_1Logger.html" title="The logger class for logging messages. Maximum message size is 200 characters." alt="" coords="15,35,173,61"/>
-<area shape="rect" id="node4" href="$classbroth_1_1logholder_1_1LogHolder.html" title="Holds the logs of the consensus for the given server." alt="" coords="348,129,547,156"/>
-<area shape="rect" id="node5" title=" " alt="" coords="11,114,177,155"/>
-<area shape="rect" id="node6" title=" " alt="" coords="5,179,183,221"/>
-<area shape="rect" id="node7" title=" " alt="" coords="360,180,535,207"/>
-<area shape="rect" id="node8" title=" " alt="" coords="371,231,523,273"/>
-<area shape="rect" id="node9" href="$classbroth_1_1utils_1_1Timer.html" title="A class for setting timers and checking if specified period elapsed. This class is not a scheduler,..." alt="" coords="378,307,517,333"/>
+<area shape="rect" id="node1" title="Class that manages the consensus on the mesh network." alt="" coords="764,191,919,217"/>
+<area shape="rect" id="node2" href="$classbroth_1_1meshnetwork_1_1MeshNetwork.html" title="Abstraction layer for the mesh network underneath." alt="" coords="379,74,532,115"/>
+<area shape="rect" id="node3" href="$classbroth_1_1logger_1_1Logger.html" title="The logger class for logging messages. Maximum message size is 200 characters." alt="" coords="15,47,173,73"/>
+<area shape="rect" id="node4" href="$classbroth_1_1dataqueue_1_1DataQueue.html" title="Stores the data received from a client until it is moved to the consensus leader&#39;s log holder." alt="" coords="348,140,563,167"/>
+<area shape="rect" id="node5" title=" " alt="" coords="9,131,179,157"/>
+<area shape="rect" id="node6" href="$classbroth_1_1logholder_1_1LogHolder.html" title="Holds the logs of the consensus for the given server." alt="" coords="356,191,555,217"/>
+<area shape="rect" id="node7" title=" " alt="" coords="11,183,177,225"/>
+<area shape="rect" id="node8" title=" " alt="" coords="5,249,183,290"/>
+<area shape="rect" id="node9" title=" " alt="" coords="368,241,543,268"/>
+<area shape="rect" id="node10" title=" " alt="" coords="379,293,531,334"/>
+<area shape="rect" id="node11" href="$classbroth_1_1utils_1_1Timer.html" title="A class for setting timers and checking if specified period elapsed. This class is not a scheduler,..." alt="" coords="386,397,525,424"/>
 </map>

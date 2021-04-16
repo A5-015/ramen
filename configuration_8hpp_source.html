@@ -75,66 +75,73 @@ $(function() {
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// vvvvvvvvvvvvvvvvvvvv //</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// In microseconds</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">   12</a></span>&#160;<span class="preprocessor">#define RAFT_TIMER_PERIOD         100000</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a873ab090bb48ed68c51fc55834db96fa">   13</a></span>&#160;<span class="preprocessor">#define REQUEST_VOTE_TIMER_PERIOD 200000</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ad99adb15ea205409304849740ac5b7a1">   14</a></span>&#160;<span class="preprocessor">#define HEART_BEAT_TIMER_PERIOD   500000</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a783cd9e2e1d62121894a361e9d937ccd">   15</a></span>&#160;<span class="preprocessor">#define ELECTION_TIMEOUT_FACTOR   1000000</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#adf937f4adc54a899ad8aeaeaa29ce430">   12</a></span>&#160;<span class="preprocessor">#define RAFT_TIMER_PERIOD           100000</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a873ab090bb48ed68c51fc55834db96fa">   13</a></span>&#160;<span class="preprocessor">#define REQUEST_VOTE_TIMER_PERIOD   RAFT_TIMER_PERIOD * 2</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ad99adb15ea205409304849740ac5b7a1">   14</a></span>&#160;<span class="preprocessor">#define HEART_BEAT_TIMER_PERIOD     RAFT_TIMER_PERIOD * 5</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a5709bfc5904b15f211c26e76f49dbdd9">   15</a></span>&#160;<span class="preprocessor">#define REQUEST_APPEND_ENTRY_PERIOD HEART_BEAT_TIMER_PERIOD * 3</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#af9606607c9e4091b0fb1b6fe031a58d1">   17</a></span>&#160;<span class="preprocessor">#define HEART_BEAT_MESSAGE &quot;__heart_beat__&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a783cd9e2e1d62121894a361e9d937ccd">   17</a></span>&#160;<span class="preprocessor">#define ELECTION_TIMEOUT_FACTOR 1000000</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// Message buffer sizes</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Check https://arduinojson.org/v6/assistant/ to figure out the right payload</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// buffer size</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// MAKE SURE TO UN-CHECK &quot;Assume keys are const char*&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">   23</a></span>&#160;<span class="preprocessor">#define MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE 100</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a13a305f92c2062e8594e739606b80f29">   24</a></span>&#160;<span class="preprocessor">#define REQUEST_VOTE_SIZE                      130</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ace3cefd50ecd5fe3856426925a8ca4ae">   25</a></span>&#160;<span class="preprocessor">#define SEND_VOTE_SIZE                         96</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a67df57ccfd6c20db8b4e452d9cb5a097">   26</a></span>&#160;<span class="preprocessor">#define REQUEST_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a2371462b21f72e095c6bec63cd949013">   27</a></span>&#160;<span class="preprocessor">#define RESPOND_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a84a55b954a9d270664ddcdf4c3780ff3">   28</a></span>&#160;<span class="preprocessor">#define ENTRY_SIZE                             200 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// Text for message fields, these values will be used during JSON serialization</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a70c9700d6e629e71e5a9bcb42a91cc41">   31</a></span>&#160;<span class="preprocessor">#define TYPE_FIELD_KEY               &quot;type&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a7daad6d05289718816582b3af5942ed1">   32</a></span>&#160;<span class="preprocessor">#define TERM_FIELD_KEY               &quot;term&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae227ae3699f1e0fb507a80c858666556">   33</a></span>&#160;<span class="preprocessor">#define LAST_LOG_TERM_FIELD_KEY      &quot;lastLogTerm&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a9e2b2b56db6ec0bfc41361339f8134a4">   34</a></span>&#160;<span class="preprocessor">#define LAST_LOG_INDEX_FIELD_KEY     &quot;lastLogIndex&quot;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a4aeec3be8e598e6a86a54671de00c9f2">   35</a></span>&#160;<span class="preprocessor">#define GRANTED_FIELD_KEY            &quot;granted&quot;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae6772406ceea954c214ef7ea134f28c3">   36</a></span>&#160;<span class="preprocessor">#define PREVIOUS_LOG_INDEX_FIELD_KEY &quot;previousLogIndex&quot;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae897c49b1252abcb13d3b2b38f93ef89">   37</a></span>&#160;<span class="preprocessor">#define PREVIOUS_LOG_TERM_FIELD_KEY  &quot;previousLogTerm&quot;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a7162678c15614a97e5f089f690e999ad">   38</a></span>&#160;<span class="preprocessor">#define ENTRIES_FIELD_KEY            &quot;entries&quot;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ab1c9ac3e51562b39f02ecb0e3212201b">   39</a></span>&#160;<span class="preprocessor">#define COMMIT_INDEX_FIELD_KEY       &quot;commitIndex&quot;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#aef414a4b05c9266603f47d664019960b">   40</a></span>&#160;<span class="preprocessor">#define SUCCESS_FIELD_KEY            &quot;success&quot;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#abff9d7589e278091dd13dc536af143ec">   41</a></span>&#160;<span class="preprocessor">#define MATCH_INDEX_FIELD_KEY        &quot;matchIndex&quot;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">// ^^^^^^^^^^^^^^^^^^^^ //</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// clang-format off</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifndef _RAMEN_CATCH_TESTING_</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Used for the actual library</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">    #ifndef _RAMEN_CONFIGURATION_HPP_</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">    #define _RAMEN_CONFIGURATION_HPP_</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">        #include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">// painlessMesh handles correct version of TaskScheduler library</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// #include &lt;TaskScheduler.h&gt;</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">        #include &lt;painlessMesh.h&gt;</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// NOLINTNEXTLINE</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">   60</a></span>&#160;        <span class="keyword">typedef</span> String <a class="code" href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">string_t</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#af9606607c9e4091b0fb1b6fe031a58d1">   19</a></span>&#160;<span class="preprocessor">#define HEART_BEAT_MESSAGE &quot;__heart_beat__&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// Message buffer sizes</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// Check https://arduinojson.org/v6/assistant/ to figure out the right payload</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// buffer size</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// MAKE SURE TO UN-CHECK &quot;Assume keys are const char*&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#af687c7fa3d297f1c6093793c610a1ca9">   25</a></span>&#160;<span class="preprocessor">#define MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE 100</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a13a305f92c2062e8594e739606b80f29">   26</a></span>&#160;<span class="preprocessor">#define REQUEST_VOTE_SIZE                      130</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ace3cefd50ecd5fe3856426925a8ca4ae">   27</a></span>&#160;<span class="preprocessor">#define SEND_VOTE_SIZE                         96</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a67df57ccfd6c20db8b4e452d9cb5a097">   28</a></span>&#160;<span class="preprocessor">#define REQUEST_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a2371462b21f72e095c6bec63cd949013">   29</a></span>&#160;<span class="preprocessor">#define RESPOND_APPEND_ENTRY_SIZE              96 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a84a55b954a9d270664ddcdf4c3780ff3">   30</a></span>&#160;<span class="preprocessor">#define ENTRY_SIZE                             200 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a37d4b46351dbe44061fb3fc98a47a7c6">   31</a></span>&#160;<span class="preprocessor">#define DISTRIBUTE_ENTRY_SIZE                  100 + MESSAGE_REQUEST_APPEND_DATA_ENTRY_SIZE</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#af638c826479c7b16db92e2e77fe15a30">   32</a></span>&#160;<span class="preprocessor">#define DISTRIBUTE_ENTRY_ACK_SIZE              96</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// Text for message fields, these values will be used during JSON serialization</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a70c9700d6e629e71e5a9bcb42a91cc41">   35</a></span>&#160;<span class="preprocessor">#define TYPE_FIELD_KEY                &quot;type&quot;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a7daad6d05289718816582b3af5942ed1">   36</a></span>&#160;<span class="preprocessor">#define TERM_FIELD_KEY                &quot;term&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae227ae3699f1e0fb507a80c858666556">   37</a></span>&#160;<span class="preprocessor">#define LAST_LOG_TERM_FIELD_KEY       &quot;lastLogTerm&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a9e2b2b56db6ec0bfc41361339f8134a4">   38</a></span>&#160;<span class="preprocessor">#define LAST_LOG_INDEX_FIELD_KEY      &quot;lastLogIndex&quot;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a4aeec3be8e598e6a86a54671de00c9f2">   39</a></span>&#160;<span class="preprocessor">#define GRANTED_FIELD_KEY             &quot;granted&quot;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae6772406ceea954c214ef7ea134f28c3">   40</a></span>&#160;<span class="preprocessor">#define PREVIOUS_LOG_INDEX_FIELD_KEY  &quot;previousLogIndex&quot;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae897c49b1252abcb13d3b2b38f93ef89">   41</a></span>&#160;<span class="preprocessor">#define PREVIOUS_LOG_TERM_FIELD_KEY   &quot;previousLogTerm&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a7162678c15614a97e5f089f690e999ad">   42</a></span>&#160;<span class="preprocessor">#define ENTRIES_FIELD_KEY             &quot;entries&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ab1c9ac3e51562b39f02ecb0e3212201b">   43</a></span>&#160;<span class="preprocessor">#define COMMIT_INDEX_FIELD_KEY        &quot;commitIndex&quot;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#aef414a4b05c9266603f47d664019960b">   44</a></span>&#160;<span class="preprocessor">#define SUCCESS_FIELD_KEY             &quot;success&quot;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#abff9d7589e278091dd13dc536af143ec">   45</a></span>&#160;<span class="preprocessor">#define MATCH_INDEX_FIELD_KEY         &quot;matchIndex&quot;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a5130d87d96302c3a863b5c489fa4158f">   46</a></span>&#160;<span class="preprocessor">#define DISTRIBUTE_ENTRY_KEY          &quot;distrib&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ab484392e5fab69d18a38d50605f2a9c9">   47</a></span>&#160;<span class="preprocessor">#define DISTRIBUTE_ENTRY_SEND_ACK_KEY &quot;distribSendAck&quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#a6a2747b59ff801879cdf501fba40843e">   48</a></span>&#160;<span class="preprocessor">#define DISTRIBUTE_ENTRY_ACK_KEY      &quot;distribAck&quot;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">// ^^^^^^^^^^^^^^^^^^^^ //</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">// clang-format off</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifndef _RAMEN_UNIT_TESTING_</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Used for the actual library</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">    #ifndef _RAMEN_CONFIGURATION_HPP_</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">    #define _RAMEN_CONFIGURATION_HPP_</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">        #include &lt;Arduino.h&gt;</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">    #endif</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">// painlessMesh handles correct version of TaskScheduler library</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// #include &lt;TaskScheduler.h&gt;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">        #include &lt;painlessMesh.h&gt;</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// Used for testing only</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">    #include &lt;catch_configuration.hpp&gt;</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// NOLINTNEXTLINE</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">   67</a></span>&#160;        <span class="keyword">typedef</span> String <a class="code" href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">string_t</a>;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">// clang-format on</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment">// Used for testing only</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">    #include &lt;catch_configuration.hpp&gt;</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">// clang-format on</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aconfiguration_8hpp_html_ae28756a04902f373989ce7d11bfabfef"><div class="ttname"><a href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">string_t</a></div><div class="ttdeci">String string_t</div><div class="ttdef"><b>Definition:</b> <a href="configuration_8hpp_source.html#l00060">configuration.hpp:60</a></div></div>
+<div class="ttc" id="aconfiguration_8hpp_html_ae28756a04902f373989ce7d11bfabfef"><div class="ttname"><a href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">string_t</a></div><div class="ttdeci">String string_t</div><div class="ttdef"><b>Definition:</b> <a href="configuration_8hpp_source.html#l00067">configuration.hpp:67</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

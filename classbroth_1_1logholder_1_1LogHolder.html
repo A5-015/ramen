@@ -124,6 +124,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0bb425f815349c57d0d9f16180bbbcc5"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1logholder_1_1LogHolder.html#a0bb425f815349c57d0d9f16180bbbcc5">getLogTerm</a> (uint32_t log_index)</td></tr>
 <tr class="memdesc:a0bb425f815349c57d0d9f16180bbbcc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the term in entries vector given the index.  <a href="classbroth_1_1logholder_1_1LogHolder.html#a0bb425f815349c57d0d9f16180bbbcc5">More...</a><br /></td></tr>
 <tr class="separator:a0bb425f815349c57d0d9f16180bbbcc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5f054518b25441d97255a1ae62cda3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1logholder_1_1LogHolder.html#af5f054518b25441d97255a1ae62cda3c">getLogData</a> (uint32_t log_index)</td></tr>
+<tr class="memdesc:af5f054518b25441d97255a1ae62cda3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the data in entries vector given the index. If the index does not exist, then return a heartbeat message.  <a href="classbroth_1_1logholder_1_1LogHolder.html#af5f054518b25441d97255a1ae62cda3c">More...</a><br /></td></tr>
+<tr class="separator:af5f054518b25441d97255a1ae62cda3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88247f1c3f6d26f0882d61a4b551991a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbroth_1_1logholder_1_1LogHolder.html#a88247f1c3f6d26f0882d61a4b551991a">getMajorityCommitIndex</a> ()</td></tr>
 <tr class="memdesc:a88247f1c3f6d26f0882d61a4b551991a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the index of last received log entries by all servers from match_index_ptr and return the lowest index the majority of servers have commmitted.  <a href="classbroth_1_1logholder_1_1LogHolder.html#a88247f1c3f6d26f0882d61a4b551991a">More...</a><br /></td></tr>
 <tr class="separator:a88247f1c3f6d26f0882d61a4b551991a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,7 +195,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00024">24</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00028">28</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -214,7 +217,36 @@ Private Attributes</h2></td></tr>
 <p>Get the last log entry's term. </p>
 <dl class="section return"><dt>Returns</dt><dd>uint32_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00048">48</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00052">52</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af5f054518b25441d97255a1ae62cda3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5f054518b25441d97255a1ae62cda3c">&#9670;&nbsp;</a></span>getLogData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="configuration_8hpp.html#ae28756a04902f373989ce7d11bfabfef">string_t</a> LogHolder::getLogData </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>log_index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the data in entries vector given the index. If the index does not exist, then return a heartbeat message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">log_index</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string_t </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00064">64</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -236,7 +268,7 @@ Private Attributes</h2></td></tr>
 <p>Get the size of the entries. </p>
 <dl class="section return"><dt>Returns</dt><dd>uint32_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00044">44</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00048">48</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -265,7 +297,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint32_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00052">52</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00056">56</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -289,7 +321,7 @@ Private Attributes</h2></td></tr>
 replicated it on a majority of the servers"</p>
 <dl class="section return"><dt>Returns</dt><dd>uint32_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00060">60</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00072">72</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -347,7 +379,7 @@ replicated it on a majority of the servers"</p>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint32_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00018">18</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00020">20</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -368,7 +400,7 @@ replicated it on a majority of the servers"</p>
 
 <p>Pop last entry in _entries. </p>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00077">77</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00089">89</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -396,7 +428,7 @@ replicated it on a majority of the servers"</p>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00081">81</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00093">93</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -434,7 +466,7 @@ replicated it on a majority of the servers"</p>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00026">26</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00030">30</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +504,7 @@ replicated it on a majority of the servers"</p>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00035">35</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00039">39</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -550,7 +582,7 @@ replicated it on a majority of the servers"</p>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00022">22</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__holder_8cpp_source.html#l00024">24</a> of file <a class="el" href="log__holder_8cpp_source.html">log_holder.cpp</a>.</p>
 
 </div>
 </div>
@@ -577,7 +609,7 @@ replicated it on a majority of the servers"</p>
 
 <p class="definition">Definition at line <a class="el" href="log__holder_8hpp_source.html#l00026">26</a> of file <a class="el" href="log__holder_8hpp_source.html">log_holder.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__holder_8cpp_source.html#l00048">getLastLogTerm()</a>, <a class="el" href="log__holder_8cpp_source.html#l00044">getLogSize()</a>, <a class="el" href="log__holder_8cpp_source.html#l00052">getLogTerm()</a>, <a class="el" href="log__holder_8cpp_source.html#l00077">popEntry()</a>, and <a class="el" href="log__holder_8cpp_source.html#l00081">pushEntry()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__holder_8cpp_source.html#l00052">getLastLogTerm()</a>, <a class="el" href="log__holder_8cpp_source.html#l00064">getLogData()</a>, <a class="el" href="log__holder_8cpp_source.html#l00048">getLogSize()</a>, <a class="el" href="log__holder_8cpp_source.html#l00056">getLogTerm()</a>, <a class="el" href="log__holder_8cpp_source.html#l00089">popEntry()</a>, and <a class="el" href="log__holder_8cpp_source.html#l00093">pushEntry()</a>.</p>
 
 </div>
 </div>
@@ -603,7 +635,7 @@ replicated it on a majority of the servers"</p>
 
 <p class="definition">Definition at line <a class="el" href="log__holder_8hpp_source.html#l00029">29</a> of file <a class="el" href="log__holder_8hpp_source.html">log_holder.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__holder_8cpp_source.html#l00060">getMajorityCommitIndex()</a>, <a class="el" href="log__holder_8cpp_source.html#l00012">getMatchIndex()</a>, and <a class="el" href="log__holder_8cpp_source.html#l00026">resetMatchIndexMap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__holder_8cpp_source.html#l00072">getMajorityCommitIndex()</a>, <a class="el" href="log__holder_8cpp_source.html#l00012">getMatchIndex()</a>, <a class="el" href="log__holder_8cpp_source.html#l00030">resetMatchIndexMap()</a>, and <a class="el" href="log__holder_8cpp_source.html#l00016">setMatchIndex()</a>.</p>
 
 </div>
 </div>
@@ -629,7 +661,7 @@ replicated it on a majority of the servers"</p>
 
 <p class="definition">Definition at line <a class="el" href="log__holder_8hpp_source.html#l00032">32</a> of file <a class="el" href="log__holder_8hpp_source.html">log_holder.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__holder_8cpp_source.html#l00018">getNextIndex()</a>, and <a class="el" href="log__holder_8cpp_source.html#l00035">resetNextIndexMap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__holder_8cpp_source.html#l00020">getNextIndex()</a>, <a class="el" href="log__holder_8cpp_source.html#l00039">resetNextIndexMap()</a>, and <a class="el" href="log__holder_8cpp_source.html#l00024">setNextIndex()</a>.</p>
 
 </div>
 </div>

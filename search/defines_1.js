@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['election_5ftimeout_5ffactor_317',['ELECTION_TIMEOUT_FACTOR',['../configuration_8hpp.html#a783cd9e2e1d62121894a361e9d937ccd',1,'configuration.hpp']]],
-  ['entries_5ffield_5fkey_318',['ENTRIES_FIELD_KEY',['../configuration_8hpp.html#a7162678c15614a97e5f089f690e999ad',1,'configuration.hpp']]],
-  ['entry_5fsize_319',['ENTRY_SIZE',['../configuration_8hpp.html#a84a55b954a9d270664ddcdf4c3780ff3',1,'configuration.hpp']]]
+  ['distribute_5fentry_5fack_5fkey_339',['DISTRIBUTE_ENTRY_ACK_KEY',['../configuration_8hpp.html#a6a2747b59ff801879cdf501fba40843e',1,'configuration.hpp']]],
+  ['distribute_5fentry_5fack_5fsize_340',['DISTRIBUTE_ENTRY_ACK_SIZE',['../configuration_8hpp.html#af638c826479c7b16db92e2e77fe15a30',1,'configuration.hpp']]],
+  ['distribute_5fentry_5fkey_341',['DISTRIBUTE_ENTRY_KEY',['../configuration_8hpp.html#a5130d87d96302c3a863b5c489fa4158f',1,'configuration.hpp']]],
+  ['distribute_5fentry_5fsend_5fack_5fkey_342',['DISTRIBUTE_ENTRY_SEND_ACK_KEY',['../configuration_8hpp.html#ab484392e5fab69d18a38d50605f2a9c9',1,'configuration.hpp']]],
+  ['distribute_5fentry_5fsize_343',['DISTRIBUTE_ENTRY_SIZE',['../configuration_8hpp.html#a37d4b46351dbe44061fb3fc98a47a7c6',1,'configuration.hpp']]]
 ];
