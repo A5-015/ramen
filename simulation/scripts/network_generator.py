@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
-from pprint import pprint as print
+import math
 import random
 import sys
-import math
-import networkx as nx
-from dataclasses import dataclass, field
 from collections import defaultdict
+from dataclasses import dataclass, field
+from pprint import pprint as print
+
+import networkx as nx
 from pandas import DataFrame, unique
 from sklearn.cluster import KMeans
 
@@ -40,7 +41,7 @@ class Node:
     hub_id: int = 0
 
 
-class Network():
+class Network:
     """
     Stores the network simulation. Originally designed to contain a 3D space but
     please don't use the z axis for now.
@@ -71,7 +72,9 @@ class Network():
 
         self.id_counter = 0
 
-    def add_nodes(self, n, max_range, max_link_budget, min_range=1, min_link_budget=1):
+    def add_nodes(
+        self, n, max_range, max_link_budget, min_range=1, min_link_budget=1
+    ):
         """
         Adds given number of nodes to the simulation space. The communication range of
         each node is choosen randomly from the given communication range. Also, the
@@ -87,12 +90,14 @@ class Network():
 
         for _ in range(n):
             # Create a new node with random parameters
-            curr_node = Node(x=random.randint(self.min_x, self.max_x),
-                             y=random.randint(self.min_y, self.max_y),
-                             z=random.randint(self.min_z, self.max_z),
-                             range_radius=random.randint(min_range, max_range),
-                             id=self.next_node_id,
-                             link_budget=random.randint(min_link_budget, max_link_budget))
+            curr_node = Node(
+                x=random.randint(self.min_x, self.max_x),
+                y=random.randint(self.min_y, self.max_y),
+                z=random.randint(self.min_z, self.max_z),
+                range_radius=random.randint(min_range, max_range),
+                id=self.next_node_id,
+                link_budget=random.randint(min_link_budget, max_link_budget),
+            )
 
             # Add created node's coordinates to the Network class
             self.node_coor_x[curr_node.x].append(curr_node)
@@ -227,7 +232,7 @@ class Mesh(Network):
             range_min_z = node.z - node.range_radius
 
             # Use a sliding window to discover nodes that are within the range
-            for x in range(range_min_x, range_max_x+1):
+            for x in range(range_min_x, range_max_x + 1):
                 target_node = self.node_coor_x.get(x)
                 # If a node is found
                 if target_node is not None:
@@ -240,9 +245,11 @@ class Mesh(Network):
                                 if n.id != node.id:
 
                                     # Calculate the distance between the nodes
-                                    distance = math.sqrt((node.x - n.x)*(node.x - n.x) +
-                                                         (node.y - n.y)*(node.y - n.y) +
-                                                         (node.z - n.z)*(node.z - n.z))
+                                    distance = math.sqrt(
+                                        (node.x - n.x) * (node.x - n.x)
+                                        + (node.y - n.y) * (node.y - n.y)
+                                        + (node.z - n.z) * (node.z - n.z)
+                                    )
 
                                     # Add as a neighbor if the distance is below
                                     #   the communication range
@@ -270,16 +277,18 @@ class Mesh(Network):
 
         # Get and convert the edge list
         for line in nx.generate_edgelist(self.mst, data=False):
-            temp = line.split(' ')
+            temp = line.split(" ")
 
             node0 = self.nodes.get(int(temp[0]))
             node1 = self.nodes.get(int(temp[1]))
 
             if node0 is not None and node1 is not None:
                 # Calculate the distance between the nodes
-                distance = math.sqrt((node1.x - node0.x)*(node1.x - node0.x) +
-                                     (node1.y - node0.y)*(node1.y - node0.y) +
-                                     (node1.z - node0.z)*(node1.z - node0.z))
+                distance = math.sqrt(
+                    (node1.x - node0.x) * (node1.x - node0.x)
+                    + (node1.y - node0.y) * (node1.y - node0.y)
+                    + (node1.z - node0.z) * (node1.z - node0.z)
+                )
 
                 # Save the result
                 edges[(int(temp[0]), int(temp[1]))] = int(distance)
@@ -367,7 +376,9 @@ class Star(Network):
         self.centroids_list = []
         self.hubs = {}
 
-    def set_hub_constraints(self, n, max_range, max_link_budget, min_range=1, min_link_budget=1):
+    def set_hub_constraints(
+        self, n, max_range, max_link_budget, min_range=1, min_link_budget=1
+    ):
         """
         Set the constraints for the hubs and specifiy the maximum number of hubs that can be used.
         This method doesn't actually place any hubs, it just defines the constraints. Also, same
@@ -412,12 +423,12 @@ class Star(Network):
             raise Exception("HubBudgetIsNotSet")
 
         # Fill the required data
-        data = {'x': [], 'y': [], 'node_id': []}
+        data = {"x": [], "y": [], "node_id": []}
         for _ in self.nodes:
             node = self.nodes[_]
-            data['x'].append(node.x)
-            data['y'].append(node.y)
-            data['node_id'].append(node.id)
+            data["x"].append(node.x)
+            data["y"].append(node.y)
+            data["node_id"].append(node.id)
 
         # Start with only one hub and check if the network can work with it
         # Keep increasing the hub count until the constraints are satisfied or the
@@ -426,32 +437,34 @@ class Star(Network):
         for i in range(1, hub_budget):
             # Transform node list into pandas dataframe
             # A fresh dataframe is needed for each iteration
-            df = DataFrame(data, columns=['x', 'y'])
+            df = DataFrame(data, columns=["x", "y"])
 
             # Fit the data in to N clusters/hubs
             kmeans = KMeans(n_clusters=i).fit(df)
-            df['cluster_label'] = kmeans.labels_
+            df["cluster_label"] = kmeans.labels_
             centroids_list = kmeans.cluster_centers_
 
-            df['centroid_x'] = ''
-            df['centroid_y'] = ''
-            df['distance_to_centroid'] = ''
-            df['node_id'] = 0
+            df["centroid_x"] = ""
+            df["centroid_y"] = ""
+            df["distance_to_centroid"] = ""
+            df["node_id"] = 0
 
             # Calculate the distance between the nodes and hubs
             nodes_within_hub_range = 0
             for idx, row in df.iterrows():
-                centroid_x = centroids_list[int(df.at[idx, 'cluster_label'])][0]
-                centroid_y = centroids_list[int(df.at[idx, 'cluster_label'])][1]
-                x, y = df.at[idx, 'x'], df.at[idx, 'y']
+                centroid_x = centroids_list[int(df.at[idx, "cluster_label"])][0]
+                centroid_y = centroids_list[int(df.at[idx, "cluster_label"])][1]
+                x, y = df.at[idx, "x"], df.at[idx, "y"]
 
                 # Calculate the distance between the node and the closest hub
-                distance_to_centroid = math.sqrt((centroid_x - x)*(centroid_x - x) +
-                                                 (centroid_y - y)*(centroid_y - y))
+                distance_to_centroid = math.sqrt(
+                    (centroid_x - x) * (centroid_x - x)
+                    + (centroid_y - y) * (centroid_y - y)
+                )
 
-                df.at[idx, 'centroid_x'] = centroid_x
-                df.at[idx, 'centroid_y'] = centroid_y
-                df.at[idx, 'distance_to_centroid'] = distance_to_centroid
+                df.at[idx, "centroid_x"] = centroid_x
+                df.at[idx, "centroid_y"] = centroid_y
+                df.at[idx, "distance_to_centroid"] = distance_to_centroid
 
                 # Check if this node is within the range of a hub
                 if distance_to_centroid < self.hub_range:
@@ -459,11 +472,13 @@ class Star(Network):
 
             # If the percentage of nodes that are out of the reach of the hub is smaller than distance_treshold,
             #   stop trying and increasing the hub count
-            if ((nodes_within_hub_range / len(df)) * 100) > percent_network_coverage:
+            if (
+                (nodes_within_hub_range / len(df)) * 100
+            ) > percent_network_coverage:
                 constraints_are_satisfied = True
                 self.centroids_list = centroids_list
                 # Append node_ids to dataframe
-                df['node_id'] = data['node_id']
+                df["node_id"] = data["node_id"]
 
                 # Stop iterating since we satisfied the constraints
                 break
@@ -473,22 +488,32 @@ class Star(Network):
             raise Exception("StarNetworkConstraintsCanNotBeSatisfied")
 
         # Save the least number of hubs required
-        self.number_of_hubs_used = len(unique(df['cluster_label']))
+        self.number_of_hubs_used = len(unique(df["cluster_label"]))
 
         # Draw the resulting clusters if requested
         if draw:
             import matplotlib.pyplot as plt
 
             # Plot the clusters
-            plt.scatter(df['x'], df['y'], c=kmeans.labels_.astype(float), s=50, alpha=0.5)
-            plt.scatter(centroids_list[:, 0], centroids_list[:, 1], c='red', s=50)
+            plt.scatter(
+                df["x"],
+                df["y"],
+                c=kmeans.labels_.astype(float),
+                s=50,
+                alpha=0.5,
+            )
+            plt.scatter(
+                centroids_list[:, 0], centroids_list[:, 1], c="red", s=50
+            )
 
             fig = plt.gcf()
             ax = fig.gca()
 
             # Mark the ranges of the hubs
             for c in centroids_list:
-                circle = plt.Circle((c[0], c[1]), radius=self.hub_range, color='r', fill=False)
+                circle = plt.Circle(
+                    (c[0], c[1]), radius=self.hub_range, color="r", fill=False
+                )
                 ax.add_artist(circle)
 
             plt.show()
@@ -502,12 +527,12 @@ class Star(Network):
             node = self.hubs.get(_)
 
             for idx, row in df.iterrows():
-                if row['cluster_label'] == node.hub_id:
+                if row["cluster_label"] == node.hub_id:
                     # Add node's id to hub
-                    node.neighbors.add(row['node_id'])
+                    node.neighbors.add(row["node_id"])
 
                     # Add hub's id to node
-                    self.nodes.get(row['node_id']).neighbors.add(node.id)
+                    self.nodes.get(row["node_id"]).neighbors.add(node.id)
 
         return self.number_of_hubs_used
 
@@ -520,14 +545,16 @@ class Star(Network):
         # Use the centroid list to place the hubs
         for idx, c in enumerate(self.centroids_list):
             # Create a new node with random parameters
-            curr_node = Node(x=c[0],
-                             y=c[1],
-                             z=0,
-                             range_radius=self.hub_range,
-                             id=self.next_node_id,
-                             link_budget=self.hub_link_budget,
-                             hub=True,
-                             hub_id=idx)
+            curr_node = Node(
+                x=c[0],
+                y=c[1],
+                z=0,
+                range_radius=self.hub_range,
+                id=self.next_node_id,
+                link_budget=self.hub_link_budget,
+                hub=True,
+                hub_id=idx,
+            )
 
             # Add created node's coordinates to the Network class
             self.node_coor_x[curr_node.x].append(curr_node)
@@ -595,16 +622,18 @@ class Star(Network):
 
         # Get and convert the edge list
         for line in nx.generate_edgelist(self.nxg, data=False):
-            temp = line.split(' ')
+            temp = line.split(" ")
 
             node0 = self.nodes.get(int(temp[0]))
             node1 = self.nodes.get(int(temp[1]))
 
             if node0 is not None and node1 is not None:
                 # Calculate the distance between the nodes
-                distance = math.sqrt((node1.x - node0.x)*(node1.x - node0.x) +
-                                     (node1.y - node0.y)*(node1.y - node0.y) +
-                                     (node1.z - node0.z)*(node1.z - node0.z))
+                distance = math.sqrt(
+                    (node1.x - node0.x) * (node1.x - node0.x)
+                    + (node1.y - node0.y) * (node1.y - node0.y)
+                    + (node1.z - node0.z) * (node1.z - node0.z)
+                )
 
                 # Save the result
                 edges[(int(temp[0]), int(temp[1]))] = int(distance)

@@ -5,7 +5,7 @@ on:
     # Publish `master` as Docker `latest` image.
     branches:
       - master
-
+      
     # Publish `v1.2.3` tags as releases.
     tags:
       - v*
@@ -20,7 +20,7 @@ jobs:
   push:
     runs-on: ubuntu-16.04
     if: github.event_name == 'push'
-
+    
     steps:
       - uses: actions/checkout@v2
 
