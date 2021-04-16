@@ -131,11 +131,12 @@ class RunDev:
         elif args.virtual:
             if (args.t is None) or (args.n is None) or (args.l is None):
                 print("Please specify: ")
-                print("> Number of nodes with -n")
+                print("> Number of nodes with -n argument")
                 print("> Time in seconds with -t argument")
                 print(
                     "> Number of logs to append to the leader with -l argument"
                 )
+                print("> To shuffle the node order with -r argument")
                 self.exit_code()
             self.module_virtual(args.t, args.n, args.r, args.l)
 
@@ -162,7 +163,9 @@ class RunDev:
 
         elif args.pmonitor:
             if args.e is None:
-                print("Please specify which example is currently running with -e argument")
+                print(
+                    "Please specify which example is currently running with -e argument"
+                )
                 print("^ this is needed for stack tracing and error decoding")
                 self.exit_code()
             self.module_monitor(example=args.e)
@@ -180,7 +183,8 @@ class RunDev:
     def module_monitor(self, example="basic", port=0):
         self.chown_ttyUSBX_to_user(port)
         self.run_command_in_docker(
-            f"cd library/examples/{example} && platformio device monitor --baud 115200 --filter esp8266_exception_decoder", True
+            f"cd library/examples/{example} && platformio device monitor --baud 115200 --filter esp8266_exception_decoder",
+            True,
         )
 
     def module_upload(self, example="basic", port=0):

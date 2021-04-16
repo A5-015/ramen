@@ -15,11 +15,10 @@ using namespace broth::message;
 using namespace broth::logger;
 
 _server::Server() :
-    _state(FOLLOWER),
-    _term(0),
-    _received_new_append_entry_request(false) {
-
-    };
+    _state(FOLLOWER), _term(0), _received_new_append_entry_request(false) {
+  // Seed the rand function with current time
+  std::srand(time(NULL));
+};
 
 void _server::init(string_t mesh_name,
                    string_t mesh_password,

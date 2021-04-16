@@ -6,6 +6,7 @@
 #ifndef _RAMEN_SERVER_HPP_
 #define _RAMEN_SERVER_HPP_
 
+#include <ctime>
 #include <unordered_map>
 #include <vector>
 

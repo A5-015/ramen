@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include <cxxopts.hpp>
 #include <thread>
 #include <vector>
@@ -38,6 +40,10 @@ int main(int argc, char** argv) {
 
   // Generate the nodes
   for(uint32_t i = 0; i < target_number_of_nodes; ++i) {
+    // sleeps for 2 second
+    unsigned int microsecond = 1000000;
+    usleep(2 * microsecond);
+
     // Generate node
     nodes.push_back(new Server());
 
