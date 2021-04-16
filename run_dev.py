@@ -44,6 +44,12 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-k",
+    type=int,
+    help="Sets leader kill time. Needs to be used in combination with --virtual",
+)
+
+parser.add_argument(
     "-p",
     type=int,
     help="The USB port to use, enter a number starting from 0. Needs to be used in combination with --pupload",
@@ -132,13 +138,14 @@ class RunDev:
             if (args.t is None) or (args.n is None) or (args.l is None):
                 print("Please specify: ")
                 print("> Number of nodes with -n argument")
-                print("> Time in seconds with -t argument")
+                print("> Simulation time in seconds with -t argument")
+                print("> Leader kill time in seconds with -k argument")
                 print(
                     "> Number of logs to append to the leader with -l argument"
                 )
                 print("> To shuffle the node order with -r argument")
                 self.exit_code()
-            self.module_virtual(args.t, args.n, args.r, args.l)
+            self.module_virtual(args.t, args.n, args.r, args.l, args.k)
 
         elif args.shell:
             self.module_shell()
@@ -236,13 +243,26 @@ class RunDev:
             % (self.project_path, os.path.join(self.project_path, ".cache"))
         )
 
-    def module_virtual(self, t, n, r, l):
+    def module_virtual(self, t, n, r, l, k):
         command = ""
 
+        if k is None:
+            k = 0
+
         if r:
-            command = "./bin/virtual_esp -t %s -n %s -l %s -r" % (t, n, l)
+            command = "./bin/virtual_esp -t %s -n %s -l %s -k %s -r" % (
+                t,
+                n,
+                l,
+                k,
+            )
         else:
-            command = "./bin/virtual_esp -t %s -n %s -l %s" % (t, n, l)
+            command = "./bin/virtual_esp -t %s -n %s -l %s -k %s " % (
+                t,
+                n,
+                l,
+                k,
+            )
 
         self.run_command_in_docker(
             "cd library"

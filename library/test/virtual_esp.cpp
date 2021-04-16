@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
     ("n,nodes", "number of nodes", cxxopts::value<int>()->default_value("3"))
     ("l,log_length", "number of logs to append", cxxopts::value<int>()->default_value("5"))
     ("r,random", "run nodes in the random order", cxxopts::value<bool>()->default_value("false"))
+    ("k,kill", "kill the leader at given time", cxxopts::value<int>()->default_value("0"))
     ;
   // clang-format on
 
@@ -28,6 +29,7 @@ int main(int argc, char** argv) {
   uint32_t target_number_of_nodes = result["nodes"].as<int>();
   bool random_enabled = result["random"].as<bool>();
   uint32_t target_number_of_logs = result["log_length"].as<int>();
+  uint32_t kill_leader_time = result["kill"].as<int>();
 
   std::vector<Server*> nodes;
 
@@ -77,8 +79,15 @@ int main(int argc, char** argv) {
     std::cout << "\n\033[95m>> Running in non-randomized mode\033[0m\n";
   }
 
+  if(kill_leader_time > 0) {
+    std::cout << "\n\033[95m>> I'm going to kill the leader @@ "
+              << kill_leader_time * 1000000 << " mesh time\033[0m\n";
+  } else {
+    std::cout << "\n\033[95m>> I'm not going to kill the leader\033[0m\n";
+  }
+
   std::cout << "\033[95m>> Will append " << target_number_of_logs
-            << " logs to the first leader\033[0m\n";
+            << " log(s) to the first leader\033[0m\n";
 
   std::cout << "\n\033[95m>> Calling broth::server::Server::update() in a "
                "loop for all nodes at random order:\033[0m\n";
@@ -90,10 +99,26 @@ int main(int argc, char** argv) {
   // Simulates loop() from Arduino //
   ///////////////////////////////////
   int flag = 0;
+  int kill_flag = (kill_leader_time > 0) ? 1 : 0;
   while(true) {
     // Shuffle the order
     if(random_enabled) {
       std::random_shuffle(nodes.begin(), nodes.end());
+    }
+
+    // Kill a leader at given time
+    if(kill_flag) {
+      if(nodes.back()->_mesh.getMeshTime() > (kill_leader_time * 1000000)) {
+        for(auto it = nodes.begin(); it != nodes.end(); ++it) {
+          if((*it)->getState() == LEADER) {
+            uint32_t term = (*it)->_term;
+            (*it)->switchState(FOLLOWER, term);
+            kill_flag = 0;
+            std::cout << "\033[95mJust killed leader " << (*it)->_id << " @@ "
+                      << (*it)->_mesh.getMeshTime() << " mesh time\033[0m\n";
+          }
+        }
+      }
     }
 
     // Iterate over the nodes based on the random order
@@ -117,7 +142,6 @@ int main(int argc, char** argv) {
     // Print the iteration number if anything was outputted to the terminal
     if((printed_output) && (iteration > 0)) {
       std::cout << "\033[95m^^ loop() iteration #" << iteration
-                << " @@ mesh time " << nodes.back()->_mesh.getMeshTime()
                 << "\033[0m\n\n";
     }
 
