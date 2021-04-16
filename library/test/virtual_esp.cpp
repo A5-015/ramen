@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
     // Print the iteration number if anything was outputted to the terminal
     if((printed_output) && (iteration > 0)) {
       std::cout << "\033[95m^^ loop() iteration #" << iteration
-                << " @ mesh time " << nodes.back()->_mesh.getMeshTime()
+                << " @@ mesh time " << nodes.back()->_mesh.getMeshTime()
                 << "\033[0m\n\n";
     }
 

@@ -77,7 +77,7 @@ class painlessMesh {
   bool sendBroadcast(string_t data, bool include_self = false) {
     if(include_self) {
       printf(ANSI_COLOR_GREEN
-             "[ID:%u @ %u] sendBroadcast was called with include "
+             "[ID:%u @@ %u] sendBroadcast was called with include "
              "self\n" ANSI_COLOR_RESET,
              this->_node_id,
              this->_mesh_time);
@@ -119,7 +119,7 @@ class painlessMesh {
         node.message_buffer_ptr->push_back(
             std::make_pair(this->_node_id, data));
         printf(ANSI_COLOR_GREEN
-               "[ID:%u @ %u] Sent message to node %u: %s\n" ANSI_COLOR_RESET,
+               "[ID:%u @@ %u] Sent message to node %u: %s\n" ANSI_COLOR_RESET,
                this->_node_id,
                this->_mesh_time,
                destination_id,
@@ -130,7 +130,7 @@ class painlessMesh {
 
     // Return false if the destination node was not found
     printf(ANSI_COLOR_RED
-           "[ID:%u @ %u] Requested destination id (%u) is not "
+           "[ID:%u @@ %u] Requested destination id (%u) is not "
            "found\n" ANSI_COLOR_RESET,
            this->_node_id,
            this->_mesh_time,
@@ -173,7 +173,7 @@ class painlessMesh {
       auto message = this->_message_buffer.front();
 
       printf(ANSI_COLOR_CYAN
-             "[ID:%u @ %u] New message from %u: %s\n" ANSI_COLOR_RESET,
+             "[ID:%u @@ %u] New message from %u: %s\n" ANSI_COLOR_RESET,
              this->_node_id,
              this->_mesh_time,
              message.first,

@@ -67,14 +67,14 @@ void _server::update() {
     //////////////////////
     // State => FOLLOWER
     //////////////////////
-    if(this->_state == FOLLOWER) {
+    if(this->getState() == FOLLOWER) {
       this->checkForElectionAlarmTimeout();
     }
 
     //////////////////////
     // State => CANDIDATE
     //////////////////////
-    else if(this->_state == CANDIDATE) {
+    else if(this->getState() == CANDIDATE) {
       this->checkForElectionAlarmTimeout();
 
       // Slow down with timer
@@ -86,7 +86,7 @@ void _server::update() {
     //////////////////////
     // State => LEADER
     //////////////////////
-    else if(this->_state == LEADER) {
+    else if(this->getState() == LEADER) {
       this->_commit_index =
           std::max(this->_commit_index, this->_log.getMajorityCommitIndex());
 
@@ -117,9 +117,16 @@ void _server::switchState(ServerState state, uint32_t term) {
       this->_state = LEADER;
       this->_log.resetNextIndexMap(&nodeList, this->_log.getLogSize() + 1);
       this->_election_alarm = INFINITY;
+      this->_logger(DEBUG,
+                    "Current state: LEADER @ %u\n",
+                    this->_mesh.getNodeTime());
       break;
     }
     case CANDIDATE: {
+      this->_state = CANDIDATE;
+      this->_logger(DEBUG,
+                    "Current state: CANDIDATE @ %u\n",
+                    this->_mesh.getNodeTime());
       break;
     }
     case FOLLOWER: {
@@ -131,6 +138,9 @@ void _server::switchState(ServerState state, uint32_t term) {
       this->_state = state;
       this->_term = term;
       this->_voted_for = 0;
+      this->_logger(DEBUG,
+                    "Current state: FOLLOWER @ %u\n",
+                    this->_mesh.getNodeTime());
       break;
     }
     default:
@@ -147,7 +157,7 @@ void _server::setElectionAlarmValue(uint32_t min_val) {
       (min_val + (std::rand() % 10)) * ELECTION_TIMEOUT_FACTOR;
   this->_previous_node_time = _mesh.getNodeTime();
   this->_logger(DEBUG,
-                "Set the election alarm %u duration from now, which is %u @ "
+                "Set the election alarm %u duration from now, which is @ %u "
                 "mesh time\n",
                 this->_election_alarm,
                 this->_mesh.getNodeTime() + this->_election_alarm);
@@ -165,11 +175,11 @@ void _server::checkForElectionAlarmTimeout() {
   } else {
     if((uint32_t)(current_node_time - this->_previous_node_time) >=
        this->_election_alarm) {
-      this->_logger(DEBUG,
-                    "Current time = %u, Previous time = %u, Difference = %u\n",
-                    current_node_time,
-                    this->_previous_node_time,
-                    (uint32_t)(current_node_time - this->_previous_node_time));
+      // this->_logger(DEBUG,
+      //               "Current time = %u, Previous time = %u, Difference =
+      //               %u\n", current_node_time, this->_previous_node_time,
+      //               (uint32_t)(current_node_time -
+      //               this->_previous_node_time));
       // Start an election and restart the timer
       this->startNewElection();
       this->setElectionAlarmValue();
@@ -184,7 +194,7 @@ void _server::startNewElection() {
 
   this->_term += 1;
   this->_voted_for = this->_id;
-  this->_state = CANDIDATE;
+  this->switchState(CANDIDATE);
 
   // Reinitialize list of votes granted
   delete this->_votes_received_ptr;
@@ -198,7 +208,7 @@ void _server::startNewElection() {
   this->_log.resetMatchIndexMap(&nodeList, 0);
   this->_log.resetNextIndexMap(&nodeList, 1);
 
-  this->_logger(DEBUG, "Started election at %u\n", _mesh.getNodeTime());
+  this->_logger(DEBUG, "Started election @ %u\n", _mesh.getNodeTime());
 };
 
 bool _server::getElectionResults() {
@@ -321,7 +331,7 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
   // Update votes received map
   bool granted = data[GRANTED_FIELD_KEY];
 
-  if(this->_state == CANDIDATE &&
+  if(this->getState() == CANDIDATE &&
      this->_term == (uint32_t) data[TERM_FIELD_KEY]) {
     // Store received vote in votes received map
     (*(this->_votes_received_ptr))[sender] = granted;
@@ -329,11 +339,11 @@ void _server::handleVoteResponse(uint32_t sender, DynamicJsonDocument& data) {
 
     // Check for election results
     if(this->getElectionResults()) {
-      this->_logger(DEBUG, "Won the election at %u\n", _mesh.getNodeTime());
+      this->_logger(DEBUG, "Won the election @ %u\n", _mesh.getNodeTime());
       this->switchState(LEADER);
     } else {
       this->_logger(DEBUG,
-                    "Did not win the election at %u\n",
+                    "Did not win the election @ %u\n",
                     this->_mesh.getNodeTime());
     }
   }
@@ -476,9 +486,9 @@ bool _server::distribute(string_t data, bool ack) {
   // TODO: Check for ack and push ack into the queue
   this->_data_queue.push(data);
 
-  this->_logger(DEBUG, "I called distribute to share: \n");
-  this->_logger(DEBUG, data);
-  this->_logger(DEBUG, "\n");
+  // this->_logger(DEBUG, "I called distribute to share: \n");
+  // this->_logger(DEBUG, data);
+  // this->_logger(DEBUG, "\n");
 
   return ((ack == false) ? true : success);
 };
@@ -499,15 +509,15 @@ void _server::moveDataFromQueueToLog(uint32_t sender,
     this->_mesh.sendMessageToNode(sender, message.serialize());
   }
 
-  this->_logger(DEBUG, "I moved data from my queue to  my log: \n");
-  this->_logger(DEBUG, received_data);
-  this->_logger(DEBUG, "\n");
+  // this->_logger(DEBUG, "I moved data from my queue to  my log: \n");
+  // this->_logger(DEBUG, received_data);
+  // this->_logger(DEBUG, "\n");
 };
 
 void _server::sendLocalQueueDataToLeaderQueue() {
   // Pop from data queue only if it is not empty
   if(!(this->_data_queue.checkEmpty())) {
-    if(this->_state == LEADER) {
+    if(this->getState() == LEADER) {
       string_t data = this->_data_queue.pop();
 
       // Push to own log
