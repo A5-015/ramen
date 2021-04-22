@@ -26,11 +26,11 @@ import run_coracle
 import sim_config_json
 
 filename = "test.json"
-num_simulations = 50
+num_simulations = 100
 down_time = 500
 
-# areas = [100, 200, 500, 700]
-areas = [100]
+areas = [100, 200, 500, 700]
+# areas = [100]
 num_nodes = [10, 20, 50, 100]
 
 
@@ -94,6 +94,7 @@ for a in areas:
         color="b",
         ms=np.sqrt(30),
         capsize=3,
+        label="Mesh Network",
     )
 
     axs[1].errorbar(
@@ -101,31 +102,12 @@ for a in areas:
         election_win_ratio,
         fmt="o",
         yerr=election_win_error,
-        color="g",
+        color="b",
         ms=np.sqrt(30),
         capsize=3,
     )
 
-    fig.suptitle(
-        r"Mesh Network Simulation Results with Varying Network Sizes in a ${0} unit^2$ Area".format(
-            a * a
-        )
-    )
-    plt.savefig(str(a) + "unit^2_mesh.png", dpi=300)
-
     ## STAR NETWORK
-
-    fig, axs = plt.subplots(1, 2, figsize=(12.8, 4.8))
-
-    axs[0].set_ylim([0, 1.1])
-    axs[0].set_xlabel("Number of Nodes")
-    axs[0].set_ylabel("Average Packet Success Ratio")
-    # axs[0].set_title(label="Packet Success Ratio Against Mesh Network Size")
-
-    axs[1].set_ylim([-0.1, 1.1])
-    axs[1].set_xlabel("Number of Nodes")
-    axs[1].set_ylabel("Average Election Win Ratio")
-    # axs[1].set_title(label="Election Win Ratio Against Mesh Network Size")
 
     for n, i in zip(num_nodes, range(len(num_nodes))):
 
@@ -161,9 +143,9 @@ for a in areas:
     axs[0].errorbar(
         num_nodes,
         packet_success_data,
-        fmt="o",
+        fmt="^",
         yerr=packet_success_error,
-        color="b",
+        color="g",
         ms=np.sqrt(30),
         capsize=3,
     )
@@ -171,18 +153,22 @@ for a in areas:
     axs[1].errorbar(
         num_nodes,
         election_win_ratio,
-        fmt="o",
+        fmt="^",
         yerr=election_win_error,
         color="g",
         ms=np.sqrt(30),
         capsize=3,
+        label="Hub-Spoke Network",
     )
 
     fig.suptitle(
-        r"Hub-Spoke Network Simulation Results with Varying Network Sizes in a ${0} unit^2$ Area".format(
+        r"Network Simulation Results with Varying Network Sizes in a ${0} unit^2$ Area".format(
             a * a
         )
     )
-    plt.savefig(str(a) + "unit^2_star.png", dpi=300)
+
+    # fig.legend(bbox_to_anchor=(0.0, 0.45, 0.5, 0.5), ncol=2)
+    fig.legend(loc=1, ncol=1)
+    plt.savefig(str(a) + "unit^2.png", dpi=300)
 
     print("\nCompleted experiments for {0}x{0} area!\n".format(a))
