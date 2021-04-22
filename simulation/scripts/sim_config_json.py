@@ -429,15 +429,19 @@ def main(arguments):
     parser.add_argument("--protocol", help="The consensus algorithm", default="raft")
     parser.add_argument(
         "--election_min",
+        type=int,
         help="The minimum time for the election timeout",
         default=60,
     )
     parser.add_argument(
         "--election_max",
+        type=int,
         help="The minimum time for the election timeout",
         default=300,
     )
-    parser.add_argument("--heartbeat", help="The heartbeat interval", default=30)
+    parser.add_argument(
+        "--heartbeat", type=int, help="The heartbeat interval", default=30
+    )
     parser.add_argument("-t", "--topology", help="The network topology", default="mesh")
     parser.add_argument(
         "--width",
