@@ -89,6 +89,21 @@ int main(int argc, char** argv) {
   std::cout << "\033[95m>> Will append " << target_number_of_logs
             << " log(s) to the first leader\033[0m\n";
 
+  std::cout << "\033[95m>> RAFT_TIMER_PERIOD is " << RAFT_TIMER_PERIOD
+            << " \033[0m\n";
+
+  std::cout << "\033[95m>> REQUEST_VOTE_TIMER_PERIOD is "
+            << REQUEST_VOTE_TIMER_PERIOD << " \033[0m\n";
+
+  std::cout << "\033[95m>> HEART_BEAT_TIMER_PERIOD is "
+            << HEART_BEAT_TIMER_PERIOD << " \033[0m\n";
+
+  std::cout << "\033[95m>> REQUEST_APPEND_ENTRY_PERIOD is "
+            << REQUEST_APPEND_ENTRY_PERIOD << " \033[0m\n";
+
+  std::cout << "\033[95m>> ELECTION_TIMEOUT_FACTOR is "
+            << ELECTION_TIMEOUT_FACTOR << " \033[0m\n";
+
   std::cout << "\n\033[95m>> Calling broth::server::Server::update() in a "
                "loop for all nodes at random order:\033[0m\n";
 
