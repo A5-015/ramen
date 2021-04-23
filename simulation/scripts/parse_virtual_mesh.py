@@ -8,18 +8,124 @@ from matplotlib.ticker import MaxNLocator
 from scipy.stats import sem
 
 time = 1
-kill_leader_at_time = 0
-n_logs_to_append = 1
+one_sec = 1000000
+n_run_for_each = 2
 
 
 def main():
+    n_nodes_test(n_nodes_to_test=[3, 5, 10, 20, 30, 50, 80, 100])
+    heart_beat_test(
+        heart_beat_periods_to_test=[
+            0.25 * one_sec,
+            0.5 * one_sec,
+            0.75 * one_sec,
+            1 * one_sec,
+            1.25 * one_sec,
+            1.5 * one_sec,
+        ],
+        n_nodes=5,
+    )
 
-    n_nodes_to_test = [3, 5, 10, 20, 30, 50, 80, 100]
+
+def heart_beat_test(heart_beat_periods_to_test, n_nodes):
     average_election_duration_results = []
     average_election_duration_results_err = []
     election_win_ratio_results = []
     election_win_ratio_results_err = []
-    n_run_for_each = 2
+
+    for heart_beat_period in heart_beat_periods_to_test:
+        n_run_average_election_duration_results = []
+        n_run_election_win_ratio_results = []
+
+        # Run same test n_run_for_each times
+        for n_run in range(n_run_for_each):
+
+            heart_beat_period = int(heart_beat_period)
+
+            print(
+                f"Running the simulation with {n_nodes} node(s) for {time} second(s) with HEART_BEAT_TIMER_PERIOD = {heart_beat_period} us"
+            )
+
+            define_flag = f"#define HEART_BEAT_TIMER_PERIOD {heart_beat_period}"
+
+            average_election_duration, election_win_ratio = run_simulation(
+                time=time,
+                n_nodes=n_nodes,
+                define_flag=define_flag,
+            )
+
+            print(f"Average time to win election: {average_election_duration}")
+            print(
+                f"Ratio of elections won those those started: {election_win_ratio}"
+            )
+
+            n_run_average_election_duration_results.append(
+                average_election_duration
+            )
+            n_run_election_win_ratio_results.append(election_win_ratio)
+
+        # Append the average of the runs
+        average_election_duration_results.append(
+            int(avg(n_run_average_election_duration_results))
+        )
+
+        # Calculate standard error
+        average_election_duration_results_err.append(
+            int(
+                np.std(n_run_average_election_duration_results)
+                / np.sqrt(np.size(n_run_average_election_duration_results))
+            )
+        )
+
+        # Append the average of the runs
+        election_win_ratio_results.append(
+            int(avg(n_run_election_win_ratio_results))
+        )
+
+        # Calculate standard error
+        election_win_ratio_results_err.append(
+            int(
+                np.std(n_run_election_win_ratio_results)
+                / np.sqrt(np.size(n_run_election_win_ratio_results))
+            )
+        )
+
+    pprint(
+        {
+            "heart_beat_plot_data": {
+                "hear_beat_periods_to_test": heart_beat_periods_to_test,
+                "time": time,
+                "n_nodes": n_nodes,
+                "average_election_duration_results": average_election_duration_results,
+                "average_election_duration_results_err": average_election_duration_results_err,
+                "election_win_ratio_results": election_win_ratio_results,
+                "election_win_ratio_results_err": election_win_ratio_results_err,
+            }
+        }
+    )
+
+    plot(
+        title_1="Average time to win election",
+        title_2="Ratio of elections won those those started",
+        x_1=heart_beat_periods_to_test,
+        y_1=average_election_duration_results,
+        y_1_err=average_election_duration_results_err,
+        x_1_label="Heartbeat Period",
+        y_1_label="Average Election Duration",
+        x_2=heart_beat_periods_to_test,
+        y_2=election_win_ratio_results,
+        y_2_err=election_win_ratio_results_err,
+        x_2_label="Heartbeat Period",
+        y_2_label="Average Election Win Ratio",
+        fig_name="heart_beat.png",
+    )
+
+
+def n_nodes_test(n_nodes_to_test):
+    average_election_duration_results = []
+    average_election_duration_results_err = []
+    election_win_ratio_results = []
+    election_win_ratio_results_err = []
 
     for n_nodes in n_nodes_to_test:
         n_run_average_election_duration_results = []
@@ -29,11 +135,12 @@ def main():
         for n_run in range(n_run_for_each):
 
             print(
-                f"Running the simulation with {n_nodes} node(s) for {time} second(s) and will kill the leader at t={kill_leader_at_time}"
+                f"Running the simulation with {n_nodes} node(s) for {time} second(s)"
             )
 
             average_election_duration, election_win_ratio = run_simulation(
-                time, kill_leader_at_time, n_nodes, n_logs_to_append
+                time=time,
+                n_nodes=n_nodes,
             )
 
             print(f"Average time to win election: {average_election_duration}")
@@ -75,8 +182,6 @@ def main():
     pprint(
         {
             "n_nodes_plot_data": {
-                "n_logs_to_append": n_logs_to_append,
-                "kill_leader_at_time": kill_leader_at_time,
                 "time": time,
                 "n_nodes_to_test": n_nodes_to_test,
                 "average_election_duration_results": average_election_duration_results,
@@ -174,18 +279,73 @@ def get_at_time(line):
     return pieces[1].strip().split(" ")[0].strip()
 
 
-def run_simulation(time, kill_leader_at_time, n_nodes, n_logs_to_append):
+def run_simulation(
+    time,
+    n_nodes,
+    kill_leader_at_time=0,
+    n_logs_to_append=1,
+    define_flag=None,
+    election_min=None,
+    election_max=None,
+):
     """
     Runs ramen with given parameters
     """
-    # command = f"cd ../../library && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}"
-    # output = subprocess.check_output(command, shell=True, text=True)
 
-    # f = open("output.txt", "r")
-    # output = f.read()
+    if define_flag is not None:
+        try:
+            # Reset the cpp file
+            command = (
+                f"cd ../../library && git checkout HEAD -- test/virtual_esp.cpp"
+            )
+            output = subprocess.check_output(command, shell=True, text=True)
 
-    command = f"cd ../../library && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}"
-    output = subprocess.check_output(command, shell=True, text=True)
+            # Run sim
+            command = f"cd ../../library && sed -i '1 i\{define_flag} /\/\ please remove me' test/virtual_esp.cpp && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}"
+            output = subprocess.check_output(command, shell=True, text=True)
+
+        finally:
+            # Reset the cpp file
+            command = (
+                f"cd ../../library && git checkout HEAD -- test/virtual_esp.cpp"
+            )
+            output = subprocess.check_output(command, shell=True, text=True)
+
+    elif (election_min is not None) and (election_max is not None):
+        try:
+            # Reset the cpp file
+            command = (
+                f"cd ../../library && git checkout HEAD -- src/ramen/server.cpp"
+            )
+            output = subprocess.check_output(command, shell=True, text=True)
+
+            # Run sim
+            command = f'cd ../../library && sed -i "s/(min_val + (std::rand() % 10)) \* ELECTION_TIMEOUT_FACTOR/({election_min} + (std::rand() % {election_max}))/g" src/ramen/server.cpp && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}'
+            output = subprocess.check_output(command, shell=True, text=True)
+
+        finally:
+            # Reset the cpp file
+            command = (
+                f"cd ../../library && git checkout HEAD -- src/ramen/server.cpp"
+            )
+            output = subprocess.check_output(command, shell=True, text=True)
+
+    else:
+        # Reset the cpp file
+        command = (
+            f"cd ../../library && git checkout HEAD -- src/ramen/server.cpp"
+        )
+        output = subprocess.check_output(command, shell=True, text=True)
+
+        # Reset the cpp file
+        command = (
+            f"cd ../../library && git checkout HEAD -- test/virtual_esp.cpp"
+        )
+        output = subprocess.check_output(command, shell=True, text=True)
+
+        # Run sim
+        command = f"cd ../../library && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}"
+        output = subprocess.check_output(command, shell=True, text=True)
 
     # Parse the output and get related lines
     result = re.findall("(.*(?: @ ).*)", output)
@@ -259,7 +419,12 @@ def run_simulation(time, kill_leader_at_time, n_nodes, n_logs_to_append):
                     average_election_duration + election["election_duration"]
                 ) / 2
 
-    election_win_ratio = (n_successful_election / total_election_count) * 100
+    if total_election_count == 0:
+        election_win_ratio = 0
+    else:
+        election_win_ratio = (
+            n_successful_election / total_election_count
+        ) * 100
 
     return average_election_duration, election_win_ratio
 
