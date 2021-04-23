@@ -4,53 +4,152 @@ from pprint import pprint
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.ticker import MaxNLocator
+from scipy.stats import sem
 
-time = 10
+time = 1
 kill_leader_at_time = 0
 n_logs_to_append = 1
 
 
 def main():
 
-    n_nodes_to_test = [1, 2, 3, 4, 5, 10, 15, 20, 30]
+    n_nodes_to_test = [3, 5, 10, 20, 30, 50, 80, 100]
     average_election_duration_results = []
+    average_election_duration_results_err = []
     election_win_ratio_results = []
+    election_win_ratio_results_err = []
+    n_run_for_each = 2
 
     for n_nodes in n_nodes_to_test:
-        print(
-            f"Running the simulation with {n_nodes} node(s) for {time} second(s) and will kill the leader at t={kill_leader_at_time}"
+        n_run_average_election_duration_results = []
+        n_run_election_win_ratio_results = []
+
+        # Run same test n_run_for_each times
+        for n_run in range(n_run_for_each):
+
+            print(
+                f"Running the simulation with {n_nodes} node(s) for {time} second(s) and will kill the leader at t={kill_leader_at_time}"
+            )
+
+            average_election_duration, election_win_ratio = run_simulation(
+                time, kill_leader_at_time, n_nodes, n_logs_to_append
+            )
+
+            print(f"Average time to win election: {average_election_duration}")
+            print(
+                f"Ratio of elections won those those started: {election_win_ratio}"
+            )
+
+            n_run_average_election_duration_results.append(
+                average_election_duration
+            )
+            n_run_election_win_ratio_results.append(election_win_ratio)
+
+        # Append the average of the runs
+        average_election_duration_results.append(
+            int(avg(n_run_average_election_duration_results))
         )
 
-        average_election_duration, election_win_ratio = run_simulation(
-            time, kill_leader_at_time, n_nodes, n_logs_to_append
+        # Calculate standard error
+        average_election_duration_results_err.append(
+            int(
+                np.std(n_run_average_election_duration_results)
+                / np.sqrt(np.size(n_run_average_election_duration_results))
+            )
         )
 
-        print(f"Average time to win election: {average_election_duration}")
-        print(f"Ratio of elections won those those started: {election_win_ratio}")
+        # Append the average of the runs
+        election_win_ratio_results.append(
+            int(avg(n_run_election_win_ratio_results))
+        )
 
-        average_election_duration_results.append(average_election_duration)
-        election_win_ratio_results.append(election_win_ratio)
+        # Calculate standard error
+        election_win_ratio_results_err.append(
+            int(
+                np.std(n_run_election_win_ratio_results)
+                / np.sqrt(np.size(n_run_election_win_ratio_results))
+            )
+        )
 
     pprint(
         {
-            "plot_data": {
+            "n_nodes_plot_data": {
                 "n_logs_to_append": n_logs_to_append,
                 "kill_leader_at_time": kill_leader_at_time,
                 "time": time,
                 "n_nodes_to_test": n_nodes_to_test,
                 "average_election_duration_results": average_election_duration_results,
+                "average_election_duration_results_err": average_election_duration_results_err,
                 "election_win_ratio_results": election_win_ratio_results,
+                "election_win_ratio_results_err": election_win_ratio_results_err,
             }
         }
     )
 
-    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 6))
-    axes[0].set_title("Average time to win election")
-    axes[0].plot(n_nodes_to_test, average_election_duration_results)
-    axes[1].set_title("Ratio of elections won those those started")
-    axes[1].plot(n_nodes_to_test, election_win_ratio_results)
-    fig.tight_layout()
-    plt.savefig("test_n_nodes.png")
+    plot(
+        title_1="Average time to win election",
+        title_2="Ratio of elections won those those started",
+        x_1=n_nodes_to_test,
+        y_1=average_election_duration_results,
+        y_1_err=average_election_duration_results_err,
+        x_1_label="Number of Nodes",
+        y_1_label="Average Election Duration",
+        x_2=n_nodes_to_test,
+        y_2=election_win_ratio_results,
+        y_2_err=election_win_ratio_results_err,
+        x_2_label="Number of Nodes",
+        y_2_label="Average Election Win Ratio",
+        fig_name="test_n_nodes.png",
+    )
+
+
+def plot(
+    title_1,
+    title_2,
+    x_1,
+    y_1,
+    y_1_err,
+    x_1_label,
+    y_1_label,
+    x_2,
+    y_2,
+    y_2_err,
+    x_2_label,
+    y_2_label,
+    fig_name,
+):
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12.8, 4.8))
+    axes[0].set_title(title_1)
+    axes[0].scatter(x_1, y_1)
+    axes[0].errorbar(
+        x_1,
+        y_1,
+        yerr=y_1_err,
+        fmt="o",
+        capsize=3,
+    )
+    axes[0].set_xlabel(x_1_label)
+    axes[0].set_ylabel(y_1_label)
+
+    axes[1].set_title(title_2)
+    axes[1].scatter(x_2, y_2)
+    axes[1].errorbar(
+        x_2,
+        y_2,
+        yerr=y_2_err,
+        fmt="o",
+        capsize=3,
+    )
+    axes[1].set_xlabel(x_2_label)
+    axes[1].set_ylabel(y_2_label)
+
+    # fig.tight_layout()
+    plt.savefig(fig_name, dpi=300)
+
+
+def avg(lst):
+    return sum(lst) / len(lst)
 
 
 def get_node_id(line):
@@ -124,7 +223,9 @@ def run_simulation(time, kill_leader_at_time, n_nodes, n_logs_to_append):
             all_elections[node_id][-1] = last_election_item
 
             # Make sure that the data makes sense
-            assert last_election_item["lost_at"] > last_election_item["started_at"]
+            assert (
+                last_election_item["lost_at"] > last_election_item["started_at"]
+            )
 
         # Fill in election won times
         if "Won the election" in line:
@@ -141,7 +242,9 @@ def run_simulation(time, kill_leader_at_time, n_nodes, n_logs_to_append):
             all_elections[node_id][-1] = last_election_item
 
             # Make sure that the data makes sense
-            assert last_election_item["won_at"] > last_election_item["started_at"]
+            assert (
+                last_election_item["won_at"] > last_election_item["started_at"]
+            )
 
     # Calculate the statistics
     average_election_duration = 0
