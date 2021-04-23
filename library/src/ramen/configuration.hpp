@@ -9,14 +9,26 @@
 // vvvvvvvvvvvvvvvvvvvv //
 
 // In microseconds
-#define RAFT_TIMER_PERIOD           100000
-#define REQUEST_VOTE_TIMER_PERIOD   RAFT_TIMER_PERIOD * 2
-#define HEART_BEAT_TIMER_PERIOD     RAFT_TIMER_PERIOD * 5
-#define REQUEST_APPEND_ENTRY_PERIOD HEART_BEAT_TIMER_PERIOD * 3
+#ifndef RAFT_TIMER_PERIOD
+  #define RAFT_TIMER_PERIOD 100000
+#endif
+#ifndef REQUEST_VOTE_TIMER_PERIOD
+  #define REQUEST_VOTE_TIMER_PERIOD RAFT_TIMER_PERIOD * 2
+#endif
+#ifndef HEART_BEAT_TIMER_PERIOD
+  #define HEART_BEAT_TIMER_PERIOD RAFT_TIMER_PERIOD * 5
+#endif
+#ifndef REQUEST_APPEND_ENTRY_PERIOD
+  #define REQUEST_APPEND_ENTRY_PERIOD HEART_BEAT_TIMER_PERIOD * 3
+#endif
 
-#define ELECTION_TIMEOUT_FACTOR 100000
+#ifndef ELECTION_TIMEOUT_FACTOR
+  #define ELECTION_TIMEOUT_FACTOR 100000
+#endif
 
-#define HEART_BEAT_MESSAGE "__heart_beat__"
+#ifndef HEART_BEAT_MESSAGE
+  #define HEART_BEAT_MESSAGE "__heart_beat__"
+#endif
 
 // Message buffer sizes
 // Check https://arduinojson.org/v6/assistant/ to figure out the right payload
