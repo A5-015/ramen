@@ -16,14 +16,14 @@ import run_coracle
 import sim_config_json
 
 filename = "test.json"
-num_simulations = 10
+num_simulations = 50
 
 # metrics
+number_of_nodes = [3, 5, 10, 20, 30, 50, 80, 100]
 heart_beat_periods = [60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720]
-# election_max = [120, 180, 240, 300, 360, 420, 480, 540, 600, 660]
-metric = heart_beat_periods
+election_max = [200, 300, 400, 500, 600, 700, 800, 900, 1000]
+metric = number_of_nodes
 
-num_nodes = 50
 down_time = 0
 
 time_first_leader_data = [None] * len(metric)
@@ -36,24 +36,24 @@ election_win_error = [None] * len(metric)
 fig, axs = plt.subplots(1, 2, figsize=(12.8, 4.8))
 
 # axs[0].set_ylim([0, 1.1])
-axs[0].set_xlabel("Heartbeat Intervals")
+axs[0].set_xlabel("Number of Nodes")
 axs[0].set_ylabel("Average Time to First Leader")
 # axs[0].set_title(label="Packet Success Ratio Against Mesh Network Size")
 
 # axs[1].set_ylim([-0.1, 1.1])
-axs[1].set_xlabel("Heartbeat Intervals")
+axs[1].set_xlabel("Number of Nodes")
 axs[1].set_ylabel("Average Election Win Ratio")
 # axs[1].set_title(label="Election Win Ratio Against Mesh Network Size")
 
 for h, i in zip(metric, range(len(metric))):
 
     print(
-        "Simulating {0} mesh experiments with {1} nodes with a {2} hearbeat interval".format(
-            num_simulations, num_nodes, h
+        "[{1}/{2}] Simulating {0} mesh experiments...".format(
+            num_simulations, i + 1, len(metric)
         )
     )
 
-    # HEART BEAT
+    # NUMBER OF NODES
     sim_config_json.main(
         [
             "-o",
@@ -61,11 +61,23 @@ for h, i in zip(metric, range(len(metric))):
             "-t",
             "mesh",
             "-n",
-            str(num_nodes),
-            "--heartbeat",
             str(h),
         ]
     )
+
+    # # HEART BEAT
+    # sim_config_json.main(
+    #     [
+    #         "-o",
+    #         filename,
+    #         "-t",
+    #         "mesh",
+    #         "-n",
+    #         str(20),
+    #         "--heartbeat",
+    #         str(h),
+    #     ]
+    # )
 
     # # ELECTION MAX
     # sim_config_json.main(
@@ -75,7 +87,7 @@ for h, i in zip(metric, range(len(metric))):
     #         "-t",
     #         "mesh",
     #         "-n",
-    #         str(num_nodes),
+    #         str(20),
     #         "--election_max",
     #         str(h),
     #     ]
@@ -111,10 +123,8 @@ axs[1].errorbar(
     capsize=3,
 )
 
-fig.suptitle(r"Mesh Network Simulation Results with Varying Raft Parameters")
+fig.suptitle(r"Mesh Network Coracle Simulation Results with Varying Network Size")
 
 # fig.legend(bbox_to_anchor=(0.0, 0.45, 0.5, 0.5), ncol=2)
-fig.legend(loc=1, ncol=1)
+# fig.legend(loc=1, ncol=1)
 plt.savefig("test " + "unit^2.png", dpi=300)
-
-print("\nCompleted experiments for {0} heartbeat interval!\n".format(h))
