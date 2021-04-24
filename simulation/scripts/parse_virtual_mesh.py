@@ -14,7 +14,7 @@ time = 60
 
 
 def main():
-    n_nodes_test(n_nodes_to_test=[3, 5, 10, 20, 30, 50, 80, 100])
+    # n_nodes_test(n_nodes_to_test=[3, 5, 10, 20, 30, 50, 80, 100])
     # heart_beat_test(
     #     heart_beat_periods_to_test=[
     #         0.25 * one_sec,
@@ -26,20 +26,10 @@ def main():
     #     ],
     #     n_nodes=5,
     # )
-    # election_timeout_test(
-    #     election_timeouts_to_test=[
-    #         [0.1 * one_sec, 0.2 * one_sec],
-    #         [0.1 * one_sec, 0.3 * one_sec],
-    #         [0.1 * one_sec, 0.4 * one_sec],
-    #         [0.1 * one_sec, 0.5 * one_sec],
-    #         [0.1 * one_sec, 0.6 * one_sec],
-    #         [0.1 * one_sec, 0.7 * one_sec],
-    #         [0.1 * one_sec, 0.8 * one_sec],
-    #         [0.1 * one_sec, 0.9 * one_sec],
-    #         [0.1 * one_sec, 1 * one_sec],
-    #     ],
-    #     n_nodes=5,
-    # )
+    election_timeout_test(
+        election_timeouts_to_test=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        n_nodes=5,
+    )
 
 
 def election_timeout_test(election_timeouts_to_test, n_nodes):
@@ -55,18 +45,14 @@ def election_timeout_test(election_timeouts_to_test, n_nodes):
         # Run same test n_run_for_each times
         for n_run in range(n_run_for_each):
 
-            election_timeout_min = int(election_timeout[0])
-            election_timeout_max = int(election_timeout[1])
-
             print(
-                f"Running the simulation with {n_nodes} node(s) for {time} second(s) with min election timout of {election_timeout_min} us and max election timeout of {election_timeout_max}"
+                f"Running the simulation with {n_nodes} node(s) for {time} second(s) with max election timeout of {election_timeout}"
             )
 
             average_election_duration, election_win_ratio = run_simulation(
                 time=time,
                 n_nodes=n_nodes,
-                election_min=election_timeout_min,
-                election_max=election_timeout_max,
+                election_max=election_timeout,
             )
 
             print(f"Average time to win election: {average_election_duration}")
@@ -122,12 +108,12 @@ def election_timeout_test(election_timeouts_to_test, n_nodes):
     plot(
         title_1="Average time to win election",
         title_2="Ratio of elections won those those started",
-        x_1=[x[1] for x in election_timeouts_to_test],
+        x_1=election_timeouts_to_test,
         y_1=average_election_duration_results,
         y_1_err=average_election_duration_results_err,
         x_1_label="Election Timeout Period",
         y_1_label="Average Election Duration",
-        x_2=[x[1] for x in election_timeouts_to_test],
+        x_2=election_timeouts_to_test,
         y_2=election_win_ratio_results,
         y_2_err=election_win_ratio_results_err,
         x_2_label="Election Timeout Period",
@@ -394,7 +380,6 @@ def run_simulation(
     kill_leader_at_time=0,
     n_logs_to_append=1,
     define_flag=None,
-    election_min=None,
     election_max=None,
 ):
     """
@@ -407,7 +392,7 @@ def run_simulation(
             command = (
                 f"cd ../../library && git checkout HEAD -- test/virtual_esp.cpp"
             )
-            output = subprocess.check_output(command, shell=True, text=True)
+            subprocess.check_output(command, shell=True, text=True)
 
             # Run sim
             command = f"cd ../../library && sed -i '1 i\{define_flag} /\/\ please remove me' test/virtual_esp.cpp && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}"
@@ -418,18 +403,18 @@ def run_simulation(
             command = (
                 f"cd ../../library && git checkout HEAD -- test/virtual_esp.cpp"
             )
-            output = subprocess.check_output(command, shell=True, text=True)
+            subprocess.check_output(command, shell=True, text=True)
 
-    elif (election_min is not None) and (election_max is not None):
+    elif election_max is not None:
         try:
             # Reset the cpp file
             command = (
                 f"cd ../../library && git checkout HEAD -- src/ramen/server.cpp"
             )
-            output = subprocess.check_output(command, shell=True, text=True)
+            subprocess.check_output(command, shell=True, text=True)
 
             # Run sim
-            command = f'cd ../../library && sed -i "s/(min_val + (std::rand() % 10)) \* ELECTION_TIMEOUT_FACTOR/({election_min} + (std::rand() % {election_max}))/g" src/ramen/server.cpp && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}'
+            command = f'cd ../../library && sed -i "s/(min_val + (std::rand() % 10)) \* ELECTION_TIMEOUT_FACTOR/(min_val + (std::rand() % {election_max})) \* ELECTION_TIMEOUT_FACTOR/g" src/ramen/server.cpp && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}'
             output = subprocess.check_output(command, shell=True, text=True)
 
         finally:
@@ -437,20 +422,20 @@ def run_simulation(
             command = (
                 f"cd ../../library && git checkout HEAD -- src/ramen/server.cpp"
             )
-            output = subprocess.check_output(command, shell=True, text=True)
+            subprocess.check_output(command, shell=True, text=True)
 
     else:
         # Reset the cpp file
         command = (
             f"cd ../../library && git checkout HEAD -- src/ramen/server.cpp"
         )
-        output = subprocess.check_output(command, shell=True, text=True)
+        subprocess.check_output(command, shell=True, text=True)
 
         # Reset the cpp file
         command = (
             f"cd ../../library && git checkout HEAD -- test/virtual_esp.cpp"
         )
-        output = subprocess.check_output(command, shell=True, text=True)
+        subprocess.check_output(command, shell=True, text=True)
 
         # Run sim
         command = f"cd ../../library && cmake . && make virtual_esp && ./bin/virtual_esp -t {time} -n {n_nodes} -l {n_logs_to_append} -k {kill_leader_at_time}"
