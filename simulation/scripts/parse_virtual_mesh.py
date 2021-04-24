@@ -15,21 +15,24 @@ time = 60
 
 def main():
     # n_nodes_test(n_nodes_to_test=[3, 5, 10, 20, 30, 50, 80, 100])
-    # heart_beat_test(
-    #     heart_beat_periods_to_test=[
-    #         0.25 * one_sec,
-    #         0.5 * one_sec,
-    #         0.75 * one_sec,
-    #         1 * one_sec,
-    #         1.25 * one_sec,
-    #         1.5 * one_sec,
-    #     ],
-    #     n_nodes=5,
-    # )
-    election_timeout_test(
-        election_timeouts_to_test=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    heart_beat_test(
+        heart_beat_periods_to_test=[
+            0.1 * one_sec,
+            0.2 * one_sec,
+            0.4 * one_sec,
+            0.5 * one_sec,
+            0.6 * one_sec,
+            0.7 * one_sec,
+            0.8 * one_sec,
+            0.9 * one_sec,
+            1 * one_sec,
+        ],
         n_nodes=5,
     )
+    # election_timeout_test(
+    #     election_timeouts_to_test=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    #     n_nodes=5,
+    # )
 
 
 def election_timeout_test(election_timeouts_to_test, n_nodes):
