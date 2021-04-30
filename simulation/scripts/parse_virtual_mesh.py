@@ -9,12 +9,15 @@ from scipy.stats import sem
 
 one_sec = 1000000  # Constant, don't change
 
-n_run_for_each = 10
-time = 60
+n_run_for_each = 50
+time = 30
 
 
 def main():
-    # n_nodes_test(n_nodes_to_test=[3, 5, 10, 20, 30, 50, 80, 100])
+    n_nodes_test(
+        n_nodes_to_test=[3, 5, 10, 20, 30, 50, 80, 100],
+        kill_leader_at_time=time // 2,
+    )
     # heart_beat_test(
     #     heart_beat_periods_to_test=[
     #         0.1 * one_sec,
@@ -33,9 +36,9 @@ def main():
     #     election_timeouts_to_test=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     #     n_nodes=5,
     # )
-    stability_test(
-        times_to_test=[5, 10, 20, 30, 50, 80, 100, 120, 180, 200], n_nodes=5
-    )
+    # stability_test(
+    #     times_to_test=[5, 10, 20, 30, 50, 80, 100, 120, 180, 200], n_nodes=5
+    # )
 
 
 def stability_test(times_to_test, n_nodes):
@@ -55,10 +58,13 @@ def stability_test(times_to_test, n_nodes):
                 f"Running the simulation with {n_nodes} node(s) for {loop_time} second(s)"
             )
 
-            average_election_duration, election_win_ratio = run_simulation(
+            res = run_simulation(
                 time=loop_time,
                 n_nodes=n_nodes,
             )
+
+            average_election_duration = res["average_election_duration"]
+            election_win_ratio = res["average_election_duration"]
 
             print(f"Average time to win election: {average_election_duration}")
             print(
@@ -143,11 +149,14 @@ def election_timeout_test(election_timeouts_to_test, n_nodes):
                 f"Running the simulation with {n_nodes} node(s) for {time} second(s) with max election timeout of {election_timeout}"
             )
 
-            average_election_duration, election_win_ratio = run_simulation(
+            res = run_simulation(
                 time=time,
                 n_nodes=n_nodes,
                 election_max=election_timeout,
             )
+
+            average_election_duration = res["average_election_duration"]
+            election_win_ratio = res["average_election_duration"]
 
             print(f"Average time to win election: {average_election_duration}")
             print(
@@ -237,11 +246,14 @@ def heart_beat_test(heart_beat_periods_to_test, n_nodes):
 
             define_flag = f"#define HEART_BEAT_TIMER_PERIOD {heart_beat_period}"
 
-            average_election_duration, election_win_ratio = run_simulation(
+            res = run_simulation(
                 time=time,
                 n_nodes=n_nodes,
                 define_flag=define_flag,
             )
+
+            average_election_duration = res["average_election_duration"]
+            election_win_ratio = res["average_election_duration"]
 
             print(f"Average time to win election: {average_election_duration}")
             print(
@@ -310,37 +322,69 @@ def heart_beat_test(heart_beat_periods_to_test, n_nodes):
     )
 
 
-def n_nodes_test(n_nodes_to_test):
+def n_nodes_test(n_nodes_to_test, kill_leader_at_time=0):
     average_election_duration_results = []
     average_election_duration_results_err = []
     election_win_ratio_results = []
     election_win_ratio_results_err = []
+    average_time_to_first_leader_results = []
+    average_time_to_first_leader_results_err = []
 
     for n_nodes in n_nodes_to_test:
         n_run_average_election_duration_results = []
         n_run_election_win_ratio_results = []
+        n_run_average_time_to_first_leader_results = []
 
         # Run same test n_run_for_each times
         for n_run in range(n_run_for_each):
 
-            print(
-                f"Running the simulation with {n_nodes} node(s) for {time} second(s)"
-            )
+            if kill_leader_at_time == 0:
+                print(
+                    f"Running the simulation with {n_nodes} node(s) for {time} second(s)"
+                )
+            else:
+                print(
+                    f"Running the simulation with {n_nodes} node(s) for {time} second(s) and will kill the leader at {kill_leader_at_time}"
+                )
 
-            average_election_duration, election_win_ratio = run_simulation(
+            res = run_simulation(
                 time=time,
                 n_nodes=n_nodes,
+                kill_leader_at_time=kill_leader_at_time,
             )
+
+            average_election_duration = res["average_election_duration"]
+            election_win_ratio = res["election_win_ratio"]
+            time_to_first_leader = res["time_to_first_leader"]
 
             print(f"Average time to win election: {average_election_duration}")
             print(
                 f"Ratio of elections won those those started: {election_win_ratio}"
             )
 
+            if kill_leader_at_time != 0:
+                print(f"Time to first leader): {time_to_first_leader}")
+                n_run_average_time_to_first_leader_results.append(
+                    time_to_first_leader
+                )
+
             n_run_average_election_duration_results.append(
                 average_election_duration
             )
             n_run_election_win_ratio_results.append(election_win_ratio)
+
+        if kill_leader_at_time != 0:
+            average_time_to_first_leader_results.append(
+                int(avg(n_run_average_time_to_first_leader_results))
+            )
+            average_time_to_first_leader_results_err.append(
+                int(
+                    np.std(n_run_average_time_to_first_leader_results)
+                    / np.sqrt(
+                        np.size(n_run_average_time_to_first_leader_results)
+                    )
+                )
+            )
 
         # Append the average of the runs
         average_election_duration_results.append(
@@ -377,6 +421,8 @@ def n_nodes_test(n_nodes_to_test):
                 "average_election_duration_results_err": average_election_duration_results_err,
                 "election_win_ratio_results": election_win_ratio_results,
                 "election_win_ratio_results_err": election_win_ratio_results_err,
+                "average_time_to_first_leader_results": average_time_to_first_leader_results,
+                "average_time_to_first_leader_results_err": average_time_to_first_leader_results_err,
             }
         }
     )
@@ -543,7 +589,13 @@ def run_simulation(
     for n in range(1, n_nodes + 1):
         all_elections[n] = []
 
+    time_to_first_leader = 0
+    leader_kill_time = 0
+
     for line in result:
+        if "Just killed leader" in line:
+            leader_kill_time = int(get_at_time(line))
+
         # Fill in election start times
         if "Started election" in line:
             node_id = int(get_node_id(line))
@@ -594,6 +646,12 @@ def run_simulation(
                 last_election_item["won_at"] > last_election_item["started_at"]
             )
 
+            # Check time to first leader after kill
+            # Do this only once
+            if (leader_kill_time != 0) and (time_to_first_leader == 0):
+                assert election_won_at > leader_kill_time
+                time_to_first_leader = election_won_at - leader_kill_time
+
     # Calculate the statistics
     average_election_duration = 0
     n_successful_election = 0
@@ -614,7 +672,11 @@ def run_simulation(
             n_successful_election / total_election_count
         ) * 100
 
-    return average_election_duration, election_win_ratio
+    return {
+        "average_election_duration": average_election_duration,
+        "election_win_ratio": election_win_ratio,
+        "time_to_first_leader": time_to_first_leader,
+    }
 
 
 if __name__ == "__main__":
