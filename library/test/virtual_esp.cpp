@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
             uint32_t term = (*it)->_term;
             (*it)->switchState(FOLLOWER, term);
             kill_flag = 0;
-            std::cout << "\033[95mJust killed leader " << (*it)->_id << " @@ "
+            std::cout << "\033[95mJust killed leader " << (*it)->_id << " @ "
                       << (*it)->_mesh.getMeshTime() << " mesh time\033[0m\n";
           }
         }
